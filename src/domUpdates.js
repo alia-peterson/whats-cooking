@@ -3,6 +3,7 @@ import './scripts'
 let main = document.querySelector(".container")
 let bannerText = document.querySelector(".banner-image")
 let recipeTagList = document.querySelector(".tag-list")
+let fullRecipeInfo = document.querySelector(".recipe-instructions")
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -35,6 +36,15 @@ let domUpdates = {
         <label for="${tag}">${this.capitalize(tag)}</label></li>`
       recipeTagList.insertAdjacentHTML("beforeend", tagHtml)
     })
+  },
+
+  generateRecipeTitle(recipe, ingredients) {
+    let recipeTitle = `
+      <button id="exit-recipe-btn">X</button>
+      <h3 id="recipe-title">${recipe.name}</h3>
+      <h4>Ingredients</h4>
+      <p>${ingredients}</p>`
+    fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
   },
 
   capitalize(words) {
