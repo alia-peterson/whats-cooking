@@ -1,9 +1,10 @@
 // import './scripts'
 
-let main = document.querySelector(".container")
-let bannerText = document.querySelector(".banner-image")
-let recipeTagList = document.querySelector(".tag-list")
-let fullRecipeInfo = document.querySelector(".recipe-instructions")
+const main = document.querySelector(".container")
+const bannerText = document.querySelector(".banner-image")
+const recipeTagList = document.querySelector(".tag-list")
+const fullRecipeInfo = document.querySelector(".recipe-instructions")
+const pantryList = document.querySelector(".pantry-list")
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -49,6 +50,16 @@ let domUpdates = {
 
   fullRecipeInfoDisplay(location, element) {
     fullRecipeInfo.insertAdjacentHTML(location, element)
+  },
+
+  displayPantryInfo(pantry) {
+    pantry.forEach(ingredient => {
+      let ingredientHtml = `
+        <li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
+        <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>
+      `
+      pantryList.insertAdjacentHTML("beforeend", ingredientHtml)
+    })
   },
 
   capitalize(words) {
