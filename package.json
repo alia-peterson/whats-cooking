@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack",
+    "build": "webpack src/index.js --output dist/bundle.js",
     "test": "mochapack 'test/**/*.js'",
     "lint": "./node_modules/.bin/eslint 'src/**.js' 'test/**.js'"
   },
@@ -26,7 +26,7 @@
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
-    "webpack": "^4.31.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
   }
