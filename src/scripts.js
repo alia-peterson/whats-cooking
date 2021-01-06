@@ -8,33 +8,36 @@ import './css/styles.scss';
 import User from './user';
 import Recipe from './recipe';
 
-let allRecipesBtn = document.querySelector(".show-all-btn");
-let filterBtn = document.querySelector(".filter-btn");
-let fullRecipeInfo = document.querySelector(".recipe-instructions");
-let main = document.querySelector("main");
-let menuOpen = false;
-let pantryBtn = document.querySelector(".my-pantry-btn");
-let pantryInfo = [];
-let recipes = [];
-let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
-let searchBtn = document.querySelector(".search-btn");
-let searchForm = document.querySelector("#search");
-let searchInput = document.querySelector("#search-input");
-let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
-let tagList = document.querySelector(".tag-list");
-let user;
+let main = document.querySelector(".container")
+let showAllRecipesButton = document.querySelector(".show-all-btn")
+let filterRecipesButton = document.querySelector(".filter-btn")
+let fullRecipeInfo = document.querySelector(".recipe-instructions")
+let myPantryButton = document.querySelector(".my-pantry-btn")
+let savedRecipesButton = document.querySelector(".saved-recipes-btn")
+let searchButton = document.querySelector(".search-btn")
+let searchForm = document.querySelector("#search")
+let searchInput = document.querySelector("#search-input")
+let pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
+let recipeTagList = document.querySelector(".tag-list")
+let menuOpen = false
+let pantryInfo = []
+let recipes = []
+let user
 
 
-window.addEventListener("load", createCards);
-window.addEventListener("load", findTags);
-window.addEventListener("load", generateUser);
-allRecipesBtn.addEventListener("click", showAllRecipes);
-filterBtn.addEventListener("click", findCheckedBoxes);
+window.addEventListener("load", function() {
+  createCards()
+  findTags()
+  generateUser()
+})
+
+showAllRecipesButton.addEventListener("click", showAllRecipes);
+filterRecipesButton.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
-pantryBtn.addEventListener("click", toggleMenu);
-savedRecipesBtn.addEventListener("click", showSavedRecipes);
-searchBtn.addEventListener("click", searchRecipes);
-showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
+myPantryButton.addEventListener("click", toggleMenu);
+savedRecipesButton.addEventListener("click", showSavedRecipes);
+searchButton.addEventListener("click", searchRecipes);
+pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 // GENERATE A USER ON LOAD
@@ -97,7 +100,7 @@ function listTags(allTags) {
   allTags.forEach(tag => {
     let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
       <label for="${tag}">${capitalize(tag)}</label></li>`;
-    tagList.insertAdjacentHTML("beforeend", tagHtml);
+    recipeTagList.insertAdjacentHTML("beforeend", tagHtml);
   });
 }
 
