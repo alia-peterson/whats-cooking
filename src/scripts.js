@@ -46,13 +46,8 @@ function generateUser() {
   user = new User(users[Math.floor(Math.random() * users.length)])
   let firstName = user.name.split(" ")[0]
   domUpdates.addWelcomeMessage(firstName)
-  // let welcomeMsg = `
-  //   <div class="welcome-msg">
-  //     <h1>Welcome ${firstName}!</h1>
-  //   </div>`;
-  // document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-  //   welcomeMsg);
-  findPantryInfo();
+
+  findPantryInfo()
 }
 
 // CREATE RECIPE CARDS
@@ -64,25 +59,10 @@ function createCards() {
     if (recipeInfo.name.length > 40) {
       shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
     }
-    addToDom(recipeInfo, shortRecipeName)
-  });
+    domUpdates.addCardToDom(recipeInfo, shortRecipeName)
+  })
 }
 
-function addToDom(recipeInfo, shortRecipeName) {
-  let cardHtml = `
-    <div class="recipe-card" id=${recipeInfo.id}>
-      <h3 maxlength="40">${shortRecipeName}</h3>
-      <div class="card-photo-container">
-        <img src=${recipeInfo.image} class="card-photo-preview" alt="${recipeInfo.name} recipe" title="${recipeInfo.name} recipe">
-        <div class="text">
-          <div>Click for Instructions</div>
-        </div>
-      </div>
-      <h4>${recipeInfo.tags[0]}</h4>
-      <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
-    </div>`
-  main.insertAdjacentHTML("beforeend", cardHtml);
-}
 
 // FILTER BY RECIPE TAGS
 function findTags() {
