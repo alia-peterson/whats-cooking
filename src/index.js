@@ -5,6 +5,7 @@
 import './css/base.scss';
 import './css/styles.scss';
 import './scripts.js'
+import './domUpdates.js'
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/apple-logo-outline.png'

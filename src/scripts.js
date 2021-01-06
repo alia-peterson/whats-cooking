@@ -1,6 +1,7 @@
 import users from './data/users-data';
 import recipeData from  './data/recipe-data';
 import ingredientData from './data/ingredient-data';
+import domUpdates from './domUpdates'
 
 import './css/base.scss';
 import './css/styles.scss';
@@ -42,14 +43,15 @@ searchForm.addEventListener("submit", pressEnterSearch);
 
 // GENERATE A USER ON LOAD
 function generateUser() {
-  user = new User(users[Math.floor(Math.random() * users.length)]);
-  let firstName = user.name.split(" ")[0];
-  let welcomeMsg = `
-    <div class="welcome-msg">
-      <h1>Welcome ${firstName}!</h1>
-    </div>`;
-  document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-    welcomeMsg);
+  user = new User(users[Math.floor(Math.random() * users.length)])
+  let firstName = user.name.split(" ")[0]
+  domUpdates.addWelcomeMessage(firstName)
+  // let welcomeMsg = `
+  //   <div class="welcome-msg">
+  //     <h1>Welcome ${firstName}!</h1>
+  //   </div>`;
+  // document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
+  //   welcomeMsg);
   findPantryInfo();
 }
 
