@@ -74,7 +74,7 @@ function addToDom(recipeInfo, shortRecipeName) {
         </div>
       </div>
       <h4>${recipeInfo.tags[0]}</h4>
-      <img src="../images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
+      <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
     </div>`
   main.insertAdjacentHTML("beforeend", cardHtml);
 }
