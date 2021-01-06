@@ -184,9 +184,8 @@ function generateInstructions(recipe) {
   let instructions = recipe.instructions.map(i => {
     return i.instruction
   })
-  instructions.forEach(i => {
-    instructionsList += `<li>${i}</li>`
-  })
+  
+  domUpdates.createListElements(instructions)
   domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
   domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)
 }

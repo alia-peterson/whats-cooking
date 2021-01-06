@@ -62,6 +62,12 @@ let domUpdates = {
     })
   },
 
+  createListElements(instructions) {
+    instructions.forEach(item => {
+      instructionsList += `<li>${item}</li>`
+    })
+  },
+
   capitalize(words) {
     return words.split(" ").map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
