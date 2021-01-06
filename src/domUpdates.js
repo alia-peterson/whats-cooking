@@ -1,5 +1,8 @@
-let bannerText = document.querySelector(".banner-image")
+import './scripts'
+
 let main = document.querySelector(".container")
+let bannerText = document.querySelector(".banner-image")
+let recipeTagList = document.querySelector(".tag-list")
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -24,6 +27,20 @@ let domUpdates = {
         <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
       </div>`
     main.insertAdjacentHTML("beforeend", cardHtml)
+  },
+
+  addListTags(allTags) {
+    allTags.forEach(tag => {
+      let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
+        <label for="${tag}">${this.capitalize(tag)}</label></li>`
+      recipeTagList.insertAdjacentHTML("beforeend", tagHtml)
+    })
+  },
+
+  capitalize(words) {
+    return words.split(" ").map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(" ");
   }
 }
 

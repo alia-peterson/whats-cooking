@@ -19,7 +19,6 @@ let searchButton = document.querySelector(".search-btn")
 let searchForm = document.querySelector("#search")
 let searchInput = document.querySelector("#search-input")
 let pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
-let recipeTagList = document.querySelector(".tag-list")
 let menuOpen = false
 let pantryInfo = []
 let recipes = []
@@ -75,21 +74,7 @@ function findTags() {
     });
   });
   tags.sort();
-  listTags(tags);
-}
-
-function listTags(allTags) {
-  allTags.forEach(tag => {
-    let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
-      <label for="${tag}">${capitalize(tag)}</label></li>`;
-    recipeTagList.insertAdjacentHTML("beforeend", tagHtml);
-  });
-}
-
-function capitalize(words) {
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
+  domUpdates.addListTags(tags);
 }
 
 function findCheckedBoxes() {
@@ -199,7 +184,7 @@ function addRecipeImage(recipe) {
 
 function generateIngredients(recipe) {
   return recipe && recipe.ingredients.map(i => {
-    return `${capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
+    return `${domUpdates.capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
 
