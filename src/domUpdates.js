@@ -1,4 +1,4 @@
-import './scripts'
+// import './scripts'
 
 let main = document.querySelector(".container")
 let bannerText = document.querySelector(".banner-image")
@@ -44,7 +44,11 @@ let domUpdates = {
       <h3 id="recipe-title">${recipe.name}</h3>
       <h4>Ingredients</h4>
       <p>${ingredients}</p>`
-    fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
+    this.fullRecipeInfoDisplay("beforeend", recipeTitle);
+  },
+
+  fullRecipeInfoDisplay(location, element) {
+    fullRecipeInfo.insertAdjacentHTML(location, element)
   },
 
   capitalize(words) {

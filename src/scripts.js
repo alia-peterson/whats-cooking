@@ -166,7 +166,7 @@ function openRecipeInfo(event) {
   domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe));
   addRecipeImage(recipe);
   generateInstructions(recipe);
-  fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+  domUpdates.fullRecipeInfoDisplay('beforebegin', `<section id='overlay'></section>`)
 }
 
 function addRecipeImage(recipe) {
@@ -180,15 +180,15 @@ function generateIngredients(recipe) {
 }
 
 function generateInstructions(recipe) {
-  let instructionsList = "";
+  let instructionsList = ''
   let instructions = recipe.instructions.map(i => {
     return i.instruction
-  });
+  })
   instructions.forEach(i => {
     instructionsList += `<li>${i}</li>`
-  });
-  fullRecipeInfo.insertAdjacentHTML("beforeend", "<h4>Instructions</h4>");
-  fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
+  })
+  domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
+  domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)
 }
 
 function exitRecipe() {
