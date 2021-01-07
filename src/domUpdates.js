@@ -3,9 +3,10 @@
 const main = document.querySelector(".container")
 const bannerText = document.querySelector(".banner-image")
 const recipeTagList = document.querySelector(".tag-list")
-const fullRecipeInfo = document.querySelector(".recipe-instructions")
+const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const pantryList = document.querySelector(".pantry-list")
 const cardTemplate = document.querySelector('#template--card')
+const instructionsCard = document.querySelector('.recipe--instructions')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -36,13 +37,11 @@ let domUpdates = {
     })
   },
 
-  generateRecipeTitle(recipe, ingredients) {
-    let recipeTitle = `
-      <button id="exit-recipe-btn">X</button>
-      <h3 id="recipe-title">${recipe.name}</h3>
-      <h4>Ingredients</h4>
-      <p>${ingredients}</p>`
-    this.fullRecipeInfoDisplay("beforeend", recipeTitle);
+  generateRecipeInstructions(recipe, ingredients) {
+    instructionsCard.querySelector('h3').innerText = recipe.name
+    instructionsCard.querySelector('h3').style.backgroundImage = `url(${recipe.image})`
+    instructionsCard.querySelector('p').innerText = ingredients
+    instructionsCard.style.display = 'inline'
   },
 
   fullRecipeInfoDisplay(location, element) {

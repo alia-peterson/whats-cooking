@@ -12,7 +12,7 @@ import Recipe from './recipe';
 const main = document.querySelector(".container")
 const showAllRecipesButton = document.querySelector(".show-all-btn")
 const filterRecipesButton = document.querySelector(".filter-btn")
-const fullRecipeInfo = document.querySelector(".recipe-instructions")
+const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const myPantryButton = document.querySelector(".my-pantry-btn")
 const savedRecipesButton = document.querySelector(".saved-recipes-btn")
 const searchButton = document.querySelector(".search-btn")
@@ -131,7 +131,7 @@ function addToMyRecipes() {
     }
   } else if (event.target.id === "exit-recipe-btn") {
     exitRecipe();
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+  } else if (isDescendant(event.target.closest(".recipe--card"), event.target)) {
     openRecipeInfo(event);
   }
 }
@@ -160,13 +160,10 @@ function showSavedRecipes() {
 
 // CREATE RECIPE INSTRUCTIONS
 function openRecipeInfo(event) {
-  fullRecipeInfo.style.display = "inline";
-  let recipeId = event.path.find(e => e.id).id;
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe));
-  addRecipeImage(recipe);
-  generateInstructions(recipe);
-  domUpdates.fullRecipeInfoDisplay('beforebegin', `<section id='overlay'></section>`)
+  let recipeId = event.path.find(e => e.id).id
+  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
+  domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
+  generateInstructions(recipe)
 }
 
 function addRecipeImage(recipe) {
@@ -183,17 +180,11 @@ function generateInstructions(recipe) {
   let instructions = recipe.instructions.map(i => {
     return i.instruction
   })
-
-  const instructionsList = domUpdates.createListElements(instructions)
-  domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
-  domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)
 }
 
 function exitRecipe() {
-  while (fullRecipeInfo.firstChild &&
-    fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
-  fullRecipeInfo.style.display = "none";
-  document.getElementById("overlay").remove();
+  fullRecipeInfo.style.display = "none"
+  // document.getElementById("overlay").remove()
 }
 
 // TOGGLE DISPLAYS
