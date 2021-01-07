@@ -9,16 +9,16 @@ import './css/styles.scss';
 import User from './user';
 import Recipe from './recipe';
 
-let main = document.querySelector(".container")
-let showAllRecipesButton = document.querySelector(".show-all-btn")
-let filterRecipesButton = document.querySelector(".filter-btn")
-let fullRecipeInfo = document.querySelector(".recipe-instructions")
-let myPantryButton = document.querySelector(".my-pantry-btn")
-let savedRecipesButton = document.querySelector(".saved-recipes-btn")
-let searchButton = document.querySelector(".search-btn")
-let searchForm = document.querySelector("#search")
-let searchInput = document.querySelector("#search-input")
-let pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
+const main = document.querySelector(".container")
+const showAllRecipesButton = document.querySelector(".show-all-btn")
+const filterRecipesButton = document.querySelector(".filter-btn")
+const fullRecipeInfo = document.querySelector(".recipe-instructions")
+const myPantryButton = document.querySelector(".my-pantry-btn")
+const savedRecipesButton = document.querySelector(".saved-recipes-btn")
+const searchButton = document.querySelector(".search-btn")
+const searchForm = document.querySelector("#search")
+const searchInput = document.querySelector("#search-input")
+const pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
 let menuOpen = false
 let pantryInfo = []
 let recipes = []
@@ -180,12 +180,11 @@ function generateIngredients(recipe) {
 }
 
 function generateInstructions(recipe) {
-  let instructionsList = ''
   let instructions = recipe.instructions.map(i => {
     return i.instruction
   })
-  
-  domUpdates.createListElements(instructions)
+
+  const instructionsList = domUpdates.createListElements(instructions)
   domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
   domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)
 }
