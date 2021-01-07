@@ -167,7 +167,7 @@ function openRecipeInfo(event) {
 }
 
 function addRecipeImage(recipe) {
-  document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
+  document.getElementById("modal--title").style.backgroundImage = `url(${recipe.image})`;
 }
 
 function generateIngredients(recipe) {

@@ -41,6 +41,13 @@ let domUpdates = {
     instructionsCard.querySelector('h3').innerText = recipe.name
     instructionsCard.querySelector('h3').style.backgroundImage = `url(${recipe.image})`
     instructionsCard.querySelector('p').innerText = ingredients
+
+    recipe.instructions.forEach(step => {
+      const nextStep = document.createElement('li')
+      nextStep.innerText = step.instruction
+      instructionsCard.querySelector('ol').appendChild(nextStep)
+    })
+
     instructionsCard.style.display = 'inline'
   },
 
