@@ -39,11 +39,24 @@
       </div>
     </aside>
     <main class="container">
-      <article class="recipe-instructions"></article>
-      <!-- <div class="my-recipes-banner">
-        <h1>My Recipes</h1>
-        <button class="show-all-btn">Show All Recipes</button>
-      </div> -->
+      <template id="template--card">
+        <article class="recipe--card" id="0">
+          <h3 class="recipe--title" maxlength="40">Recipe Name</h3>
+          <div class="recipe--photo-container">
+            <img class="recipe--photo" src="source" alt="alt-text" title="recipe-title">
+            <div class="text">
+              <p>Click for Instructions</p>
+            </div>
+          </div>
+          <h4 class="recipe--tags">tag information</h4>
+          <img class="recipe--apple-icon" src="./images/apple-logo-outline.png" alt="Unfilled Apple Icon">
+        </article>
+      </template>
+      <template id="template--instructions">
+        <article class="recipe--instructions">
+
+        </article>
+      </template>
     </main>
   </body>
 </html>
