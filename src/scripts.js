@@ -21,7 +21,6 @@ const searchInput = document.querySelector("#search-input")
 const pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
 let menuOpen = false
 let pantryInfo = []
-let recipes = []
 let user
 
 
@@ -51,15 +50,20 @@ function generateUser() {
 
 // CREATE RECIPE CARDS
 function createCards() {
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-    }
-    domUpdates.addCardToDom(recipeInfo, shortRecipeName)
-  })
+  fetch('http://localhost:3001/api/v1/recipes')
+    .then(response => response.json())
+    .then(recipes => {
+      recipes.forEach(recipe => {
+        const recipeInfo = new Recipe(recipe)
+        let recipeName = recipeInfo.name
+
+        if (recipeInfo.name.length > 40) {
+          recipeName = recipeInfo.name.substring(0, 40) + "...";
+        }
+
+        domUpdates.addCardToDom(recipeInfo, recipeName)
+      })
+    })
 }
 
 
@@ -163,11 +167,6 @@ function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
-  generateInstructions(recipe)
-}
-
-function addRecipeImage(recipe) {
-  document.getElementById("modal--title").style.backgroundImage = `url(${recipe.image})`;
 }
 
 function generateIngredients(recipe) {
@@ -176,15 +175,11 @@ function generateIngredients(recipe) {
   }).join(", ");
 }
 
-function generateInstructions(recipe) {
-  let instructions = recipe.instructions.map(i => {
-    return i.instruction
-  })
-}
-
 function exitRecipe() {
   fullRecipeInfo.style.display = "none"
-  // document.getElementById("overlay").remove()
+  domUpdates.clearRecipeInstructions()
+  // still need to incorporate overlay into background so that other
+  // cards can not be selected while the modal is open
 }
 
 // TOGGLE DISPLAYS

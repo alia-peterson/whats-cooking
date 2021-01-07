@@ -51,6 +51,10 @@ let domUpdates = {
     instructionsCard.style.display = 'inline'
   },
 
+  clearRecipeInstructions() {
+    instructionsCard.querySelectorAll('li').forEach(li => li.remove())
+  },
+
   fullRecipeInfoDisplay(location, element) {
     fullRecipeInfo.insertAdjacentHTML(location, element)
   },
