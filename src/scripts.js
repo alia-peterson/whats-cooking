@@ -29,11 +29,12 @@ window.addEventListener("load", function() {
   createCards()
   findTags()
   generateUser()
+  // createCardListeners()
 })
 
 showAllRecipesButton.addEventListener("click", showAllRecipes);
 filterRecipesButton.addEventListener("click", findCheckedBoxes);
-main.addEventListener("click", addToMyRecipes);
+// main.addEventListener("click", addToMyRecipes);
 myPantryButton.addEventListener("click", toggleMenu);
 savedRecipesButton.addEventListener("click", showSavedRecipes);
 searchButton.addEventListener("click", searchRecipes);
@@ -60,8 +61,15 @@ function createCards() {
     }
     domUpdates.addCardToDom(recipeInfo, shortRecipeName)
   })
+  createCardListeners()
 }
 
+function createCardListeners() {
+  const allCards = document.querySelectorAll('.recipe-card')
+  allCards.forEach(card => {
+    card.addEventListener('click', addToMyRecipes)
+  })
+}
 
 // FILTER BY RECIPE TAGS
 function findTags() {
@@ -128,25 +136,28 @@ function addToMyRecipes(event) {  // When you click apple logo
     } else { // if id is already in favorites array
       event.target.src = "../images/apple-logo-outline.png"; // change it back to the outline
       user.removeRecipe(cardId); // remove from favorites array
-      showSavedRecipes(); // INVOKE DOM REMOVAL HERE TO FIX ISSUE
+      // showSavedRecipes(); // INVOKE DOM REMOVAL HERE TO FIX ISSUE
     }
-  } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
-    exitRecipe(); // don't display recipe instructions
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) { // if they click anywhere else on the recipe card
+  } else { // if they click anywhere else on the recipe card
     openRecipeInfo(event); // open the recipe modal
+  // } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
+  //   exitRecipe(); // don't display recipe instructions
+  // } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) { // if they click anywhere else on the recipe card
+  //   openRecipeInfo(event); // open the recipe modal
+  // }
   }
 }
 
-function isDescendant(parent, child) { // invoked in addToMyRecipes
-  let node = child; // child is wherever they clicked
-  while (node !== null) { // if whatever they clicked is something
-    if (node === parent) { // if its the same thing as .recipe-card
-      return true;
-    }
-    node = node.parentNode; // reassign child to be .recipe-card
-  }
-  return false; // if they didn't click on anything, do nothing
-}
+// function isDescendant(parent, child) { // invoked in addToMyRecipes
+//   let node = child; // child is wherever they clicked
+//   while (node !== null) { // if whatever they clicked is something
+//     if (node === parent) { // if its the same thing as .recipe-card
+//       return true;
+//     }
+//     node = node.parentNode; // reassign child to be .recipe-card
+//   }
+//   return false; // if they didn't click on anything, do nothing
+// }
 
 function showSavedRecipes() { // when they click My Recipes button
   let unsavedRecipes = recipes.filter(recipe => { // iterate through all recipes

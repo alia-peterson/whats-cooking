@@ -39,7 +39,7 @@ let domUpdates = {
     })
   },
 
-  generateRecipeTitle(recipe, ingredients) { // change fn and variable name since this is doing more than just generating the title?
+  generateRecipeTitle(recipe, ingredients) {
     let recipeTitle = `
       <button id="exit-recipe-btn">X</button>
       <h3 id="recipe-title">${recipe.name}</h3>
