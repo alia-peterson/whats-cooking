@@ -128,6 +128,7 @@ function addToMyRecipes(event) {  // When you click apple logo
     } else { // if id is already in favorites array
       event.target.src = "../images/apple-logo-outline.png"; // change it back to the outline
       user.removeRecipe(cardId); // remove from favorites array
+      showSavedRecipes(); // INVOKE DOM REMOVAL HERE TO FIX ISSUE
     }
   } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
     exitRecipe(); // don't display recipe instructions
