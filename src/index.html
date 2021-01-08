@@ -39,11 +39,27 @@
       </div>
     </aside>
     <main class="container">
-      <article class="recipe-instructions"></article>
-      <!-- <div class="my-recipes-banner">
-        <h1>My Recipes</h1>
-        <button class="show-all-btn">Show All Recipes</button>
-      </div> -->
+      <article class="recipe--instructions">
+        <button id="exit-recipe-btn" type="button">X</button>
+        <h3 id="modal--title">Recipe Name</h3>
+        <h4>Ingredients</h4>
+        <p id="modal--ingredients">Ingredients</p>
+        <h4>Instructions</h4>
+        <ol id="modal--instructions"></ol>
+      </article>
+      <template id="template--card">
+        <article class="recipe--card" id="0">
+          <h3 class="recipe--title" maxlength="40">Recipe Name</h3>
+          <div class="recipe--photo-container">
+            <img class="recipe--photo" src="source" alt="alt-text" title="recipe-title">
+            <div class="text">
+              <p>Click for Instructions</p>
+            </div>
+          </div>
+          <h4 class="recipe--tags">tag information</h4>
+          <img class="recipe--apple-icon unfilled" src="./images/apple-logo-outline.png" alt="Unfilled Apple Icon">
+        </article>
+      </template>
     </main>
   </body>
 </html>

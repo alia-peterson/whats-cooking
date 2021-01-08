@@ -3,8 +3,10 @@
 const main = document.querySelector(".container")
 const bannerText = document.querySelector(".banner-image")
 const recipeTagList = document.querySelector(".tag-list")
-const fullRecipeInfo = document.querySelector(".recipe-instructions")
+const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const pantryList = document.querySelector(".pantry-list")
+const cardTemplate = document.querySelector('#template--card')
+const instructionsCard = document.querySelector('.recipe--instructions')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -14,21 +16,17 @@ let domUpdates = {
       </div>`
     bannerText.insertAdjacentHTML("afterbegin", welcomeMsg)
   },
+  
+  addCardToDom(recipeInfo, shortRecipeName) {
+    const newRecipeCard = cardTemplate.content.cloneNode(true)
+    newRecipeCard.querySelector('article.recipe--card').id = recipeInfo.id
+    newRecipeCard.querySelector('h3.recipe--title').innerText = shortRecipeName
+    newRecipeCard.querySelector('img.recipe--photo').src = recipeInfo.image
+    newRecipeCard.querySelector('img.recipe--photo').alt = recipeInfo.name
+    newRecipeCard.querySelector('img.recipe--photo').title = `${recipeInfo.name} recipe`
+    newRecipeCard.querySelector('h4.recipe--tags').innerText = recipeInfo.tags[0]
 
-  addCardToDom(recipeInfo, shortRecipeName) { // can class="text" just be a <p>?
-    let cardHtml = `
-      <div class="recipe-card" id=${recipeInfo.id}>
-        <h3 maxlength="40">${shortRecipeName}</h3>
-        <div class="card-photo-container">
-          <img src=${recipeInfo.image} class="card-photo-preview" alt="${recipeInfo.name} recipe" title="${recipeInfo.name} recipe">
-          <div class="text">
-            <div>Click for Instructions</div>
-          </div>
-        </div>
-        <h4>${recipeInfo.tags[0]}</h4>
-        <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon unfilled">
-      </div>`
-    main.insertAdjacentHTML("beforeend", cardHtml)
+    main.appendChild(newRecipeCard)
   },
 
   addListTags(allTags) {
@@ -39,13 +37,22 @@ let domUpdates = {
     })
   },
 
-  generateRecipeTitle(recipe, ingredients) {
-    let recipeTitle = `
-      <button id="exit-recipe-btn">X</button>
-      <h3 id="recipe-title">${recipe.name}</h3>
-      <h4>Ingredients</h4>
-      <p>${ingredients}</p>`
-    this.fullRecipeInfoDisplay("beforeend", recipeTitle);
+  generateRecipeInstructions(recipe, ingredients) {
+    instructionsCard.querySelector('h3').innerText = recipe.name
+    instructionsCard.querySelector('h3').style.backgroundImage = `url(${recipe.image})`
+    instructionsCard.querySelector('p').innerText = ingredients
+
+    recipe.instructions.forEach(step => {
+      const nextStep = document.createElement('li')
+      nextStep.innerText = step.instruction
+      instructionsCard.querySelector('ol').appendChild(nextStep)
+    })
+
+    instructionsCard.style.display = 'inline'
+  },
+
+  clearRecipeInstructions() {
+    instructionsCard.querySelectorAll('li').forEach(li => li.remove())
   },
 
   fullRecipeInfoDisplay(location, element) {
@@ -63,9 +70,11 @@ let domUpdates = {
   },
 
   createListElements(instructions) {
+    let instructionsList = ''
     instructions.forEach(item => {
       instructionsList += `<li>${item}</li>`
     })
+    return instructionsList
   },
 
   capitalize(words) {

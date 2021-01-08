@@ -9,16 +9,16 @@ import './css/styles.scss';
 import User from './user';
 import Recipe from './recipe';
 
-let main = document.querySelector(".container")
-let showAllRecipesButton = document.querySelector(".show-all-btn")
-let filterRecipesButton = document.querySelector(".filter-btn")
-let fullRecipeInfo = document.querySelector(".recipe-instructions")
-let myPantryButton = document.querySelector(".my-pantry-btn")
-let savedRecipesButton = document.querySelector(".saved-recipes-btn")
-let searchButton = document.querySelector(".search-btn")
-let searchForm = document.querySelector("#search")
-let searchInput = document.querySelector("#search-input")
-let pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
+const main = document.querySelector(".container")
+const showAllRecipesButton = document.querySelector(".show-all-btn")
+const filterRecipesButton = document.querySelector(".filter-btn")
+const fullRecipeInfo = document.querySelector(".recipe--instructions")
+const myPantryButton = document.querySelector(".my-pantry-btn")
+const savedRecipesButton = document.querySelector(".saved-recipes-btn")
+const searchButton = document.querySelector(".search-btn")
+const searchForm = document.querySelector("#search")
+const searchInput = document.querySelector("#search-input")
+const pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
 let menuOpen = false
 let pantryInfo = []
 let recipes = []
@@ -52,20 +52,26 @@ function generateUser() {
 
 // CREATE RECIPE CARDS
 function createCards() {
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-    }
-    domUpdates.addCardToDom(recipeInfo, shortRecipeName)
-  })
-  createCardListeners()
+  fetch('http://localhost:3001/api/v1/recipes')
+    .then(response => response.json())
+    .then(recipes => {
+      recipes.forEach(recipe => {
+        const recipeInfo = new Recipe(recipe)
+        let recipeName = recipeInfo.name
+
+        if (recipeInfo.name.length > 40) {
+          recipeName = recipeInfo.name.substring(0, 40) + "...";
+        }
+
+        domUpdates.addCardToDom(recipeInfo, recipeName)
+        createCardListeners()
+      })
+    })
+    
 }
 
 function createCardListeners() {
-  const allCards = document.querySelectorAll('.recipe-card')
+  const allCards = document.querySelectorAll('.recipe--card')
   allCards.forEach(card => {
     card.addEventListener('click', interactWithRecipeCard)
   })
@@ -128,31 +134,31 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
-  let cardId = parseInt(event.target.closest(".recipe-card").id)
+  let cardId = parseInt(event.target.closest(".recipe--card").id)
   const recipeCard = document.getElementById(cardId)
-  const target = event.target.classList
+  const cardClass = event.target.classList
 
-  if (target.contains("card-apple-icon") && target.contains("unfilled")) {
-    addToFavorites(cardId, recipeCard, target)
+  if (cardClass.contains("recipe--apple-icon") && cardClass.contains("unfilled")) {
+    addToFavorites(cardId, recipeCard, cardClass)
 
-  } else if (target.contains("card-apple-icon")) {
-    removeFromFavorites(cardId, recipeCard, target)
+  } else if (cardClass.contains("recipe--apple-icon")) {
+    removeFromFavorites(cardId, recipeCard, cardClass)
 
   } else {
     openRecipeInfo(event)
   }
 }
 
-function addToFavorites(cardId, recipeCard, target) {
+function addToFavorites(cardId, recipeCard, cardClass) {
   event.target.src = "./images/apple-logo.png"
-  target.remove("unfilled")
+  cardClass.remove("unfilled")
   recipeCard.classList.add('favorite')
   user.saveRecipe(cardId);
 }
 
-function removeFromFavorites(cardId, recipeCard, target) {
-  event.target.src = "./images/apple-logo-outline.png";
-  target.add("unfilled")
+function removeFromFavorites(cardId, recipeCard, cardClass) {
+  event.target.src = "./images/apple-logo-outline.png"
+  cardClass.add("unfilled")
   recipeCard.classList.remove('favorite')
   user.removeRecipe(cardId)
 }
@@ -164,17 +170,11 @@ function showSavedRecipes() {
 
 // CREATE RECIPE INSTRUCTIONS
 function openRecipeInfo(event) {
-  fullRecipeInfo.style.display = "inline";
-  let recipeId = event.path.find(e => e.id).id;
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe));
-  addRecipeImage(recipe);
-  generateInstructions(recipe);
-  domUpdates.fullRecipeInfoDisplay('beforebegin', `<section id='overlay'></section>`)
-}
-
-function addRecipeImage(recipe) {
-  document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
+  let recipeId = event.path.find(e => e.id).id
+  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
+  domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
+  const exitButton = document.querySelector('#exit-recipe-btn')
+  exitButton.addEventListener('click', exitRecipe)
 }
 
 function generateIngredients(recipe) {
@@ -183,22 +183,11 @@ function generateIngredients(recipe) {
   }).join(", ");
 }
 
-function generateInstructions(recipe) {
-  let instructionsList = ''
-  let instructions = recipe.instructions.map(i => {
-    return i.instruction
-  })
-
-  domUpdates.createListElements(instructions)
-  domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
-  domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)
-}
-
 function exitRecipe() {
-  while (fullRecipeInfo.firstChild &&
-    fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
-  fullRecipeInfo.style.display = "none";
-  document.getElementById("overlay").remove();
+  fullRecipeInfo.style.display = "none"
+  domUpdates.clearRecipeInstructions()
+  // still need to incorporate overlay into background so that other
+  // cards can not be selected while the modal is open
 }
 
 // TOGGLE DISPLAYS
