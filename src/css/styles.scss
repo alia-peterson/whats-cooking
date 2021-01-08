@@ -60,7 +60,7 @@ span {
   font-weight: 400;
 }
 
-.header-apple-icon {
+.header--apple-icon {
   height: 40px;
   margin-left: 5px;
   width: 35px;
@@ -120,13 +120,13 @@ span {
   display: none;
 }
 
-.search-btn {
+.button-search {
   border-left: 3px outset #C4EB67;
   border-radius: 0px 15px 15px 0px;
   padding: 1%;
 }
 
-.nav-btn {
+.button-nav {
   align-items: center;
   background: #5B7894 no-repeat;
   border: none;
@@ -144,31 +144,31 @@ span {
   width: 15%;
 }
 
-.nav-btn:hover {
+.button-nav:hover {
   color: #C4EB67;
   font-size: 14px;
   text-shadow: 0px 2px 4px black;
   transition: .4s ease;
 }
 
-.nav-btn img {
+.button-nav img {
   max-height: 40px;
   max-width: 40px;
   padding: 2px 0px;
 }
 
-.saved-ingredients-btn {
+.button-saved-ing {
   border-left: 3px solid #C4EB67;
 }
 
-.ing-pan-btn {
+.button-ing-pan {
   margin: 1% 0%;
   padding: 1px 6px 5px 0px;
 }
 
 
 /* BANNER IMAGE*/
-.banner-image {
+.banner {
   background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url("../images/green-apples.jpg");
   grid-area: image;
   height: 150px;
@@ -176,24 +176,24 @@ span {
   width: 100%;
 }
 
-.my-recipes-banner,
-.welcome-msg {
+.banner--recipes,
+.banner--message {
   text-align: center;
   width: 95%;
 }
 
-.my-recipes-banner h1,
-.welcome-msg h1 {
+.banner--recipes h1,
+.banner--message h1 {
   color: white;
   width: 100%;
 }
 
-.my-recipes-banner {
+.banner--recipes {
   display: none;
   margin-top: 25px;
 }
 
-.welcome-msg {
+.banner--message {
   margin-top: 50px;
 }
 
@@ -256,7 +256,7 @@ main {
   transition: .8s ease;
 }
 
-.recipe--card:hover .text {
+.recipe--card:hover .recipe--hover-text {
   font-size: 20px;
   opacity: 100%;
   transition: .5s ease;
@@ -295,7 +295,7 @@ main {
   position: relative;
 }
 
-.text {
+.recipe--hover-text {
   background: #359567;
   color: white;
   font-weight: 700;
@@ -310,9 +310,9 @@ main {
 
 
 /* BUTTONS */
-.show-pantry-recipes-btn,
-.show-all-btn,
-.filter-btn {
+.button-can-make,
+.button-show-all,
+.button-filter {
   background-color: #359567;
   border: 0;
   border-radius: 3px;
@@ -324,23 +324,23 @@ main {
   padding: 5px 10px 5px 10px;
 }
 
-.show-pantry-recipes-btn {
+.button-can-make {
   margin-top: 10px;
 }
 
-.show-all-btn {
+.button-show-all {
   height: 40px;
   margin-top: 20px;
   width: 200px;
 }
 
-.filter-btn:hover {
+.button-filter:hover {
   background-color: #84C8A4;
 }
 
 
 /* PANTRY LIST */
-.drop-menu {
+.menu-pantry {
   align-items: center;
   background-color: #DAE4EE;
   display: none;
@@ -355,12 +355,12 @@ main {
   z-index: 3;
 }
 
-.drop-menu h2 {
+.menu-pantry h2 {
   color: #359567;
   margin: 0px;
 }
 
-.pantry-list {
+.list-pantry {
   color: #000000;
   padding-left: 15px;
   text-align: left;
@@ -385,7 +385,7 @@ main {
   z-index: 1000;
 }
 
-#exit-recipe-btn {
+#button-exit {
   background: white;
   border: 2px double #359567;
   border-radius: 5px;
@@ -398,7 +398,7 @@ main {
   transition: .3s ease;
 }
 
-#exit-recipe-btn:hover {
+#button-exit:hover {
   background: #C4EB67;
   transition: .3s ease;
 }

@@ -1,22 +1,18 @@
 // import './scripts'
 
 const main = document.querySelector(".container")
-const bannerText = document.querySelector(".banner-image")
-const recipeTagList = document.querySelector(".tag-list")
+const bannerText = document.querySelector(".banner--message")
+const recipeTagList = document.querySelector(".list-tags")
 const fullRecipeInfo = document.querySelector(".recipe--instructions")
-const pantryList = document.querySelector(".pantry-list")
+const pantryList = document.querySelector(".list-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
-    let welcomeMsg = `
-      <div class="welcome-msg">
-        <h1>Welcome ${firstName}!</h1>
-      </div>`
-    bannerText.insertAdjacentHTML("afterbegin", welcomeMsg)
+    bannerText.innerText = `Welcome ${firstName}!`
   },
-  
+
   addCardToDom(recipeInfo, shortRecipeName) {
     const newRecipeCard = cardTemplate.content.cloneNode(true)
     newRecipeCard.querySelector('article.recipe--card').id = recipeInfo.id
