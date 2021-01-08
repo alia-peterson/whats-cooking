@@ -26,17 +26,20 @@ let user
 
 
 window.addEventListener("load", function() {
-  retrieveRecipeData().then(() => createCards()).then(() => findTags())
+  retrieveRecipeData()
+  .then(() => retrieveIngredientsData())
+  .then(() => createCards())
+  .then(() => findTags())
   generateUser()
 })
 
-showAllRecipesButton.addEventListener("click", showAllRecipes);
-filterRecipesButton.addEventListener("click", findCheckedBoxes);
-myPantryButton.addEventListener("click", toggleMenu);
-savedRecipesButton.addEventListener("click", showSavedRecipes);
-searchButton.addEventListener("click", searchRecipes);
-pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes);
-searchForm.addEventListener("submit", pressEnterSearch);
+showAllRecipesButton.addEventListener("click", showAllRecipes)
+filterRecipesButton.addEventListener("click", findCheckedBoxes)
+myPantryButton.addEventListener("click", toggleMenu)
+savedRecipesButton.addEventListener("click", showSavedRecipes)
+searchButton.addEventListener("click", searchRecipes)
+pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes)
+searchForm.addEventListener("submit", pressEnterSearch)
 
 // FETCH API DATASETS
 function retrieveRecipeData() {
@@ -47,6 +50,20 @@ function retrieveRecipeData() {
         const newRecipe = new Recipe(recipe)
 
         allRecipes.push(newRecipe)
+      })
+    })
+}
+
+function retrieveIngredientsData() {
+  return fetch('http://localhost:3001/api/v1/ingredients')
+    .then(response => response.json())
+    .then(data => {
+      allRecipes.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+          const foundItem = data.find(item => item.id === ingredient.id)
+          ingredient.name = foundItem.name
+          ingredient.cost = foundItem.estimatedCostInCents
+        })
       })
     })
 }
