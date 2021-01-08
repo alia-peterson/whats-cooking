@@ -36,42 +36,6 @@ h3 {
   transition: .8s ease;
 }
 
-h4 {
-  color: #359567;
-  background-color: #C4EB67;
-  border-radius: 3px;
-  margin: 10px 0px 0px 0px;
-  padding: 1px 4px 1px 4px;
-  width: max-content;
-}
-
-.recipe--tags {
-  padding: 0px;
-  width: max-content;
-  max-width: 200px;
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-
-.recipe--tags span{
-  margin: 0px 2px 2px 0px;
-  color: #359567;
-  background-color: #C4EB67;
-  border-radius: 3px;
-  padding: 1px 4px 1px 4px;
-}
-
-#tag {
-  color: #359567;
-  background-color: #C4EB67;
-  border-radius: 3px;
-  margin: 10px 0px 0px 0px;
-  padding: 1px 4px 1px 4px;
-}
-
-
 /* HEADER */
 header {
   display: flex;
@@ -274,6 +238,24 @@ main {
   position: relative;
 }
 
+.recipe--tags {
+  padding: 0px;
+  width: max-content;
+  max-width: 200px;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recipe--tags span {
+  margin: 0px 2px 2px 0px;
+  color: #359567;
+  background-color: #C4EB67;
+  border-radius: 3px;
+  padding: 1px 4px 1px 4px;
+  font-weight: bold;
+}
+
 .display-favorites .recipe--card:not(.favorite) {
   display: none !important;
 }
@@ -432,7 +414,7 @@ main {
   transition: .3s ease;
 }
 
-#recipe-title {
+#modal--title {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 7px 7px 0px 0px;
