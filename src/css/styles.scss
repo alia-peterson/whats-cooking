@@ -247,6 +247,10 @@ main {
   width: 250px;
 }
 
+.display-favorites .recipe-card:not(.favorite) {
+  display: none !important;
+}
+
 .recipe-card:hover .card-photo-preview {
   opacity: 50%;
   transition: .8s ease;

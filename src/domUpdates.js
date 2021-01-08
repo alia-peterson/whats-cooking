@@ -15,7 +15,7 @@ let domUpdates = {
     bannerText.insertAdjacentHTML("afterbegin", welcomeMsg)
   },
 
-  addCardToDom(recipeInfo, shortRecipeName) {
+  addCardToDom(recipeInfo, shortRecipeName) { // can class="text" just be a <p>?
     let cardHtml = `
       <div class="recipe-card" id=${recipeInfo.id}>
         <h3 maxlength="40">${shortRecipeName}</h3>
@@ -26,7 +26,7 @@ let domUpdates = {
           </div>
         </div>
         <h4>${recipeInfo.tags[0]}</h4>
-        <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
+        <img src="./images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon unfilled">
       </div>`
     main.insertAdjacentHTML("beforeend", cardHtml)
   },
