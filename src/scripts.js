@@ -26,7 +26,7 @@ let user
 
 
 window.addEventListener("load", function() {
-  createCards().then(() => findTags())
+  retrieveRecipeData().then(() => createCards()).then(() => findTags())
   generateUser()
 })
 
@@ -37,6 +37,19 @@ savedRecipesButton.addEventListener("click", showSavedRecipes);
 searchButton.addEventListener("click", searchRecipes);
 pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
+
+// FETCH API DATASETS
+function retrieveRecipeData() {
+  return fetch('http://localhost:3001/api/v1/recipes')
+    .then(response => response.json())
+    .then(recipes => {
+      recipes.forEach(recipe => {
+        const newRecipe = new Recipe(recipe)
+
+        allRecipes.push(newRecipe)
+      })
+    })
+}
 
 // GENERATE A USER ON LOAD
 function generateUser() {
@@ -49,23 +62,16 @@ function generateUser() {
 
 // CREATE RECIPE CARDS
 function createCards() {
-  return fetch('http://localhost:3001/api/v1/recipes')
-    .then(response => response.json())
-    .then(recipes => {
-      recipes.forEach(recipe => {
-        const newRecipe = new Recipe(recipe)
-        let recipeName = newRecipe.name
+  allRecipes.forEach(recipe => {
+    let recipeName = recipe.name
 
-        allRecipes.push(newRecipe)
+    if (recipe.name.length > 40) {
+      recipeName = recipe.name.substring(0, 40) + "...";
+    }
 
-        if (newRecipe.name.length > 40) {
-          recipeName = newRecipe.name.substring(0, 40) + "...";
-        }
-
-        domUpdates.addCardToDom(newRecipe, recipeName)
-        createCardListeners()
-      })
-    })
+    domUpdates.addCardToDom(recipe, recipeName)
+    createCardListeners()
+  })
 }
 
 function createCardListeners() {
@@ -101,7 +107,7 @@ function findCheckedBoxes() {
 function findTaggedRecipes(selected) {
   let filteredResults = [];
   selected.forEach(tag => {
-    let recipeData = recipes.filter(recipe => {
+    let recipes = recipeData.filter(recipe => {
       return recipe.tags.includes(tag.id);
     });
     recipeData.forEach(recipe => {
@@ -117,7 +123,7 @@ function findTaggedRecipes(selected) {
 }
 
 function filterRecipes(filtered) {
-  let foundRecipes = recipes.filter(recipe => {
+  let foundRecipes = recipeData.filter(recipe => {
     return !filtered.includes(recipe);
   });
   hideUnselectedRecipes(foundRecipes)
@@ -195,7 +201,7 @@ function showMyRecipesBanner() {
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = "flex";
+  document.querySelector(".banner--message").style.display = "block";
   document.querySelector(".banner--recipes").style.display = "none";
 }
 
@@ -214,15 +220,15 @@ function searchRecipes() {
 }
 
 function filterNonSearched(filtered) {
-  let found = recipes.filter(recipe => {
+  let found = recipeData.filter(recipe => {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
   })
   hideUnselectedRecipes(found);
 }
 
-function createRecipeObject(recipes) {
-  recipes = recipes.map(recipe => new Recipe(recipe));
+function createRecipeObject(recipesInput) {
+  recipes = recipesInput.map(recipe => new Recipe(recipe));
   return recipes
 }
 
@@ -237,7 +243,7 @@ function toggleMenu() {
 }
 
 function showAllRecipes() {
-  recipes.forEach(recipe => {
+  recipeData.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "block";
   });
@@ -282,7 +288,7 @@ function findRecipesWithCheckedIngredients(selected) {
   let ingredientNames = selected.map(item => {
     return item.id;
   })
-  recipes.forEach(recipe => {
+  recipeData.forEach(recipe => {
     let allRecipeIngredients = [];
     recipe.ingredients.forEach(ingredient => {
       allRecipeIngredients.push(ingredient.name);
