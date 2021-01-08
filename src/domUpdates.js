@@ -20,21 +20,17 @@ let domUpdates = {
     newRecipeCard.querySelector('img.recipe--photo').src = recipeInfo.image
     newRecipeCard.querySelector('img.recipe--photo').alt = recipeInfo.name
     newRecipeCard.querySelector('img.recipe--photo').title = `${recipeInfo.name} recipe`
-    // newRecipeCard.querySelector('h4.recipe--tags').innerText = recipeInfo.tags[0]
 
     this.displayTags(recipeInfo.tags, newRecipeCard)
-
     main.appendChild(newRecipeCard)
   },
 
   displayTags(tags, card) {
-    const listSection = card.querySelector('ul.tag--list')
-    // console.log(listSection)
+    const listSection = card.querySelector('p.recipe--tags')
     tags.forEach(tag => {
-      const newTagElement = document.createElement('li')
-      newTagElement.id = "tag"
+      const newTagElement = document.createElement('span')
       newTagElement.innerText = `${tag}`
-      listSection.append(newTagElement)
+      listSection.appendChild(newTagElement)
     })
   },
 

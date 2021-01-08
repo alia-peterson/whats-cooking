@@ -45,13 +45,34 @@ h4 {
   width: max-content;
 }
 
+.recipe--tags {
+  padding: 0px;
+  width: max-content;
+  max-width: 200px;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.recipe--tags span{
+  margin: 0px 2px 2px 0px;
+  color: #359567;
+  background-color: #C4EB67;
+  border-radius: 3px;
+  padding: 1px 4px 1px 4px;
+}
+
+// .recipe--bottom {
+//   word-wrap: normal;
+// }
+
 #tag {
   color: #359567;
   background-color: #C4EB67;
   border-radius: 3px;
   margin: 10px 0px 0px 0px;
   padding: 1px 4px 1px 4px;
-  width: max-content;
 }
 
 
@@ -224,7 +245,7 @@ aside {
   width: 200px;
 }
 
-ul {
+.list-tags {
   list-style-type: none;
   text-align: left;
   padding-left: 35px;
@@ -254,6 +275,7 @@ main {
   margin: 20px;
   padding: 15px;
   width: 250px;
+  position: relative;
 }
 
 .display-favorites .recipe--card:not(.favorite) {
@@ -279,9 +301,11 @@ main {
 
 .recipe--apple-icon {
   cursor: pointer;
-  float: right;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  z-index: 1px;
   height: 50px;
-  padding-bottom: 10px;
   width: 45px;
 }
 
