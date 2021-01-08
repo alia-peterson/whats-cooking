@@ -64,12 +64,14 @@ function createCards() {
         }
 
         domUpdates.addCardToDom(recipeInfo, recipeName)
+        createCardListeners()
       })
     })
+    
 }
 
 function createCardListeners() {
-  const allCards = document.querySelectorAll('.recipe-card')
+  const allCards = document.querySelectorAll('.recipe--card')
   allCards.forEach(card => {
     card.addEventListener('click', interactWithRecipeCard)
   })
@@ -132,31 +134,31 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
-  let cardId = parseInt(event.target.closest(".recipe-card").id)
+  let cardId = parseInt(event.target.closest(".recipe--card").id)
   const recipeCard = document.getElementById(cardId)
-  const target = event.target.classList
+  const cardClass = event.target.classList
 
-  if (target.contains("card-apple-icon") && target.contains("unfilled")) {
-    addToFavorites(cardId, recipeCard, target)
+  if (cardClass.contains("recipe--apple-icon") && cardClass.contains("unfilled")) {
+    addToFavorites(cardId, recipeCard, cardClass)
 
-  } else if (target.contains("card-apple-icon")) {
-    removeFromFavorites(cardId, recipeCard, target)
+  } else if (cardClass.contains("recipe--apple-icon")) {
+    removeFromFavorites(cardId, recipeCard, cardClass)
 
   } else {
     openRecipeInfo(event)
   }
 }
 
-function addToFavorites(cardId, recipeCard, target) {
+function addToFavorites(cardId, recipeCard, cardClass) {
   event.target.src = "./images/apple-logo.png"
-  target.remove("unfilled")
+  cardClass.remove("unfilled")
   recipeCard.classList.add('favorite')
   user.saveRecipe(cardId);
 }
 
-function removeFromFavorites(cardId, recipeCard, target) {
-  event.target.src = "./images/apple-logo-outline.png";
-  target.add("unfilled")
+function removeFromFavorites(cardId, recipeCard, cardClass) {
+  event.target.src = "./images/apple-logo-outline.png"
+  cardClass.add("unfilled")
   recipeCard.classList.remove('favorite')
   user.removeRecipe(cardId)
 }
@@ -171,6 +173,8 @@ function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
+  const exitButton = document.querySelector('#exit-recipe-btn')
+  exitButton.addEventListener('click', exitRecipe)
 }
 
 function generateIngredients(recipe) {
