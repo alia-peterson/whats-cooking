@@ -70,11 +70,14 @@ function retrieveIngredientsData() {
 
 // GENERATE A USER ON LOAD
 function generateUser() {
-  user = new User(users[Math.floor(Math.random() * users.length)])
-  let firstName = user.name.split(" ")[0]
-  domUpdates.addWelcomeMessage(firstName)
-
-  findPantryInfo()
+  fetch('http://localhost:3001/api/v1/users')
+    .then(response => response.json())
+    .then(users => {
+      user = new User(users[Math.floor(Math.random() * users.length)])
+      let firstName = user.name.split(" ")[0]
+      domUpdates.addWelcomeMessage(firstName)
+    })
+    .then(() => findPantryInfo())
 }
 
 // CREATE RECIPE CARDS
