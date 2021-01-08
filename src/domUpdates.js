@@ -16,7 +16,7 @@ let domUpdates = {
       </div>`
     bannerText.insertAdjacentHTML("afterbegin", welcomeMsg)
   },
-
+  
   addCardToDom(recipeInfo, shortRecipeName) {
     const newRecipeCard = cardTemplate.content.cloneNode(true)
     newRecipeCard.querySelector('article.recipe--card').id = recipeInfo.id
