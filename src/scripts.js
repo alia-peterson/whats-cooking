@@ -34,7 +34,7 @@ window.addEventListener("load", function() {
 
 showAllRecipesButton.addEventListener("click", showAllRecipes);
 filterRecipesButton.addEventListener("click", findCheckedBoxes);
-// main.addEventListener("click", addToMyRecipes);
+// main.addEventListener("click", interactWithRecipeCard);
 myPantryButton.addEventListener("click", toggleMenu);
 savedRecipesButton.addEventListener("click", showSavedRecipes);
 searchButton.addEventListener("click", searchRecipes);
@@ -67,7 +67,7 @@ function createCards() {
 function createCardListeners() {
   const allCards = document.querySelectorAll('.recipe-card')
   allCards.forEach(card => {
-    card.addEventListener('click', addToMyRecipes)
+    card.addEventListener('click', interactWithRecipeCard)
   })
 }
 
@@ -127,26 +127,34 @@ function hideUnselectedRecipes(foundRecipes) {
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToMyRecipes(event) {
+function interactWithRecipeCard(event) {
   let cardId = parseInt(event.target.closest(".recipe-card").id)
   const recipeCard = document.getElementById(cardId)
-  const target = event.target.classList;
+  const target = event.target.classList
 
   if (target.contains("card-apple-icon") && target.contains("unfilled")) {
-    event.target.src = "./images/apple-logo.png";
-    target.remove("unfilled")
-    recipeCard.classList.add('favorite')
-    user.saveRecipe(cardId);
+    addToFavorites(cardId, recipeCard, target)
 
   } else if (target.contains("card-apple-icon")) {
-    event.target.src = "./images/apple-logo-outline.png";
-    target.add("unfilled")
-    recipeCard.classList.remove('favorite')
-    user.removeRecipe(cardId);
+    removeFromFavorites(cardId, recipeCard, target)
 
   } else {
-    openRecipeInfo(event);
+    openRecipeInfo(event)
   }
+}
+
+function addToFavorites(cardId, recipeCard, target) {
+  event.target.src = "./images/apple-logo.png"
+  target.remove("unfilled")
+  recipeCard.classList.add('favorite')
+  user.saveRecipe(cardId);
+}
+
+function removeFromFavorites(cardId, recipeCard, target) {
+  event.target.src = "./images/apple-logo-outline.png";
+  target.add("unfilled")
+  recipeCard.classList.remove('favorite')
+  user.removeRecipe(cardId)
 }
 
 function showSavedRecipes() {
