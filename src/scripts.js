@@ -119,43 +119,43 @@ function hideUnselectedRecipes(foundRecipes) {
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToMyRecipes() {
-  if (event.target.className === "card-apple-icon") {
-    let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!user.favoriteRecipes.includes(cardId)) {
-      event.target.src = "../images/apple-logo.png";
-      user.saveRecipe(cardId);
-    } else {
-      event.target.src = "../images/apple-logo-outline.png";
-      user.removeRecipe(cardId);
+function addToMyRecipes(event) {  // When you click apple logo
+  if (event.target.className === "card-apple-icon") { // if they click the apple
+    let cardId = parseInt(event.target.closest(".recipe-card").id) // get recipe parent id
+    if (!user.favoriteRecipes.includes(cardId)) { // if the user's favorite recipes array DOES NOT include that id
+      event.target.src = "../images/apple-logo.png"; // then change the image to filled in apple
+      user.saveRecipe(cardId); // add it to favorite recipes array
+    } else { // if id is already in favorites array
+      event.target.src = "../images/apple-logo-outline.png"; // change it back to the outline
+      user.removeRecipe(cardId); // remove from favorites array
     }
-  } else if (event.target.id === "exit-recipe-btn") {
-    exitRecipe();
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
-    openRecipeInfo(event);
+  } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
+    exitRecipe(); // don't display recipe instructions
+  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) { // if they click anywhere else on the recipe card
+    openRecipeInfo(event); // open the recipe modal
   }
 }
 
-function isDescendant(parent, child) {
-  let node = child;
-  while (node !== null) {
-    if (node === parent) {
+function isDescendant(parent, child) { // invoked in addToMyRecipes
+  let node = child; // child is wherever they clicked
+  while (node !== null) { // if whatever they clicked is something
+    if (node === parent) { // if its the same thing as .recipe-card
       return true;
     }
-    node = node.parentNode;
+    node = node.parentNode; // reassign child to be .recipe-card
   }
-  return false;
+  return false; // if they didn't click on anything, do nothing
 }
 
-function showSavedRecipes() {
-  let unsavedRecipes = recipes.filter(recipe => {
-    return !user.favoriteRecipes.includes(recipe.id);
+function showSavedRecipes() { // when they click My Recipes button
+  let unsavedRecipes = recipes.filter(recipe => { // iterate through all recipes
+    return !user.favoriteRecipes.includes(recipe.id); // for each recipe, return recipes that are NOT in their favorites
   });
-  unsavedRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
+  unsavedRecipes.forEach(recipe => { // iterate over un-favorited recipes
+    let domRecipe = document.getElementById(`${recipe.id}`); // get the dom element of each recipe
+    domRecipe.style.display = "none"; // set its display to none (so only show favorites)
   });
-  showMyRecipesBanner();
+  showMyRecipesBanner(); // change banner to My Recipes, display button to go back to main
 }
 
 // CREATE RECIPE INSTRUCTIONS
@@ -184,7 +184,7 @@ function generateInstructions(recipe) {
   let instructions = recipe.instructions.map(i => {
     return i.instruction
   })
-  
+
   domUpdates.createListElements(instructions)
   domUpdates.fullRecipeInfoDisplay('beforeend', '<h4>Instructions</h4>')
   domUpdates.fullRecipeInfoDisplay('beforeend', `<ol>${instructionsList}</ol>`)

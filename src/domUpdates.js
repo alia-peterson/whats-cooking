@@ -15,7 +15,7 @@ let domUpdates = {
     bannerText.insertAdjacentHTML("afterbegin", welcomeMsg)
   },
 
-  addCardToDom(recipeInfo, shortRecipeName) {
+  addCardToDom(recipeInfo, shortRecipeName) { // can class="text" just be a <p>?
     let cardHtml = `
       <div class="recipe-card" id=${recipeInfo.id}>
         <h3 maxlength="40">${shortRecipeName}</h3>
@@ -39,7 +39,7 @@ let domUpdates = {
     })
   },
 
-  generateRecipeTitle(recipe, ingredients) {
+  generateRecipeTitle(recipe, ingredients) { // change fn and variable name since this is doing more than just generating the title?
     let recipeTitle = `
       <button id="exit-recipe-btn">X</button>
       <h3 id="recipe-title">${recipe.name}</h3>
