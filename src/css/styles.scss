@@ -247,7 +247,7 @@ main {
   width: 250px;
 }
 
-.display-favorites .recipe-card:not(.favorite) {
+.display-favorites .recipe--card:not(.favorite) {
   display: none !important;
 }
 
