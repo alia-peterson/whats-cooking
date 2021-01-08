@@ -128,24 +128,38 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function addToMyRecipes(event) {  // When you click apple logo
-  if (event.target.className === "card-apple-icon") { // if they click the apple
-    let cardId = parseInt(event.target.closest(".recipe-card").id) // get recipe parent id
-    if (!user.favoriteRecipes.includes(cardId)) { // if the user's favorite recipes array DOES NOT include that id
-      event.target.src = "../images/apple-logo.png"; // then change the image to filled in apple
-      user.saveRecipe(cardId); // add it to favorite recipes array
-    } else { // if id is already in favorites array
-      event.target.src = "../images/apple-logo-outline.png"; // change it back to the outline
-      user.removeRecipe(cardId); // remove from favorites array
-      // showSavedRecipes(); // INVOKE DOM REMOVAL HERE TO FIX ISSUE
-    }
-  } else { // if they click anywhere else on the recipe card
-    openRecipeInfo(event); // open the recipe modal
-  // } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
-  //   exitRecipe(); // don't display recipe instructions
-  // } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) { // if they click anywhere else on the recipe card
-  //   openRecipeInfo(event); // open the recipe modal
-  // }
+  let cardId = parseInt(event.target.closest(".recipe-card").id)
+  if (event.target.src.includes("outline") {
+    event.target.src = "../images/apple-logo.png";
+    user.saveRecipe(cardId);
+  } else if (!event.target.src.includes("outline")) {
+    event.target.src = "../images/apple-logo-outline.png";
+    user.removeRecipe(cardId);
+  } else {
+    openRecipeInfo(event);
   }
+
+
+
+  // let cardId = parseInt(event.target.closest(".recipe-card").id) // get recipe parent id
+  // if (event.target.className === "card-apple-icon") { // if they click the apple
+  //   if (!user.favoriteRecipes.includes(cardId)) { // if the user's favorite recipes array DOES NOT include that id
+  //     event.target.src = "../images/apple-logo.png"; // then change the image to filled in apple
+  //     user.saveRecipe(cardId); // add it to favorite recipes array
+  //   } else { // if id is already in favorites array
+  //     event.target.src = "../images/apple-logo-outline.png"; // change it back to the outline
+  //     user.removeRecipe(cardId); // remove from favorites array
+  //     document.getElementById(cardId).style.display = "none";
+  //     // showSavedRecipes(); // INVOKE DOM REMOVAL HERE TO FIX ISSUE (in My Recipes but not on main)
+  //   }
+  // } else { // if they click anywhere else on the recipe card
+  //   openRecipeInfo(event); // open the recipe modal
+  // // } else if (event.target.id === "exit-recipe-btn") { // if they click the X (in generateRecipeTitle)
+  // //   exitRecipe(); // don't display recipe instructions
+  // // } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) { // if they click anywhere else on the recipe card
+  // //   openRecipeInfo(event); // open the recipe modal
+  // // }
+  // }
 }
 
 // function isDescendant(parent, child) { // invoked in addToMyRecipes
