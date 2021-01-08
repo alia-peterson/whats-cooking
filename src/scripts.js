@@ -10,31 +10,28 @@ import User from './user';
 import Recipe from './recipe';
 
 const main = document.querySelector(".container")
-const showAllRecipesButton = document.querySelector(".show-all-btn")
-const filterRecipesButton = document.querySelector(".filter-btn")
+const showAllRecipesButton = document.querySelector(".button-show-all")
+const filterRecipesButton = document.querySelector(".button-filter")
 const fullRecipeInfo = document.querySelector(".recipe--instructions")
-const myPantryButton = document.querySelector(".my-pantry-btn")
-const savedRecipesButton = document.querySelector(".saved-recipes-btn")
-const searchButton = document.querySelector(".search-btn")
+const myPantryButton = document.querySelector(".button-pantry")
+const savedRecipesButton = document.querySelector(".button-saved")
+const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
-const pantryRecipeButton = document.querySelector(".show-pantry-recipes-btn")
+const pantryRecipeButton = document.querySelector(".button-can-make")
+const pantryInfo = []
+const allRecipes = []
 let menuOpen = false
-let pantryInfo = []
-let recipes = []
 let user
 
 
 window.addEventListener("load", function() {
-  createCards()
-  findTags()
+  createCards().then(() => findTags())
   generateUser()
-  // createCardListeners()
 })
 
 showAllRecipesButton.addEventListener("click", showAllRecipes);
 filterRecipesButton.addEventListener("click", findCheckedBoxes);
-// main.addEventListener("click", interactWithRecipeCard);
 myPantryButton.addEventListener("click", toggleMenu);
 savedRecipesButton.addEventListener("click", showSavedRecipes);
 searchButton.addEventListener("click", searchRecipes);
@@ -52,22 +49,23 @@ function generateUser() {
 
 // CREATE RECIPE CARDS
 function createCards() {
-  fetch('http://localhost:3001/api/v1/recipes')
+  return fetch('http://localhost:3001/api/v1/recipes')
     .then(response => response.json())
     .then(recipes => {
       recipes.forEach(recipe => {
-        const recipeInfo = new Recipe(recipe)
-        let recipeName = recipeInfo.name
+        const newRecipe = new Recipe(recipe)
+        let recipeName = newRecipe.name
 
-        if (recipeInfo.name.length > 40) {
-          recipeName = recipeInfo.name.substring(0, 40) + "...";
+        allRecipes.push(newRecipe)
+
+        if (newRecipe.name.length > 40) {
+          recipeName = newRecipe.name.substring(0, 40) + "...";
         }
 
-        domUpdates.addCardToDom(recipeInfo, recipeName)
+        domUpdates.addCardToDom(newRecipe, recipeName)
         createCardListeners()
       })
     })
-    
 }
 
 function createCardListeners() {
@@ -103,10 +101,10 @@ function findCheckedBoxes() {
 function findTaggedRecipes(selected) {
   let filteredResults = [];
   selected.forEach(tag => {
-    let allRecipes = recipes.filter(recipe => {
+    let recipeData = recipes.filter(recipe => {
       return recipe.tags.includes(tag.id);
     });
-    allRecipes.forEach(recipe => {
+    recipeData.forEach(recipe => {
       if (!filteredResults.includes(recipe)) {
         filteredResults.push(recipe);
       }
@@ -173,7 +171,7 @@ function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
-  const exitButton = document.querySelector('#exit-recipe-btn')
+  const exitButton = document.querySelector('#button-exit')
   exitButton.addEventListener('click', exitRecipe)
 }
 
@@ -192,13 +190,13 @@ function exitRecipe() {
 
 // TOGGLE DISPLAYS
 function showMyRecipesBanner() {
-  document.querySelector(".welcome-msg").style.display = "none";
-  document.querySelector(".my-recipes-banner").style.display = "block";
+  document.querySelector(".banner--message").style.display = "none";
+  document.querySelector(".banner--recipes").style.display = "block";
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".welcome-msg").style.display = "flex";
-  document.querySelector(".my-recipes-banner").style.display = "none";
+  document.querySelector(".banner--message").style.display = "flex";
+  document.querySelector(".banner--recipes").style.display = "none";
 }
 
 // SEARCH RECIPES
@@ -229,7 +227,7 @@ function createRecipeObject(recipes) {
 }
 
 function toggleMenu() {
-  var menuDropdown = document.querySelector(".drop-menu");
+  var menuDropdown = document.querySelector(".menu-pantry");
   menuOpen = !menuOpen;
   if (menuOpen) {
     menuDropdown.style.display = "block";
