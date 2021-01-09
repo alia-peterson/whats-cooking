@@ -145,7 +145,12 @@ function findTaggedRecipes(selected) {
     })
   });
 
-  showAllRecipes();
+  if (main.classList.value === 'display-favorites') {
+    showSavedRecipes();
+  } else {  
+    showAllRecipes();
+  }
+
   if (filteredResults.length > 0) {
     filterRecipes(filteredResults);
   }
@@ -197,7 +202,7 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 }
 
 function showSavedRecipes() {
-  main.classList.add('display-favorites')
+  main.classList.value = ('display-favorites')
   showMyRecipesBanner()
 }
 
