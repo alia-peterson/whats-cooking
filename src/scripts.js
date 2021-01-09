@@ -18,7 +18,6 @@ const savedRecipesButton = document.querySelector(".button-saved")
 const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
-const pantryRecipeButton = document.querySelector(".button-can-make")
 // const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
@@ -27,18 +26,18 @@ let user
 
 window.addEventListener("load", function() {
   retrieveRecipeData()
-  .then(() => generateUser())
-  .then(() => retrieveIngredientsData())
-  .then(() => createCards())
-  .then(() => findTags())
+  .then(generateUser)
+  .then(retrieveIngredientsData)
+  .then(() => displayPantryInfo(user))
+  .then(createCards)
+  .then(findTags)
 })
 
 showAllRecipesButton.addEventListener("click", showAllRecipes)
 filterRecipesButton.addEventListener("click", findCheckedBoxes)
-myPantryButton.addEventListener("click", toggleMenu)
+myPantryButton.addEventListener("click", togglePantryDisplay)
 savedRecipesButton.addEventListener("click", showSavedRecipes)
 searchButton.addEventListener("click", searchRecipes)
-pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes)
 searchForm.addEventListener("submit", pressEnterSearch)
 
 // FETCH API DATASETS
@@ -81,7 +80,6 @@ function generateUser() {
       let firstName = user.name.split(" ")[0]
       domUpdates.addWelcomeMessage(firstName)
     })
-    .then(() => findPantryInfo())
 }
 
 // CREATE RECIPE CARDS
@@ -256,9 +254,10 @@ function createRecipeObject(recipesInput) {
   return recipes
 }
 
-function toggleMenu() {
+function togglePantryDisplay() {
   var menuDropdown = document.querySelector(".menu-pantry");
   menuOpen = !menuOpen;
+
   if (menuOpen) {
     menuDropdown.style.display = "block";
   } else {
@@ -277,23 +276,17 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
-function findPantryInfo() {
-  user.pantry.forEach(item => {
-    let itemInfo = ingredientsData.find(ingredient => {
-      return ingredient.id === item.ingredient;
-    });
-    let originalIngredient = pantryInfo.find(ingredient => {
-      if (itemInfo) {
-        return ingredient.name === itemInfo.name;
-      }
-    });
-    if (itemInfo && originalIngredient) {
-      originalIngredient.count += item.amount;
-    } else if (itemInfo) {
-      pantryInfo.push({name: itemInfo.name, count: item.amount});
+function displayPantryInfo(user) {
+  user.pantry.sort(function(a, b) {
+    if (a.name > b.name) {
+      return 1
+
+    } else if (a.name < b.name) {
+      return -1
     }
-  });
-  domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+  })
+
+  domUpdates.addPantryInfo(user.pantry)
 }
 
 function findCheckedPantryBoxes() {

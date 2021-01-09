@@ -3,8 +3,7 @@
 const main = document.querySelector(".container")
 const bannerText = document.querySelector(".banner--message")
 const recipeTagList = document.querySelector(".list-tags")
-const fullRecipeInfo = document.querySelector(".recipe--instructions")
-const pantryList = document.querySelector(".list-pantry")
+const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
 
@@ -60,17 +59,18 @@ let domUpdates = {
     instructionsCard.querySelectorAll('li').forEach(li => li.remove())
   },
 
-  fullRecipeInfoDisplay(location, element) {
-    fullRecipeInfo.insertAdjacentHTML(location, element)
-  },
+  addPantryInfo(pantry) {
+    pantry.forEach(item => {
+      const listItem = document.createElement('tr')
+      const itemName = document.createElement('td')
+      const itemQuantity = document.createElement('td')
 
-  displayPantryInfo(pantry) {
-    pantry.forEach(ingredient => {
-      let ingredientHtml = `
-        <li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
-        <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>
-      `
-      pantryList.insertAdjacentHTML("beforeend", ingredientHtml)
+      itemName.innerText = item.name
+      itemQuantity.innerText = item.amount
+
+      pantryList.appendChild(listItem)
+      listItem.appendChild(itemName)
+      listItem.appendChild(itemQuantity)
     })
   },
 
