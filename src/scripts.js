@@ -27,10 +27,10 @@ let user
 
 window.addEventListener("load", function() {
   retrieveRecipeData()
+  .then(() => generateUser())
   .then(() => retrieveIngredientsData())
   .then(() => createCards())
   .then(() => findTags())
-  generateUser()
 })
 
 showAllRecipesButton.addEventListener("click", showAllRecipes)
@@ -65,10 +65,14 @@ function retrieveIngredientsData() {
           ingredient.cost = foundItem.estimatedCostInCents
         })
       })
+
+      user.pantry.forEach(pantryItem => {
+        const foundItem = data.find(item => item.id === pantryItem.ingredient)
+        pantryItem.name = foundItem.name
+      })
     })
 }
 
-// GENERATE A USER ON LOAD
 function generateUser() {
   fetch('http://localhost:3001/api/v1/users')
     .then(response => response.json())
@@ -273,6 +277,7 @@ function showAllRecipes() {
 
 // CREATE AND USE PANTRY
 function findPantryInfo() {
+  console.log(user.pantry);
   user.pantry.forEach(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
