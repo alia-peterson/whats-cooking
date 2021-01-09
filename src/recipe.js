@@ -7,10 +7,11 @@ class Recipe {
     this.ingredients = recipe.ingredients
     this.instructions = recipe.instructions
   }
+
   calculateIngredientsCost() {
-    // return this.ingredients.map(i => {
-    //   ingredientData.find(ingredient => ingredient === i);
-    // });
+    return this.ingredients.map(ingredient => {
+      return ingredient.cost / 100
+    })
   }
 }
 
