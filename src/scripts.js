@@ -119,10 +119,6 @@ function findTags() {
   domUpdates.addListTags(tags);
 }
 
-// press button, fires findCHeckedBoxes
-// findCheckedBoxes gets an array from all of the tags in the list, then filters them based on their chedked value and passes thos into findTaggedRecipes
-// findTaggedRecipes forEachs the argued array of html Elements that are checked boxes
-
 function findCheckedBoxes() {
   let tagCheckboxes = document.querySelectorAll(".checked-tag");
   let checkboxInfo = Array.from(tagCheckboxes)
@@ -135,7 +131,7 @@ function findCheckedBoxes() {
 function findTaggedRecipes(selected) {
   let filteredResults = [];
   selected.forEach(tag => {
-    let recipes = recipeData.filter(recipe => {
+    let recipes = allRecipes.filter(recipe => {
       return recipe.tags.includes(tag.id);
     });
     recipes.forEach(recipe => {
@@ -146,6 +142,7 @@ function findTaggedRecipes(selected) {
   });
 
   if (main.classList.value === 'display-favorites') {
+    showAllRecipes();
     showSavedRecipes();
   } else {  
     showAllRecipes();
@@ -157,7 +154,7 @@ function findTaggedRecipes(selected) {
 }
 
 function filterRecipes(filtered) {
-  let foundRecipes = recipeData.filter(recipe => {
+  let foundRecipes = allRecipes.filter(recipe => {
     return !filtered.includes(recipe);
   });
   hideUnselectedRecipes(foundRecipes)
