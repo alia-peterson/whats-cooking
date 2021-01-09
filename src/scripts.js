@@ -94,6 +94,7 @@ function createCards() {
     domUpdates.addCardToDom(recipe, recipeName)
     createCardListeners()
   })
+  console.log(allRecipes);
 }
 
 function createCardListeners() {
@@ -194,19 +195,47 @@ function showSavedRecipes() {
   showMyRecipesBanner()
 }
 
-// CREATE RECIPE INSTRUCTIONS
+// CREATE RECIPE MODAL
 function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
+  let recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
   const exitButton = document.querySelector('#button-exit')
   exitButton.addEventListener('click', exitRecipe)
 }
 
 function generateIngredients(recipe) {
-  return recipe && recipe.ingredients.map(i => {
-    return `${domUpdates.capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
-  }).join(", ");
+  determineIfEnoughIngredients(recipe)
+  return recipe.ingredients.map(i => {
+    return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
+  }).join("\n");
+}
+
+function determineIfEnoughIngredients(selectedRecipe) {
+  const shoppingList = []
+  const listItem = {}
+
+  selectedRecipe.ingredients.forEach(recipeItem => {
+    const userItem = user.pantry.find(item => item.ingredient === recipeItem.id)
+
+    if (userItem) {
+      if (userItem.amount < recipeItem.quantity.amount) {
+        listItem.name = recipeItem.name
+        listItem.quantity = recipeItem.quantity.amount - userItem.amount
+        listItem.cost = recipeItem.cost
+        shoppingList.push(listItem)
+      }
+    } else if (!userItem) {
+      listItem.name = recipeItem.name
+      listItem.quantity = recipeItem.quantity.amount
+      listItem.cost = recipeItem.cost
+      shoppingList.push(listItem)
+    }
+  })
+
+  if (shoppingList.length > 0) {
+    domUpdates.displayShoppingList(shoppingList)
+  }
 }
 
 function exitRecipe() {

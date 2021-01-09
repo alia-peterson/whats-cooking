@@ -6,6 +6,7 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
+const makeRecipeMessage = document.querySelector('#modal--can-make')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -39,6 +40,11 @@ let domUpdates = {
         <label for="${tag}">${this.capitalize(tag)}</label></li>`
       recipeTagList.insertAdjacentHTML("beforeend", tagHtml)
     })
+  },
+
+  displayShoppingList(ingredientsNeeded) {
+    makeRecipeMessage.innerText = `You do not have enough ingredients in your pantry to make this recipe.`
+    // shopping list functionality shows up here... add button so you can click to expand?
   },
 
   generateRecipeInstructions(recipe, ingredients) {
