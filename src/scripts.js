@@ -197,7 +197,7 @@ function showSavedRecipes() {
   showMyRecipesBanner()
 }
 
-// CREATE RECIPE INSTRUCTIONS
+// CREATE RECIPE MODAL
 function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
   let recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
@@ -210,6 +210,47 @@ function generateIngredients(recipe) {
   return recipe.ingredients.map(i => {
     return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
   }).join("\n");
+}
+
+function determineIfEnoughIngredients(recipe) {
+
+  allRecipes.forEach(recipe => {
+    let userMatchingIngredients = [];
+
+    recipe.ingredients.forEach(ingredient => {
+      if (user.pantry.includes(ingredient.id)) {
+        userMatchingIngredients.push(ingredient)
+      }
+    })
+
+    const everyIngredient = recipe.ingredients.every(ingredient => {
+        return userMatchingIngredients.includes(ingredient.id)
+      })
+
+    const sufficientAmount = recipe.ingredients.every(ingredient => {
+      const userIngredient = userMatchingIngredients.find(ingredient.id)
+      return userIngredient.amount >= ingredient.quantity.amount
+    })
+
+    if (everyIngredient && sufficientAmount) {
+      // display message that they can make the recipe
+    } else {
+      // display message they they can't make the recipe w/out more ingredients
+      determineNeededIngredients(recipe, userMatchingIngredients)
+    }
+  })
+}
+
+function determineNeededIngredients(recipe, userMatchingIngredients) {
+  // const ingredientsNeeded = []
+  // for each recipe ingredient
+  // if userMatchingIngredients does not include recipe ingredient
+  // push into ingredientsNeeded
+  // HOW TO FIGURE OUT REMAINING AMOUNT?
+    // recipe.ingredients --> ingredient.quantity.amount -
+      // userMatchingIngredients --> ingredient.amount
+      // RESULT is how much they need,
+      // then we can add to shopping list & calculate cost
 }
 
 function exitRecipe() {
