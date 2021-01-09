@@ -3,7 +3,6 @@
 const main = document.querySelector(".container")
 const bannerText = document.querySelector(".banner--message")
 const recipeTagList = document.querySelector(".list-tags")
-const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const pantryList = document.querySelector(".list-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
@@ -43,10 +42,6 @@ let domUpdates = {
     })
   },
 
-  displayCanMakeRecipe() {
-    makeRecipeMessage.innerText = `You have enough ingredients in your pantry to make this recipe!`
-  },
-
   displayShoppingList(ingredientsNeeded) {
     makeRecipeMessage.innerText = `You do not have enough ingredients in your pantry to make this recipe.`
     // shopping list functionality shows up here... add button so you can click to expand?
@@ -68,10 +63,6 @@ let domUpdates = {
 
   clearRecipeInstructions() {
     instructionsCard.querySelectorAll('li').forEach(li => li.remove())
-  },
-
-  fullRecipeInfoDisplay(location, element) {
-    fullRecipeInfo.insertAdjacentHTML(location, element)
   },
 
   displayPantryInfo(pantry) {

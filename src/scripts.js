@@ -213,57 +213,31 @@ function generateIngredients(recipe) {
   }).join("\n");
 }
 
-function determineIfEnoughIngredients(recipe) {
-  const userMatchingIngredients = [];
+function determineIfEnoughIngredients(selectedRecipe) {
+  const shoppingList = []
+  const listItem = {}
 
-  allRecipes.forEach(recipe => {
-    recipe.ingredients.forEach(recipeItem => {
-      if (user.pantry.includes(recipeItem.id)) {
-        userMatchingIngredients.push(recipeItem)
+  selectedRecipe.ingredients.forEach(recipeItem => {
+    const userItem = user.pantry.find(item => item.ingredient === recipeItem.id)
+
+    if (userItem) {
+      if (userItem.amount < recipeItem.quantity.amount) {
+        listItem.name = recipeItem.name
+        listItem.quantity = recipeItem.quantity.amount - userItem.amount
+        listItem.cost = recipeItem.cost
+        shoppingList.push(listItem)
       }
-    })
-
-    const everyIngredient = recipe.ingredients.every(recipeItem => {
-        return userMatchingIngredients.includes(recipeItem.id)
-      })
-
-    const sufficientAmount = recipe.ingredients.every(recipeItem => {
-      const userIngredient = userMatchingIngredients.find(userItem => {
-        userItem.ingredient = recipeItem.id;
-      })
-      console.log(userIngredient)
-      return userIngredient.amount >= recipeItem.quantity.amount
-    })
-
-    if (everyIngredient && sufficientAmount) {
-      domUpdates.displayCanMakeRecipe()
-    } else {
-      determineNeededIngredients(recipe, userMatchingIngredients)
-    }
-  })
-}
-
-function determineNeededIngredients(recipe, userMatchingIngredients) {
-  const ingredientsNeeded = []
-
-  recipe.ingredients.forEach(recipeItem => {
-    const userIngredient = userMatchingIngredients.find(userItem => {
-      userItem.ingredient = recipeItem.id;
-    })
-
-    if ((!userMatchingIngredients.includes(recipeItem.id)) ||
-    (userIngredient.amount < recipeItem.quantity.amount)) {
-      ingredientsNeeded.push(recipeItem)
+    } else if (!userItem) {
+      listItem.name = recipeItem.name
+      listItem.quantity = recipeItem.quantity.amount
+      listItem.cost = recipeItem.cost
+      shoppingList.push(listItem)
     }
   })
 
-  ingredientsNeeded.forEach(item => {
-    if (userIngredient.amount < item.quantity.amount) {
-      item.quantity.amount = item.quantity.amount - userIngredient.amount
-    }
-  })
-
-  domUpdates.displayShoppingList(ingredientsNeeded)
+  if (shoppingList.length > 0) {
+    domUpdates.displayShoppingList(shoppingList)
+  }
 }
 
 function exitRecipe() {
