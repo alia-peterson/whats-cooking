@@ -3,7 +3,7 @@
 const main = document.querySelector(".container")
 const bannerText = document.querySelector(".banner--message")
 const recipeTagList = document.querySelector(".list-tags")
-const pantryList = document.querySelector(".list-pantry")
+const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
 

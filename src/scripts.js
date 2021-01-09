@@ -18,7 +18,6 @@ const savedRecipesButton = document.querySelector(".button-saved")
 const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
-const pantryRecipeButton = document.querySelector(".button-can-make")
 // const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
@@ -39,7 +38,6 @@ filterRecipesButton.addEventListener("click", findCheckedBoxes)
 myPantryButton.addEventListener("click", togglePantryDisplay)
 savedRecipesButton.addEventListener("click", showSavedRecipes)
 searchButton.addEventListener("click", searchRecipes)
-pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes)
 searchForm.addEventListener("submit", pressEnterSearch)
 
 // FETCH API DATASETS
@@ -287,7 +285,7 @@ function displayPantryInfo(user) {
       return -1
     }
   })
-  
+
   domUpdates.addPantryInfo(user.pantry)
 }
 
