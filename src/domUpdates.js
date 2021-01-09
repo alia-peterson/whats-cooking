@@ -7,6 +7,7 @@ const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const pantryList = document.querySelector(".list-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
+const makeRecipeMessage = document.querySelector('#modal--can-make')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -40,6 +41,14 @@ let domUpdates = {
         <label for="${tag}">${this.capitalize(tag)}</label></li>`
       recipeTagList.insertAdjacentHTML("beforeend", tagHtml)
     })
+  },
+
+  displayCanMakeRecipe() {
+    makeRecipeMessage.innerText = `You have enough ingredients in your pantry to make this recipe!`
+  },
+
+  displayShoppingList(ingredientsNeeded) {
+
   },
 
   generateRecipeInstructions(recipe, ingredients) {

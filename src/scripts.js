@@ -207,6 +207,7 @@ function openRecipeInfo(event) {
 }
 
 function generateIngredients(recipe) {
+  determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
     return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
   }).join("\n");
@@ -216,25 +217,27 @@ function determineIfEnoughIngredients(recipe) {
   const userMatchingIngredients = [];
 
   allRecipes.forEach(recipe => {
-    recipe.ingredients.forEach(ingredient => {
-      if (user.pantry.includes(ingredient.id)) {
-        userMatchingIngredients.push(ingredient)
+    recipe.ingredients.forEach(recipeItem => {
+      if (user.pantry.includes(recipeItem.id)) {
+        userMatchingIngredients.push(recipeItem)
       }
     })
 
-    const everyIngredient = recipe.ingredients.every(ingredient => {
-        return userMatchingIngredients.includes(ingredient.id)
+    const everyIngredient = recipe.ingredients.every(recipeItem => {
+        return userMatchingIngredients.includes(recipeItem.id)
       })
 
-    const sufficientAmount = recipe.ingredients.every(ingredient => {
-      const userIngredient = userMatchingIngredients.find(ingredient.id)
-      return userIngredient.amount >= ingredient.quantity.amount
+    const sufficientAmount = recipe.ingredients.every(recipeItem => {
+      const userIngredient = userMatchingIngredients.find(userItem => {
+        userItem.ingredient = recipeItem.id;
+      })
+      console.log(userIngredient)
+      return userIngredient.amount >= recipeItem.quantity.amount
     })
 
     if (everyIngredient && sufficientAmount) {
-      // display message that they can make the recipe
+      domUpdates.displayCanMakeRecipe()
     } else {
-      // display message they they can't make the recipe w/out more ingredients
       determineNeededIngredients(recipe, userMatchingIngredients)
     }
   })
@@ -243,20 +246,24 @@ function determineIfEnoughIngredients(recipe) {
 function determineNeededIngredients(recipe, userMatchingIngredients) {
   const ingredientsNeeded = []
 
-  recipe.forEach(ingredient => {
-    const userIngredient = userMatchingIngredients.find(ingredient.id)
+  recipe.ingredients.forEach(recipeItem => {
+    const userIngredient = userMatchingIngredients.find(userItem => {
+      userItem.ingredient = recipeItem.id;
+    })
 
-    if ((!userMatchingIngredients.includes(ingredient.id)) ||
-    (userIngredient.amount < ingredient.quantity.amount)) {
-      ingredientsNeeded.push(ingredient)
+    if ((!userMatchingIngredients.includes(recipeItem.id)) ||
+    (userIngredient.amount < recipeItem.quantity.amount)) {
+      ingredientsNeeded.push(recipeItem)
     }
   })
 
-  ingredientsNeeded.forEach(ingredient => {
-    if (userIngredient.amount < ingredient.quantity.amount)) {
-      ingredient.quantity.amount = ingredient.quantity.amount - userIngredient.amount
+  ingredientsNeeded.forEach(item => {
+    if (userIngredient.amount < item.quantity.amount) {
+      item.quantity.amount = item.quantity.amount - userIngredient.amount
     }
   })
+
+  domUpdates.displayShoppingList(ingredientsNeeded)
 }
 
 function exitRecipe() {
