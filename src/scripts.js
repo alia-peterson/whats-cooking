@@ -1,6 +1,6 @@
-import users from './data/users-data';
+// import users from './data/users-data';
 import recipeData from  './data/recipe-data';
-import ingredientData from './data/ingredient-data';
+// import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 
 import './css/base.scss';
@@ -19,7 +19,7 @@ const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
 const pantryRecipeButton = document.querySelector(".button-can-make")
-const pantryInfo = []
+// const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
 let user
@@ -267,17 +267,17 @@ function toggleMenu() {
 }
 
 function showAllRecipes() {
-  recipeData.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "block";
-  });
+  allRecipes.forEach(recipe => {
+    let domRecipe = document.getElementById(`${recipe.id}`)
+    domRecipe.style.display = "block"
+  })
+
   main.classList.remove("display-favorites")
-  showWelcomeBanner();
+  showWelcomeBanner()
 }
 
 // CREATE AND USE PANTRY
 function findPantryInfo() {
-  console.log(user.pantry);
   user.pantry.forEach(item => {
     let itemInfo = ingredientsData.find(ingredient => {
       return ingredient.id === item.ingredient;
