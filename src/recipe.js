@@ -7,10 +7,11 @@ class Recipe {
     this.ingredients = recipe.ingredients
     this.instructions = recipe.instructions
   }
-  calculateIngredientsCost() {
-    // return this.ingredients.map(i => {
-    //   ingredientData.find(ingredient => ingredient === i);
-    // });
+
+  calculateIngredientCost() { // need to create test for this
+    return this.ingredients.map(ingredient => {
+      return (ingredient.cost * ingredient.quantity.amount) / 100
+    })
   }
 }
 

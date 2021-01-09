@@ -364,11 +364,11 @@ main {
   text-align: center;
   width: 250px;
   z-index: 3;
-}
 
-.menu-pantry h2 {
-  color: #359567;
-  margin: 0px;
+  h2 {
+    color: #359567;
+    margin: 0px;
+  }
 }
 
 .list-pantry {
@@ -432,7 +432,7 @@ main {
 }
 
 .recipe--instructions p {
-  margin-left: 2%;
+  margin-left: 5%;
 }
 
 .recipe--instructions ol {

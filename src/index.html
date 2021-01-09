@@ -26,11 +26,18 @@
         <button class="button-show-all">Show All Recipes</button>
       </div>
     </section>
-    <div class="menu-pantry">
+    <menu class="menu-pantry">
       <h2>My Pantry</h2>
-      <button class="button-can-make">What Can I Make?</button>
-      <ul class="list-pantry"></ul>
-    </div>
+      <table>
+        <thead>
+          <tr>
+            <td>Item Name</td>
+            <td>Amount</td>
+          </tr>
+        </thead>
+        <tbody class="table-pantry"></tbody>
+      </table>
+    </menu>
     <aside>
       <div class="wrap">
         <h2>Recipe Type</h2>
@@ -45,6 +52,7 @@
         <h3 id="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
         <p id="modal--ingredients">Ingredients</p>
+        <p id="modal--can-make">You have enough ingredients in your pantry to make this recipe!</p>
         <h4>Instructions</h4>
         <ol id="modal--instructions"></ol>
       </article>
