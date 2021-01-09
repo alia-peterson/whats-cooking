@@ -279,7 +279,16 @@ function showAllRecipes() {
 
 // CREATE AND USE PANTRY
 function displayPantryInfo(user) {
-  domUpdates.addPantryInfo(user)
+  user.pantry.sort(function(a, b) {
+    if (a.name > b.name) {
+      return 1
+
+    } else if (a.name < b.name) {
+      return -1
+    }
+  })
+  
+  domUpdates.addPantryInfo(user.pantry)
 }
 
 function findCheckedPantryBoxes() {
