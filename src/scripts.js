@@ -96,6 +96,7 @@ function createCards() {
     domUpdates.addCardToDom(recipe, recipeName)
     createCardListeners()
   })
+  console.log(allRecipes);
 }
 
 function createCardListeners() {
@@ -199,16 +200,16 @@ function showSavedRecipes() {
 // CREATE RECIPE INSTRUCTIONS
 function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId))
+  let recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
   const exitButton = document.querySelector('#button-exit')
   exitButton.addEventListener('click', exitRecipe)
 }
 
 function generateIngredients(recipe) {
-  return recipe && recipe.ingredients.map(i => {
-    return `${domUpdates.capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
-  }).join(", ");
+  return recipe.ingredients.map(i => {
+    return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
+  }).join("\n");
 }
 
 function exitRecipe() {
