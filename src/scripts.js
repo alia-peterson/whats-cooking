@@ -119,6 +119,10 @@ function findTags() {
   domUpdates.addListTags(tags);
 }
 
+// press button, fires findCHeckedBoxes
+// findCheckedBoxes gets an array from all of the tags in the list, then filters them based on their chedked value and passes thos into findTaggedRecipes
+// findTaggedRecipes forEachs the argued array of html Elements that are checked boxes
+
 function findCheckedBoxes() {
   let tagCheckboxes = document.querySelectorAll(".checked-tag");
   let checkboxInfo = Array.from(tagCheckboxes)
@@ -134,12 +138,13 @@ function findTaggedRecipes(selected) {
     let recipes = recipeData.filter(recipe => {
       return recipe.tags.includes(tag.id);
     });
-    recipeData.forEach(recipe => {
+    recipes.forEach(recipe => {
       if (!filteredResults.includes(recipe)) {
         filteredResults.push(recipe);
       }
     })
   });
+
   showAllRecipes();
   if (filteredResults.length > 0) {
     filterRecipes(filteredResults);
