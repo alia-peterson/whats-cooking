@@ -8,9 +8,9 @@ class Recipe {
     this.instructions = recipe.instructions
   }
 
-  calculateIngredientsCost() {
+  calculateIngredientCost() { // need to create test for this
     return this.ingredients.map(ingredient => {
-      return ingredient.cost / 100
+      return (ingredient.cost * ingredient.quantity.amount) / 100
     })
   }
 }
