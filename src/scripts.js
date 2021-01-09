@@ -213,10 +213,9 @@ function generateIngredients(recipe) {
 }
 
 function determineIfEnoughIngredients(recipe) {
+  const userMatchingIngredients = [];
 
   allRecipes.forEach(recipe => {
-    let userMatchingIngredients = [];
-
     recipe.ingredients.forEach(ingredient => {
       if (user.pantry.includes(ingredient.id)) {
         userMatchingIngredients.push(ingredient)
@@ -242,15 +241,22 @@ function determineIfEnoughIngredients(recipe) {
 }
 
 function determineNeededIngredients(recipe, userMatchingIngredients) {
-  // const ingredientsNeeded = []
-  // for each recipe ingredient
-  // if userMatchingIngredients does not include recipe ingredient
-  // push into ingredientsNeeded
-  // HOW TO FIGURE OUT REMAINING AMOUNT?
-    // recipe.ingredients --> ingredient.quantity.amount -
-      // userMatchingIngredients --> ingredient.amount
-      // RESULT is how much they need,
-      // then we can add to shopping list & calculate cost
+  const ingredientsNeeded = []
+
+  recipe.forEach(ingredient => {
+    const userIngredient = userMatchingIngredients.find(ingredient.id)
+
+    if ((!userMatchingIngredients.includes(ingredient.id)) ||
+    (userIngredient.amount < ingredient.quantity.amount)) {
+      ingredientsNeeded.push(ingredient)
+    }
+  })
+
+  ingredientsNeeded.forEach(ingredient => {
+    if (userIngredient.amount < ingredient.quantity.amount)) {
+      ingredient.quantity.amount = ingredient.quantity.amount - userIngredient.amount
+    }
+  })
 }
 
 function exitRecipe() {
