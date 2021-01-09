@@ -48,7 +48,8 @@ let domUpdates = {
   },
 
   displayShoppingList(ingredientsNeeded) {
-
+    makeRecipeMessage.innerText = `You do not have enough ingredients in your pantry to make this recipe.`
+    // shopping list functionality shows up here... add button so you can click to expand?
   },
 
   generateRecipeInstructions(recipe, ingredients) {
