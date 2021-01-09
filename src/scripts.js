@@ -1,6 +1,6 @@
-import users from './data/users-data';
+// import users from './data/users-data';
 import recipeData from  './data/recipe-data';
-import ingredientData from './data/ingredient-data';
+// import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 
 import './css/base.scss';
@@ -19,24 +19,27 @@ const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
 const pantryRecipeButton = document.querySelector(".button-can-make")
-const pantryInfo = []
+// const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
 let user
 
 
 window.addEventListener("load", function() {
-  retrieveRecipeData().then(() => createCards()).then(() => findTags())
-  generateUser()
+  retrieveRecipeData()
+  .then(() => generateUser())
+  .then(() => retrieveIngredientsData())
+  .then(() => createCards())
+  .then(() => findTags())
 })
 
-showAllRecipesButton.addEventListener("click", showAllRecipes);
-filterRecipesButton.addEventListener("click", findCheckedBoxes);
-myPantryButton.addEventListener("click", toggleMenu);
-savedRecipesButton.addEventListener("click", showSavedRecipes);
-searchButton.addEventListener("click", searchRecipes);
-pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes);
-searchForm.addEventListener("submit", pressEnterSearch);
+showAllRecipesButton.addEventListener("click", showAllRecipes)
+filterRecipesButton.addEventListener("click", findCheckedBoxes)
+myPantryButton.addEventListener("click", toggleMenu)
+savedRecipesButton.addEventListener("click", showSavedRecipes)
+searchButton.addEventListener("click", searchRecipes)
+pantryRecipeButton.addEventListener("click", findCheckedPantryBoxes)
+searchForm.addEventListener("submit", pressEnterSearch)
 
 // FETCH API DATASETS
 function retrieveRecipeData() {
@@ -51,13 +54,34 @@ function retrieveRecipeData() {
     })
 }
 
-// GENERATE A USER ON LOAD
-function generateUser() {
-  user = new User(users[Math.floor(Math.random() * users.length)])
-  let firstName = user.name.split(" ")[0]
-  domUpdates.addWelcomeMessage(firstName)
+function retrieveIngredientsData() {
+  return fetch('http://localhost:3001/api/v1/ingredients')
+    .then(response => response.json())
+    .then(data => {
+      allRecipes.forEach(recipe => {
+        recipe.ingredients.forEach(ingredient => {
+          const foundItem = data.find(item => item.id === ingredient.id)
+          ingredient.name = foundItem.name
+          ingredient.cost = foundItem.estimatedCostInCents
+        })
+      })
 
-  findPantryInfo()
+      user.pantry.forEach(pantryItem => {
+        const foundItem = data.find(item => item.id === pantryItem.ingredient)
+        pantryItem.name = foundItem.name
+      })
+    })
+}
+
+function generateUser() {
+  fetch('http://localhost:3001/api/v1/users')
+    .then(response => response.json())
+    .then(users => {
+      user = new User(users[Math.floor(Math.random() * users.length)])
+      let firstName = user.name.split(" ")[0]
+      domUpdates.addWelcomeMessage(firstName)
+    })
+    .then(() => findPantryInfo())
 }
 
 // CREATE RECIPE CARDS
@@ -243,12 +267,13 @@ function toggleMenu() {
 }
 
 function showAllRecipes() {
-  recipeData.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "block";
-  });
+  allRecipes.forEach(recipe => {
+    let domRecipe = document.getElementById(`${recipe.id}`)
+    domRecipe.style.display = "block"
+  })
+
   main.classList.remove("display-favorites")
-  showWelcomeBanner();
+  showWelcomeBanner()
 }
 
 // CREATE AND USE PANTRY
