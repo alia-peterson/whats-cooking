@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Fresh Picks</title>
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Sulphur+Point:400,700&display=swap" rel="stylesheet">
     <link rel="icon" href="../images/apple-logo.png"/>
@@ -14,42 +14,42 @@
       <form class="header--form" id="search" role="search">
         <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
         <label for="search-input" class="search-label">Search</label>
-        <button class="button-nav button-search" type="button" name="button"><img src="./images/search.png" alt="search button"></button>
+        <button id="button-search" class="button-nav button-search" type="button" name="button"><img src="./images/search.png" alt="search button"></button>
       </form>
-      <button class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="search button">My Recipes</button>
-      <button class="button-nav button-pantry button-ing-pan button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="search button">My Pantry</button>
+      <button id="button-saved" class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="search button">My Recipes</button>
+      <button id="button-pantry" class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="search button">My Pantry</button>
+      <menu class="menu-pantry">
+        <h2>My Pantry</h2>
+        <table>
+          <thead>
+            <tr>
+              <td>Item Name</td>
+              <td>Amount</td>
+            </tr>
+          </thead>
+          <tbody class="table-pantry"></tbody>
+        </table>
+      </menu>
     </header>
     <section class="banner">
       <h1 class="banner--message">Welcome Lovely User!</h1>
       <div class="banner--recipes">
         <h1>My Recipes</h1>
-        <button class="button-show-all">Show All Recipes</button>
+        <button id="button-show-all" class="button-show-all">Show All Recipes</button>
       </div>
     </section>
-    <menu class="menu-pantry">
-      <h2>My Pantry</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody class="table-pantry"></tbody>
-      </table>
-    </menu>
     <aside>
       <div class="wrap">
         <h2>Recipe Type</h2>
-        <ul class="list-tags">
-        </ul>
-        <button class="button-filter">Filter Recipes</button>
+        <ul class="list-tags"></ul>
+        <button id="button-filter" class="button-filter">Filter Recipes</button>
       </div>
     </aside>
     <main class="container">
+      <div class="overlay"></div>
       <article class="recipe--instructions">
-        <button id="button-exit">X</button>
-        <h3 id="modal--title">Recipe Name</h3>
+        <button id="button-exit" class="button-exit">X</button>
+        <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
         <p id="modal--ingredients">Ingredients</p>
         <p id="modal--shopping-message-yes">You have all the ingredients in your pantry!</p>
@@ -70,7 +70,12 @@
           </table>
         </section>
         <h4>Instructions</h4>
-        <ol id="modal--instructions"></ol>
+        <ol class="modal--instructions"></ol>
+        <div class="modal--bottom">
+          <p id="modal--message-date">Last cooked on: </p>
+          <h4 class="modal--message-pantry">Items Removed From Pantry</h4>
+          <button id="button-cooked" class="button-filter" type="button" name="button">Cook This Recipe</button>
+        </div>
       </article>
       <template id="template--card">
         <article class="recipe--card" id="0">
