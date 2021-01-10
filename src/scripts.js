@@ -10,17 +10,17 @@ import User from './user';
 import Recipe from './recipe';
 
 const main = document.querySelector('.container')
-const showAllRecipesButton = document.querySelector('.button-show-all')
-const filterRecipesButton = document.querySelector('.button-filter')
+const showAllRecipesButton = document.querySelector('#button-show-all')
+const searchButton = document.querySelector('#button-search')
+const savedRecipesButton = document.querySelector('#button-saved')
+const myPantryButton = document.querySelector('#button-pantry')
+const filterRecipesButton = document.querySelector('#button-filter')
+const exitButton = document.querySelector('#button-exit')
+const cookRecipeButton = document.querySelector('#button-cooked')
 const fullRecipeInfo = document.querySelector('.recipe--instructions')
-const myPantryButton = document.querySelector('.button-pantry')
-const savedRecipesButton = document.querySelector('.button-saved')
-const searchButton = document.querySelector('.button-search')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
-const exitButton = document.querySelector('.button-exit')
-// const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
 let user

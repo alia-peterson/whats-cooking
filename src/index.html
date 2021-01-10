@@ -14,10 +14,10 @@
       <form class="header--form" id="search" role="search">
         <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
         <label for="search-input" class="search-label">Search</label>
-        <button class="button-nav button-search" type="button" name="button"><img src="./images/search.png" alt="search button"></button>
+        <button id="button-search" class="button-nav button-search" type="button" name="button"><img src="./images/search.png" alt="search button"></button>
       </form>
-      <button class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="search button">My Recipes</button>
-      <button class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="search button">My Pantry</button>
+      <button id="button-saved" class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="search button">My Recipes</button>
+      <button id="button-pantry" class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="search button">My Pantry</button>
       <menu class="menu-pantry">
         <h2>My Pantry</h2>
         <table>
@@ -35,20 +35,20 @@
       <h1 class="banner--message">Welcome Lovely User!</h1>
       <div class="banner--recipes">
         <h1>My Recipes</h1>
-        <button class="button-show-all">Show All Recipes</button>
+        <button id="button-show-all" class="button-show-all">Show All Recipes</button>
       </div>
     </section>
     <aside>
       <div class="wrap">
         <h2>Recipe Type</h2>
         <ul class="list-tags"></ul>
-        <button class="button-filter">Filter Recipes</button>
+        <button id="button-filter" class="button-filter">Filter Recipes</button>
       </div>
     </aside>
     <main class="container">
       <div class="overlay"></div>
       <article class="recipe--instructions">
-        <button class="button-exit">X</button>
+        <button id="button-exit" class="button-exit">X</button>
         <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
         <p class="modal--ingredients">Ingredients</p>
@@ -57,7 +57,7 @@
         <ol class="modal--instructions"></ol>
         <div class="modal--bottom">
           <h4 class="modal--message">Items Removed From Pantry</h4>
-          <button type="button" name="button">I Cooked This Recipe</button>
+          <button id="button-cooked" class="button-filter" type="button" name="button">I Cooked This Recipe</button>
         </div>
       </article>
       <template id="template--card">
