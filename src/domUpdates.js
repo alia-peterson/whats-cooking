@@ -6,7 +6,7 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
-const makeRecipeMessage = document.querySelector('#modal--can-make')
+const makeRecipeMessage = document.querySelector('.modal--can-make')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Fresh Picks</title>
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Sulphur+Point:400,700&display=swap" rel="stylesheet">
     <link rel="icon" href="../images/apple-logo.png"/>
@@ -48,13 +48,17 @@
     </aside>
     <main class="container">
       <article class="recipe--instructions">
-        <button id="button-exit">X</button>
-        <h3 id="modal--title">Recipe Name</h3>
+        <button class="button-exit">X</button>
+        <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
-        <p id="modal--ingredients">Ingredients</p>
-        <p id="modal--can-make">You have enough ingredients in your pantry to make this recipe!</p>
+        <p class="modal--ingredients">Ingredients</p>
+        <p class="modal--can-make">You have enough ingredients in your pantry to make this recipe!</p>
         <h4>Instructions</h4>
-        <ol id="modal--instructions"></ol>
+        <ol class="modal--instructions"></ol>
+        <div class="modal--bottom">
+          <p class="modal--message">Items Removed From Pantry</p>
+          <button type="button" name="button">I Cooked This Recipe</button>
+        </div>
       </article>
       <template id="template--card">
         <article class="recipe--card" id="0">
