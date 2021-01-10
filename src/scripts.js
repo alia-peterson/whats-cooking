@@ -12,7 +12,6 @@ import Recipe from './recipe';
 
 const main = document.querySelector('.container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
-const searchButton = document.querySelector('#button-search')
 const savedRecipesButton = document.querySelector('#button-saved')
 const myPantryButton = document.querySelector('#button-pantry')
 const filterRecipesButton = document.querySelector('#button-filter')
@@ -38,8 +37,8 @@ window.addEventListener("load", function() {
 })
 
 searchForm.addEventListener("submit", pressEnterSearch)
+searchInput.addEventListener('keyup', searchRecipes)
 showAllRecipesButton.addEventListener("click", showAllRecipes)
-searchButton.addEventListener("click", searchRecipes)
 savedRecipesButton.addEventListener("click", showSavedRecipes)
 myPantryButton.addEventListener("click", togglePantryDisplay)
 filterRecipesButton.addEventListener("click", findCheckedBoxes)
