@@ -55,7 +55,7 @@ function retrieveRecipeData() {
         const newRecipe = new Recipe(recipe)
 
         allRecipes.push(newRecipe)
-      }) 
+      })
     })
 }
 
@@ -97,7 +97,7 @@ function generateUser() {
 
 function updateUserPantry(recipeId) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-  const completedPosts = thisRecipe.ingredients.map(item => {
+  completedPosts = thisRecipe.ingredients.forEach(item => {
     const updatedPantryItem = {
       userID: currentUser.id,
       ingredientID: item.id,
@@ -116,10 +116,7 @@ function updateUserPantry(recipeId) {
       .catch(error => console.log(error))
       // .catch(error => window.alert(`You do not have enough ${item.json()} for this recipe.`))
   })
-
-  if (completedPosts.length === thisRecipe.ingredients.length) {
-    displayPantryInfo(currentUser)
-  }
+  displayPantryInfo(currentUser)
 }
 
 function retrieveUserPantry() {
@@ -355,6 +352,7 @@ function determineIfEnoughIngredients(selectedRecipe) {
 function showMyRecipesBanner() {
   document.querySelector(".banner--message").style.display = "none";
   document.querySelector(".banner--recipes").style.display = "flex";
+}
 
 function exitRecipe() {
   fullRecipeInfo.style.display = "none"
