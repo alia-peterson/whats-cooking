@@ -88,9 +88,9 @@ let domUpdates = {
   },
 
   formatUnits(unit) {
-    if (unit === "teaspoons" || unit === "teaspoon") {
+    if (unit.toLowerCase().includes("teaspoon")) {
       unit = "tsp"
-    } else if (unit === "Tablespoons" || unit === "tablespoons" || unit === "tablespoon") {
+    } else if (unit.toLowerCase().includes("tablespoon")) {
       unit = "Tbsp"
     }
     return unit
