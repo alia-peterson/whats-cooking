@@ -231,6 +231,7 @@ function showSavedRecipes() {
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  cookRecipeButton.recipeId = recipeId
 
   if (thisRecipe.dateCooked) {
     displayCookedDate(thisRecipe)
@@ -243,35 +244,37 @@ function openRecipeInstructions(event) {
 function exitRecipeInstructions() {
   fullRecipeInfo.style.display = 'none'
   modalOverlay.style.display = 'none'
+  modalDateMessage.style.display = 'none'
 
   domUpdates.clearRecipeInstructions()
 }
 
-function updateCookedDate(selectedRecipe) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(selectedRecipe.id))
-
-  const timeElapsed = Date.now()
-  const today = new Date(timeElapsed)
-
-  thisRecipe.dateCooked = today
-}
-
 function displayCookedDate(selectedRecipe) {
-  modalDateMessage.innerText = selectedRecipe.dateCooked.toDateString()
+  const cookedDate = selectedRecipe.dateCooked.toDateString()
+  modalDateMessage.innerText = `Last cooked on: ${cookedDate}`
   modalDateMessage.style.display = 'inline'
 }
 
 function cookRecipe(event) {
-  const recipeId = event.path.find(e => e.id).id
   modalPantryMessage.style.display = 'inline'
   modalPantryMessage.style.opacity = 1
 
-  // updateCookedDate(selectedRecipe)
+  updateCookedDate(event.target.recipeId)
   // updateUserPantry()
 
   setTimeout(function() {
     modalPantryMessage.style.opacity = 0
   }, 2000)
+}
+
+function updateCookedDate(recipeId) {
+  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+
+  const timeElapsed = Date.now()
+  const today = new Date(timeElapsed)
+
+  thisRecipe.dateCooked = today
+  displayCookedDate(thisRecipe)
 }
 
 function generateIngredients(recipe) {

@@ -399,8 +399,15 @@ main {
   align-items: center;
   display: flex;
   flex-direction: column;
-  min-height: 90px;
+  min-height: 95px;
   justify-content: flex-end;
+
+  #modal--message-date {
+    display: none;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+  }
 }
 
 .modal--message-pantry {
@@ -448,10 +455,6 @@ main {
 
   ol {
     margin-right: 2%;
-  }
-
-  #modal--message-date {
-    display: none;
   }
 }
 
