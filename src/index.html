@@ -51,8 +51,24 @@
         <button id="button-exit" class="button-exit">X</button>
         <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
-        <p class="modal--ingredients">Ingredients</p>
-        <p class="modal--can-make">You have enough ingredients in your pantry to make this recipe!</p>
+        <p id="modal--ingredients">Ingredients</p>
+        <p id="modal--shopping-message-yes">You have all the ingredients in your pantry!</p>
+        <section class="modal--shopping-list">
+          <h4>Shopping List</h4>
+          <p id="modal--shopping-message-no">You don't have enough ingredients in your pantry to make this recipe. Here's what you need:</p>
+          <table class="modal--shopping-table">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Amount Needed</th>
+                <th>Cost Per Unit</th>
+                <th>Total Cost</th>
+              </tr>
+            </thead>
+            <tbody class="modal--shopping-items"></tbody>
+            <tfoot class="modal--total-cost"></tfoot>
+          </table>
+        </section>
         <h4>Instructions</h4>
         <ol class="modal--instructions"></ol>
         <div class="modal--bottom">

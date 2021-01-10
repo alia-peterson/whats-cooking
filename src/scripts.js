@@ -9,6 +9,7 @@ import './css/styles.scss';
 import User from './user';
 import Recipe from './recipe';
 
+
 const main = document.querySelector('.container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
 const searchButton = document.querySelector('#button-search')
@@ -54,7 +55,7 @@ function retrieveRecipeData() {
         const newRecipe = new Recipe(recipe)
 
         allRecipes.push(newRecipe)
-      })
+      }) 
     })
 }
 
@@ -154,57 +155,61 @@ function createCardListeners() {
 
 // FILTER BY RECIPE TAGS
 function findTags() {
-  let tags = [];
-  recipeData.forEach(recipe => {
+  const tags = []
+
+  allRecipes.forEach(recipe => {
     recipe.tags.forEach(tag => {
       if (!tags.includes(tag)) {
-        tags.push(tag);
+        tags.push(tag)
       }
-    });
-  });
-  tags.sort();
-  domUpdates.addListTags(tags);
+    })
+  })
+
+  tags.sort()
+  domUpdates.addListTags(tags)
 }
 
 function findCheckedBoxes() {
-  let tagCheckboxes = document.querySelectorAll(".checked-tag");
-  let checkboxInfo = Array.from(tagCheckboxes)
-  let selectedTags = checkboxInfo.filter(box => {
-    return box.checked;
+  const tagCheckBoxes = document.querySelectorAll('.checked-tag')
+  const checkBoxInfo = Array.from(tagCheckBoxes)
+
+  const selectedTags = checkBoxInfo.filter(box => {
+    return box.checked
   })
-  findTaggedRecipes(selectedTags);
+
+  unhideRecipeCards()
+  findUntaggedRecipes(selectedTags)
 }
 
-function findTaggedRecipes(selected) {
-  let filteredResults = [];
+function unhideRecipeCards() {
+  const allCards = document.querySelectorAll('.recipe--card')
+
+  allCards.forEach(card => card.classList.remove('hidden'))
+}
+
+function findUntaggedRecipes(selected) {
+  const filteredRecipes = []
+
   selected.forEach(tag => {
-    let recipes = recipeData.filter(recipe => {
-      return recipe.tags.includes(tag.id);
-    });
-    recipeData.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
+    const recipes = allRecipes.filter(recipe => {
+      return !recipe.tags.includes(tag.id)
+    })
+
+    recipes.forEach(recipe => {
+      if (!filteredRecipes.includes(recipe)) {
+        filteredRecipes.push(recipe)
       }
     })
-  });
-  showAllRecipes();
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
-  }
-}
+  })
 
-function filterRecipes(filtered) {
-  let foundRecipes = recipeData.filter(recipe => {
-    return !filtered.includes(recipe);
-  });
-  hideUnselectedRecipes(foundRecipes)
+  hideUnselectedRecipes(filteredRecipes)
 }
 
 function hideUnselectedRecipes(foundRecipes) {
   foundRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
+    const domRecipe = document.getElementById(`${recipe.id}`)
+    domRecipe.classList.add('hidden')
+  })
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
@@ -239,7 +244,7 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 }
 
 function showSavedRecipes() {
-  main.classList.add('display-favorites')
+  main.classList.value = ('display-favorites')
   showMyRecipesBanner()
 }
 
@@ -296,28 +301,46 @@ function updateCookedDate(recipeId) {
 function generateIngredients(recipe) {
   determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
-    return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
-  }).join("\n");
+    const quantity = domUpdates.formatQuantity(i.quantity.amount)
+    const unit = domUpdates.formatUnits(i.quantity.unit)
+
+    return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
+  }).join("\n")
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
   const shoppingList = []
-  const listItem = {}
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
+    const listItem = {}
 
     if (userItem) {
+      const quantityNeeded = recipeItem.quantity.amount - userItem.amount
+
       if (userItem.amount < recipeItem.quantity.amount) {
-        listItem.name = recipeItem.name
-        listItem.quantity = recipeItem.quantity.amount - userItem.amount
-        listItem.cost = recipeItem.cost
+        listItem.name = domUpdates.lowerCase(recipeItem.name)
+        listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
+        listItem.unit = recipeItem.quantity.unit
+        listItem.cost = recipeItem.cost.toFixed(2)
+
+        if (listItem.quantity.toString().length > 3) {
+          listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
+        }
+
         shoppingList.push(listItem)
       }
+
     } else if (!userItem) {
-      listItem.name = recipeItem.name
-      listItem.quantity = recipeItem.quantity.amount
-      listItem.cost = recipeItem.cost
+      listItem.name = domUpdates.lowerCase(recipeItem.name)
+      listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
+      listItem.unit = recipeItem.quantity.unit
+      listItem.cost = recipeItem.cost.toFixed(2)
+
+      if (listItem.quantity.toString().length > 3) {
+        listItem.quantity = recipeItem.quantity.amount.toFixed(2)
+      }
+
       shoppingList.push(listItem)
     }
   })
@@ -332,43 +355,43 @@ function determineIfEnoughIngredients(selectedRecipe) {
 function showMyRecipesBanner() {
   document.querySelector(".banner--message").style.display = "none";
   document.querySelector(".banner--recipes").style.display = "flex";
+
+function exitRecipe() {
+  fullRecipeInfo.style.display = "none"
+  domUpdates.clearRecipeInstructions()
+  domUpdates.clearShoppingList()
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = "block";
-  document.querySelector(".banner--recipes").style.display = "none";
+  document.querySelector(".banner--message").style.display = "block"
+  document.querySelector(".banner--recipes").style.display = "none"
 }
 
 // SEARCH RECIPES
+
 function pressEnterSearch(event) {
-  event.preventDefault();
-  searchRecipes();
+  event.preventDefault()
+  searchRecipes()
 }
 
 function searchRecipes() {
-  showAllRecipes();
-  let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
-  });
-  filterNonSearched(createRecipeObject(searchedRecipes));
-}
+  unhideRecipeCards();
+  const searchValue = searchInput.value.toLowerCase()
 
-function filterNonSearched(filtered) {
-  let found = recipeData.filter(recipe => {
-    let ids = filtered.map(f => f.id);
-    return !ids.includes(recipe.id)
+  const notSearchedNames = allRecipes.filter(recipe => {
+    return !recipe.name.toLowerCase().includes(searchValue)
   })
-  hideUnselectedRecipes(found);
-}
 
-function createRecipeObject(recipesInput) {
-  recipes = recipesInput.map(recipe => new Recipe(recipe));
-  return recipes
+  const notSearchedRecipes = notSearchedNames.filter(recipe => {
+    return recipe.ingredients.some(ingredient => !ingredient.name.toLowerCase().includes(searchValue))
+  })
+
+  hideUnselectedRecipes(notSearchedRecipes)
 }
 
 function togglePantryDisplay() {
-  var menuDropdown = document.querySelector(".menu-pantry");
-  menuOpen = !menuOpen;
+  const menuDropdown = document.querySelector(".menu-pantry")
+  menuOpen = !menuOpen
 
   if (menuOpen) {
     menuDropdown.style.display = "block";
@@ -380,10 +403,10 @@ function togglePantryDisplay() {
 function showAllRecipes() {
   allRecipes.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`)
-    domRecipe.style.display = "block"
+    domRecipe.style.display = 'block'
   })
 
-  main.classList.remove("display-favorites")
+  main.classList.remove('display-favorites')
   showWelcomeBanner()
 }
 
