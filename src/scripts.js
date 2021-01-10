@@ -211,7 +211,7 @@ function generateIngredients(recipe) {
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
-  // console.log(user.pantry)
+  console.log("user pantry", user.pantry)
   const shoppingList = []
 
   selectedRecipe.ingredients.forEach(recipeItem => {

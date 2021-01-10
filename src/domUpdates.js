@@ -46,7 +46,7 @@ let domUpdates = {
   },
 
   displayShoppingList(shoppingList) {
-    // console.log(shoppingList)
+    console.log("shopping list", shoppingList)
     modalShoppingMessage.innerText = `You don't have enough ingredients in your pantry to make this recipe! Here's what you need:`
     modalShoppingList.style.display = 'block'
     shoppingList.forEach(shoppingItem => {
@@ -69,11 +69,11 @@ let domUpdates = {
     })
 
     const totalListCost = shoppingList.reduce((totalCost, item) => {
-      item.cost + totalCost
-      return totalCost/100
+      totalCost += (item.cost * item.quantity)/100
+      return totalCost
     }, 0)
 
-    modalTotalCost.innerText = `Total List Cost: $${totalListCost}`
+    modalTotalCost.innerText = `Total List Cost: $${totalListCost.toFixed(2)}`
 
   },
 
