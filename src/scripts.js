@@ -222,24 +222,30 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
     if (userItem) {
       const quantityNeeded = recipeItem.quantity.amount - userItem.amount
+
       if (userItem.amount < recipeItem.quantity.amount) {
         listItem.name = domUpdates.lowerCase(recipeItem.name)
         listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
         listItem.unit = recipeItem.quantity.unit
         listItem.cost = recipeItem.cost.toFixed(2)
+
         if (listItem.quantity.toString().length > 3) {
           listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
         }
+
         shoppingList.push(listItem)
       }
+
     } else if (!userItem) {
       listItem.name = domUpdates.lowerCase(recipeItem.name)
       listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
       listItem.unit = recipeItem.quantity.unit
       listItem.cost = recipeItem.cost.toFixed(2)
+
       if (listItem.quantity.toString().length > 3) {
         listItem.quantity = recipeItem.quantity.amount.toFixed(2)
       }
+
       shoppingList.push(listItem)
     }
   })
