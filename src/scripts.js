@@ -257,7 +257,7 @@ function determineIfEnoughIngredients(selectedRecipe) {
 // TOGGLE DISPLAYS
 function showMyRecipesBanner() {
   document.querySelector(".banner--message").style.display = "none";
-  document.querySelector(".banner--recipes").style.display = "block";
+  document.querySelector(".banner--recipes").style.display = "flex";
 }
 
 function showWelcomeBanner() {
