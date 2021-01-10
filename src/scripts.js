@@ -21,6 +21,7 @@ const fullRecipeInfo = document.querySelector('.recipe--instructions')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
+const modalPantryMessage = document.querySelector('.modal--message')
 const allRecipes = []
 let menuOpen = false
 let user
@@ -35,13 +36,14 @@ window.addEventListener("load", function() {
     .then(findTags)
 })
 
-showAllRecipesButton.addEventListener("click", showAllRecipes)
-filterRecipesButton.addEventListener("click", findCheckedBoxes)
-myPantryButton.addEventListener("click", togglePantryDisplay)
-savedRecipesButton.addEventListener("click", showSavedRecipes)
-searchButton.addEventListener("click", searchRecipes)
 searchForm.addEventListener("submit", pressEnterSearch)
+showAllRecipesButton.addEventListener("click", showAllRecipes)
+searchButton.addEventListener("click", searchRecipes)
+savedRecipesButton.addEventListener("click", showSavedRecipes)
+myPantryButton.addEventListener("click", togglePantryDisplay)
+filterRecipesButton.addEventListener("click", findCheckedBoxes)
 exitButton.addEventListener('click', exitRecipeInstructions)
+cookRecipeButton.addEventListener('click', cookRecipe)
 
 // FETCH API DATASETS
 function retrieveRecipeData() {
@@ -218,6 +220,17 @@ function exitRecipeInstructions() {
   modalOverlay.style.display = 'none'
 
   domUpdates.clearRecipeInstructions()
+}
+
+function cookRecipe() {
+  modalPantryMessage.style.display = 'inline'
+  modalPantryMessage.style.opacity = 1
+
+  updateUserPantry()
+
+  setTimeout(function() {
+    modalPantryMessage.style.opacity = 0
+  }, 2000)
 }
 
 function generateIngredients(recipe) {

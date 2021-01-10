@@ -399,6 +399,14 @@ main {
   align-items: center;
   display: flex;
   flex-direction: column;
+  min-height: 90px;
+  justify-content: flex-end;
+}
+
+.modal--message {
+  display: none;
+  margin-top: 0;
+  transition: 1s opacity;
 }
 
 .modal--title {
