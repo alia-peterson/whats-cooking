@@ -46,7 +46,6 @@ let domUpdates = {
   },
 
   displayShoppingList(shoppingList) {
-    console.log("shopping list", shoppingList)
     modalShoppingMessage.innerText = `You don't have enough ingredients in your pantry to make this recipe! Here's what you need:`
     modalShoppingList.style.display = 'block'
     shoppingList.forEach(shoppingItem => {
@@ -74,7 +73,6 @@ let domUpdates = {
     }, 0)
 
     modalTotalCost.innerText = `Total List Cost: $${totalListCost.toFixed(2)}`
-
   },
 
   clearShoppingList() {
@@ -125,6 +123,12 @@ let domUpdates = {
   capitalize(words) {
     return words.split(" ").map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(" ");
+  },
+
+  lowerCase(words) {
+    return words.split(" ").map(word => {
+      return word.charAt(0).toLowerCase() + word.slice(1);
     }).join(" ");
   }
 }
