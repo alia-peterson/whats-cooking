@@ -267,20 +267,22 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  showAllRecipes();
-  let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+  unhideRecipeCards();
+  let searchedRecipes = allRecipes.filter(recipe => {
+    return !recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
-  filterNonSearched(createRecipeObject(searchedRecipes));
+
+  hideUntaggedRecipes(searchedRecipes);
+  // filterNonSearched(createRecipeObject(searchedRecipes));
 }
 
-function filterNonSearched(filtered) {
-  let found = recipeData.filter(recipe => {
-    let ids = filtered.map(f => f.id);
-    return !ids.includes(recipe.id)
-  })
-  hideUnselectedRecipes(found);
-}
+// function filterNonSearched(filtered) {
+//   let found = recipeData.filter(recipe => {
+//     let ids = filtered.map(f => f.id);
+//     return !ids.includes(recipe.id)
+//   })
+//   hideUntaggedRecipes(found);
+// }
 
 function createRecipeObject(recipesInput) {
   recipes = recipesInput.map(recipe => new Recipe(recipe));
@@ -298,6 +300,9 @@ function togglePantryDisplay() {
   }
 }
 
+// ----------------------
+// ----------------------
+
 function showAllRecipes() {
   allRecipes.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`)
@@ -307,6 +312,8 @@ function showAllRecipes() {
   main.classList.remove('display-favorites')
   showWelcomeBanner()
 }
+// ----------------------
+// ----------------------
 
 // CREATE AND USE PANTRY
 function displayPantryInfo(user) {
