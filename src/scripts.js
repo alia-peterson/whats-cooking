@@ -113,7 +113,7 @@ function findTags() {
       }
     })
   })
- 
+
   tags.sort()
   domUpdates.addListTags(tags)
 }
@@ -209,28 +209,46 @@ function openRecipeInfo(event) {
 function generateIngredients(recipe) {
   determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
-    return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
+    const quantity = domUpdates.formatQuantity(i.quantity.amount)
+    const unit = domUpdates.formatUnits(i.quantity.unit)
+
+    return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
   }).join("\n")
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
   const shoppingList = []
-  const listItem = {}
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = user.pantry.find(item => item.ingredient === recipeItem.id)
+    const listItem = {}
 
     if (userItem) {
+      const quantityNeeded = recipeItem.quantity.amount - userItem.amount
+
       if (userItem.amount < recipeItem.quantity.amount) {
-        listItem.name = recipeItem.name
-        listItem.quantity = recipeItem.quantity.amount - userItem.amount
-        listItem.cost = recipeItem.cost
+        listItem.name = domUpdates.lowerCase(recipeItem.name)
+        listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
+        listItem.unit = recipeItem.quantity.unit
+        listItem.cost = recipeItem.cost.toFixed(2)
+
+        if (listItem.quantity.toString().length > 3) {
+          listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
+        }
+
         shoppingList.push(listItem)
       }
+
     } else if (!userItem) {
-      listItem.name = recipeItem.name
-      listItem.quantity = recipeItem.quantity.amount
-      listItem.cost = recipeItem.cost
+      listItem.name = domUpdates.lowerCase(recipeItem.name)
+      listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
+      listItem.unit = recipeItem.quantity.unit
+      listItem.cost = recipeItem.cost.toFixed(2)
+
+      if (listItem.quantity.toString().length > 3) {
+        listItem.quantity = recipeItem.quantity.amount.toFixed(2)
+      }
+
       shoppingList.push(listItem)
     }
   })
@@ -243,6 +261,7 @@ function determineIfEnoughIngredients(selectedRecipe) {
 function exitRecipe() {
   fullRecipeInfo.style.display = "none"
   domUpdates.clearRecipeInstructions()
+  domUpdates.clearShoppingList()
   // still need to incorporate overlay into background so that other
   // cards can not be selected while the modal is open
 }

@@ -430,19 +430,6 @@ main {
   text-shadow: 0px 0px 6px black;
 }
 
-.recipe--instructions h4 {
-  background: white;
-  color: #359567;
-}
-
-.recipe--instructions p {
-  margin-left: 5%;
-}
-
-.recipe--instructions ol {
-  margin-right: 2%;
-}
-
 #overlay {
   filter: alpha(opacity=50);
   background-color: #5B7894;
@@ -453,4 +440,55 @@ main {
   top: 0;
   width: 100%;
   z-index: 100;
+}
+
+#modal--shopping-message-yes,
+#modal--shopping-message-no {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#modal--shopping-message-yes {
+  display: block;
+}
+
+.modal--shopping-list {
+  display: none;
+}
+
+.modal--shopping-table {
+  border-collapse: collapse;
+  width: 60%;
+}
+
+.modal--shopping-table td {
+  padding: 0.25rem;
+}
+
+.modal--shopping-table th {
+  color: #359567;
+  background-color: #C4EB67;
+  padding: 0.25rem;
+  text-align: left;
+}
+
+.modal--shopping-table tfoot {
+  font-weight: bold;
+}
+
+.price {
+  text-align: right;
+}
+
+.recipe--instructions h4 {
+  background: white;
+  color: #359567;
+}
+
+.recipe--instructions p table {
+  margin-left: 2%;
+}
+
+.recipe--instructions ol {
+  margin-right: 2%;
 }
