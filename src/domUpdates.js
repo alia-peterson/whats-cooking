@@ -58,7 +58,7 @@ let domUpdates = {
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${shoppingItem.unit}`
       itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
-      itemTotalCost.innerText = `$${(shoppingItem.cost * shoppingItem.quantity)/100}`
+      itemTotalCost.innerText = `$${((shoppingItem.cost * shoppingItem.quantity)/100).toFixed(2)}`
 
       modalShoppingItems.appendChild(listItem)
       listItem.appendChild(itemName)
