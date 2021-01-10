@@ -66,6 +66,7 @@ let domUpdates = {
   },
 
   addPantryInfoToDom(pantry) {
+    this.clearPantryContents()
     pantry.forEach(item => {
       const listItem = document.createElement('tr')
       const itemName = document.createElement('td')
@@ -78,6 +79,10 @@ let domUpdates = {
       listItem.appendChild(itemName)
       listItem.appendChild(itemQuantity)
     })
+  },
+
+  clearPantryContents() {
+    pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
   },
 
   createListElements(instructions) {
