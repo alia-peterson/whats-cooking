@@ -15,7 +15,6 @@ const filterRecipesButton = document.querySelector(".button-filter")
 const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const myPantryButton = document.querySelector(".button-pantry")
 const savedRecipesButton = document.querySelector(".button-saved")
-// const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
 // const pantryInfo = []
@@ -33,12 +32,11 @@ window.addEventListener("load", function() {
   .then(findTags)
 })
 
-showAllRecipesButton.addEventListener("click", showAllRecipes)
-filterRecipesButton.addEventListener("click", findCheckedBoxes)
-myPantryButton.addEventListener("click", togglePantryDisplay)
-savedRecipesButton.addEventListener("click", showSavedRecipes)
-// searchButton.addEventListener("click", searchRecipes)
-searchForm.addEventListener("submit", pressEnterSearch)
+showAllRecipesButton.addEventListener('click', showAllRecipes)
+filterRecipesButton.addEventListener('click', findCheckedBoxes)
+myPantryButton.addEventListener('click', togglePantryDisplay)
+savedRecipesButton.addEventListener('click', showSavedRecipes)
+searchForm.addEventListener('submit', pressEnterSearch)
 searchInput.addEventListener('keyup', searchRecipes)
 
 // FETCH API DATASETS
@@ -71,7 +69,6 @@ function retrieveIngredientsData() {
         pantryItem.name = foundItem.name
       })
     })
-    // .then(console.log('dese nutz', allRecipes[0].ingredients))
 }
 
 function generateUser() {
