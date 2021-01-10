@@ -54,19 +54,16 @@ let domUpdates = {
       const itemQuantity = document.createElement('td')
       const itemCostPerUnit = document.createElement('td')
       const itemTotalCost = document.createElement('td')
-      let unit = shoppingItem.unit
-
-      if (unit === "teaspoons" || unit === "teaspoon") {
-        unit = "tsp"
-      }
-      if (unit === "Tablespoons" || unit === "tablespoons" || unit === "tablespoon") {
-        unit = "Tbsp"
-      }
+      let unit = this.formatUnits(shoppingItem.unit)
+      let totalCost = (shoppingItem.cost * shoppingItem.quantity)/100
 
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
       itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
-      itemTotalCost.innerText = `$${((shoppingItem.cost * shoppingItem.quantity)/100).toFixed(2)}`
+      itemTotalCost.innerText = `$${totalCost.toFixed(2)}`
+
+      itemCostPerUnit.classList.add("price")
+      itemTotalCost.classList.add("price")
 
       modalShoppingItems.appendChild(listItem)
       listItem.appendChild(itemName)
@@ -75,15 +72,35 @@ let domUpdates = {
       listItem.appendChild(itemTotalCost)
     })
 
+    this.displayTotalCost(shoppingList)
+  },
+
+  displayTotalCost(shoppingList) {
     const totalListCost = shoppingList.reduce((totalCost, item) => {
-      totalCost += (item.cost * item.quantity)/100
+      totalCost += (item.cost * item.quantity) / 100
       return totalCost
     }, 0)
 
     modalTotalCost.innerHTML = `
-      <tr>
-        <td colspan="4" class="total">Total Cost: $${totalListCost.toFixed(2)}</td>
-      <tr>`
+        <tr>
+          <td colspan="4" class="price">Total Cost: $${totalListCost.toFixed(2)}</td>
+        <tr>`
+  },
+
+  formatUnits(unit) {
+    if (unit === "teaspoons" || unit === "teaspoon") {
+      unit = "tsp"
+    } else if (unit === "Tablespoons" || unit === "tablespoons" || unit === "tablespoon") {
+      unit = "Tbsp"
+    }
+    return unit
+  },
+
+  formatQuantity(quantity) {
+    if (quantity.toString().length > 3) {
+      quantity = quantity.toFixed(2)
+    }
+    return quantity
   },
 
   clearShoppingList() {

@@ -206,18 +206,8 @@ function openRecipeInfo(event) {
 function generateIngredients(recipe) {
   determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
-    let quantity = i.quantity.amount
-    let unit = i.quantity.unit
-
-    if (quantity.toString().length > 3) {
-      quantity = i.quantity.amount.toFixed(2)
-    }
-    if (unit === "teaspoons" || unit === "teaspoon") {
-      unit = "tsp"
-    }
-    if (unit === "Tablespoons" || unit === "tablespoons" || unit === "tablespoon") {
-      unit = "Tbsp"
-    }
+    let quantity = domUpdates.formatQuantity(i.quantity.amount)
+    let unit = domUpdates.formatUnits(i.quantity.unit)
 
     return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
   }).join("\n")
@@ -231,19 +221,20 @@ function determineIfEnoughIngredients(selectedRecipe) {
     const listItem = {}
 
     if (userItem) {
+      let quantityNeeded = recipeItem.quantity.amount - userItem.amount
       if (userItem.amount < recipeItem.quantity.amount) {
         listItem.name = domUpdates.lowerCase(recipeItem.name)
-        listItem.quantity = recipeItem.quantity.amount - userItem.amount
+        listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
         listItem.unit = recipeItem.quantity.unit
         listItem.cost = recipeItem.cost.toFixed(2)
         if (listItem.quantity.toString().length > 3) {
-          listItem.quantity = (recipeItem.quantity.amount - userItem.amount).toFixed(2)
+          listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
         }
         shoppingList.push(listItem)
       }
     } else if (!userItem) {
       listItem.name = domUpdates.lowerCase(recipeItem.name)
-      listItem.quantity = recipeItem.quantity.amount
+      listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
       listItem.unit = recipeItem.quantity.unit
       listItem.cost = recipeItem.cost.toFixed(2)
       if (listItem.quantity.toString().length > 3) {
