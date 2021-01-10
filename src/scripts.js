@@ -15,7 +15,7 @@ const filterRecipesButton = document.querySelector(".button-filter")
 const fullRecipeInfo = document.querySelector(".recipe--instructions")
 const myPantryButton = document.querySelector(".button-pantry")
 const savedRecipesButton = document.querySelector(".button-saved")
-const searchButton = document.querySelector(".button-search")
+// const searchButton = document.querySelector(".button-search")
 const searchForm = document.querySelector("#search")
 const searchInput = document.querySelector("#search-input")
 // const pantryInfo = []
@@ -37,8 +37,9 @@ showAllRecipesButton.addEventListener("click", showAllRecipes)
 filterRecipesButton.addEventListener("click", findCheckedBoxes)
 myPantryButton.addEventListener("click", togglePantryDisplay)
 savedRecipesButton.addEventListener("click", showSavedRecipes)
-searchButton.addEventListener("click", searchRecipes)
+// searchButton.addEventListener("click", searchRecipes)
 searchForm.addEventListener("submit", pressEnterSearch)
+searchInput.addEventListener('keyup', searchRecipes)
 
 // FETCH API DATASETS
 function retrieveRecipeData() {
@@ -49,7 +50,7 @@ function retrieveRecipeData() {
         const newRecipe = new Recipe(recipe)
 
         allRecipes.push(newRecipe)
-      })
+      }) 
     })
 }
 
@@ -70,6 +71,7 @@ function retrieveIngredientsData() {
         pantryItem.name = foundItem.name
       })
     })
+    // .then(console.log('dese nutz', allRecipes[0].ingredients))
 }
 
 function generateUser() {
@@ -94,7 +96,6 @@ function createCards() {
     domUpdates.addCardToDom(recipe, recipeName)
     createCardListeners()
   })
-  // console.log(allRecipes);
 }
 
 function createCardListeners() {
@@ -153,10 +154,10 @@ function findUntaggedRecipes(selected) {
     })
   })
 
-  hideUntaggedRecipes(filteredRecipes)
+  hideUnselectedRecipes(filteredRecipes)
 }
 
-function hideUntaggedRecipes(foundRecipes) {
+function hideUnselectedRecipes(foundRecipes) {
   foundRecipes.forEach(recipe => {
     const domRecipe = document.getElementById(`${recipe.id}`)
     domRecipe.classList.add('hidden')
@@ -212,7 +213,7 @@ function generateIngredients(recipe) {
   determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
     return `${i.quantity.amount} ${i.quantity.unit} ${i.name}`
-  }).join("\n");
+  }).join("\n")
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
@@ -251,47 +252,40 @@ function exitRecipe() {
 
 // TOGGLE DISPLAYS
 function showMyRecipesBanner() {
-  document.querySelector(".banner--message").style.display = "none";
-  document.querySelector(".banner--recipes").style.display = "block";
+  document.querySelector(".banner--message").style.display = "none"
+  document.querySelector(".banner--recipes").style.display = "block"
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = "block";
-  document.querySelector(".banner--recipes").style.display = "none";
+  document.querySelector(".banner--message").style.display = "block"
+  document.querySelector(".banner--recipes").style.display = "none"
 }
 
 // SEARCH RECIPES
+
 function pressEnterSearch(event) {
-  event.preventDefault();
-  searchRecipes();
+  event.preventDefault()
+  searchRecipes()
 }
 
 function searchRecipes() {
   unhideRecipeCards();
-  let searchedRecipes = allRecipes.filter(recipe => {
-    return !recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
-  });
+  const searchValue = searchInput.value.toLowerCase()
 
-  hideUntaggedRecipes(searchedRecipes);
-  // filterNonSearched(createRecipeObject(searchedRecipes));
-}
+  const notSearchedNames = allRecipes.filter(recipe => {
+    return !recipe.name.toLowerCase().includes(searchValue)
+  })
 
-// function filterNonSearched(filtered) {
-//   let found = recipeData.filter(recipe => {
-//     let ids = filtered.map(f => f.id);
-//     return !ids.includes(recipe.id)
-//   })
-//   hideUntaggedRecipes(found);
-// }
+  const notSearchedRecipes = notSearchedNames.filter(recipe => {
+    return recipe.ingredients.some(ingredient => !ingredient.name.toLowerCase().includes(searchValue))
+  })
 
-function createRecipeObject(recipesInput) {
-  recipes = recipesInput.map(recipe => new Recipe(recipe));
-  return recipes
+  hideUnselectedRecipes(notSearchedRecipes)
 }
 
 function togglePantryDisplay() {
-  var menuDropdown = document.querySelector(".menu-pantry");
-  menuOpen = !menuOpen;
+  const menuDropdown = document.querySelector(".menu-pantry")
+  menuOpen = !menuOpen
 
   if (menuOpen) {
     menuDropdown.style.display = "block";
@@ -299,9 +293,6 @@ function togglePantryDisplay() {
     menuDropdown.style.display = "none";
   }
 }
-
-// ----------------------
-// ----------------------
 
 function showAllRecipes() {
   allRecipes.forEach(recipe => {
@@ -312,8 +303,6 @@ function showAllRecipes() {
   main.classList.remove('display-favorites')
   showWelcomeBanner()
 }
-// ----------------------
-// ----------------------
 
 // CREATE AND USE PANTRY
 function displayPantryInfo(user) {
