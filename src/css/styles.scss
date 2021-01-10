@@ -320,7 +320,6 @@ main {
 
 
 /* BUTTONS */
-.button-can-make,
 .button-show-all,
 .button-filter {
   background-color: #359567;
@@ -332,20 +331,21 @@ main {
   font-size: 12pt;
   font-weight: bold;
   padding: 5px 10px 5px 10px;
-}
 
-.button-can-make {
-  margin-top: 10px;
+  &:hover {
+    background-color: #84C8A4;
+  }
+
+  &:disabled {
+    background-color: #84C8A4;
+    cursor: default !important;
+  }
 }
 
 .button-show-all {
   height: 40px;
   margin-top: 20px;
   width: 200px;
-}
-
-.button-filter:hover {
-  background-color: #84C8A4;
 }
 
 
