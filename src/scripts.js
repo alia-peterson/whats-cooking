@@ -206,8 +206,8 @@ function openRecipeInfo(event) {
 function generateIngredients(recipe) {
   determineIfEnoughIngredients(recipe)
   return recipe.ingredients.map(i => {
-    let quantity = domUpdates.formatQuantity(i.quantity.amount)
-    let unit = domUpdates.formatUnits(i.quantity.unit)
+    const quantity = domUpdates.formatQuantity(i.quantity.amount)
+    const unit = domUpdates.formatUnits(i.quantity.unit)
 
     return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
   }).join("\n")
@@ -221,7 +221,7 @@ function determineIfEnoughIngredients(selectedRecipe) {
     const listItem = {}
 
     if (userItem) {
-      let quantityNeeded = recipeItem.quantity.amount - userItem.amount
+      const quantityNeeded = recipeItem.quantity.amount - userItem.amount
       if (userItem.amount < recipeItem.quantity.amount) {
         listItem.name = domUpdates.lowerCase(recipeItem.name)
         listItem.quantity = domUpdates.formatQuantity(quantityNeeded)

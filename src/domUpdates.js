@@ -54,16 +54,16 @@ let domUpdates = {
       const itemQuantity = document.createElement('td')
       const itemCostPerUnit = document.createElement('td')
       const itemTotalCost = document.createElement('td')
-      let unit = this.formatUnits(shoppingItem.unit)
-      let totalCost = (shoppingItem.cost * shoppingItem.quantity)/100
+      const unit = this.formatUnits(shoppingItem.unit)
+      const totalCost = (shoppingItem.cost * shoppingItem.quantity)/100
 
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
       itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
       itemTotalCost.innerText = `$${totalCost.toFixed(2)}`
 
-      itemCostPerUnit.classList.add("price")
-      itemTotalCost.classList.add("price")
+      itemCostPerUnit.classList.add('price')
+      itemTotalCost.classList.add('price')
 
       modalShoppingItems.appendChild(listItem)
       listItem.appendChild(itemName)
@@ -88,10 +88,10 @@ let domUpdates = {
   },
 
   formatUnits(unit) {
-    if (unit.toLowerCase().includes("teaspoon")) {
-      unit = "tsp"
-    } else if (unit.toLowerCase().includes("tablespoon")) {
-      unit = "Tbsp"
+    if (unit.toLowerCase().includes('teaspoon')) {
+      unit = 'tsp'
+    } else if (unit.toLowerCase().includes('tablespoon')) {
+      unit = 'Tbsp'
     }
     return unit
   },
