@@ -21,11 +21,11 @@ const fullRecipeInfo = document.querySelector('.recipe--instructions')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
-const modalPantryMessage = document.querySelector('.modal--message')
+const modalDateMessage = document.querySelector('#modal--message-date')
+const modalPantryMessage = document.querySelector('.modal--message-pantry')
 const allRecipes = []
 let menuOpen = false
 let user
-
 
 window.addEventListener("load", function() {
   retrieveRecipeData()
@@ -92,6 +92,26 @@ function generateUser() {
       let firstName = user.name.split(" ")[0]
       domUpdates.addWelcomeMessage(firstName)
     })
+}
+
+function updateUserPantry(ingredientsToUpdate) {
+  ingredientsToUpdate.forEach(item => {
+    const updatedIngredient = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        ingredient: item.id,
+        name: item.name,
+        amount: item.amount
+      }
+    }
+  })
+
+  // fetch('http://localhost:3001/api/v1/users', updatedIngredient)
+  //   .then(response => response.json())
+  //   .then(users.pantry => {
+  //
+  //   })
 }
 
 // CREATE RECIPE CARDS
@@ -209,9 +229,14 @@ function showSavedRecipes() {
 
 // CREATE RECIPE MODAL
 function openRecipeInstructions(event) {
-  const recipeId = event.path.find(e => e.id).id
-  const recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-  domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
+  const recipeId = event.path.find(element => element.id).id
+  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+
+  if (thisRecipe.dateCooked) {
+    displayCookedDate(thisRecipe)
+  }
+
+  domUpdates.generateRecipeInstructions(thisRecipe, generateIngredients(thisRecipe))
   modalOverlay.style.display = 'block'
 }
 
@@ -222,11 +247,27 @@ function exitRecipeInstructions() {
   domUpdates.clearRecipeInstructions()
 }
 
-function cookRecipe() {
+function updateCookedDate(selectedRecipe) {
+  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(selectedRecipe.id))
+
+  const timeElapsed = Date.now()
+  const today = new Date(timeElapsed)
+
+  thisRecipe.dateCooked = today
+}
+
+function displayCookedDate(selectedRecipe) {
+  modalDateMessage.innerText = selectedRecipe.dateCooked.toDateString()
+  modalDateMessage.style.display = 'inline'
+}
+
+function cookRecipe(event) {
+  const recipeId = event.path.find(e => e.id).id
   modalPantryMessage.style.display = 'inline'
   modalPantryMessage.style.opacity = 1
 
-  updateUserPantry()
+  // updateCookedDate(selectedRecipe)
+  // updateUserPantry()
 
   setTimeout(function() {
     modalPantryMessage.style.opacity = 0

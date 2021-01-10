@@ -403,7 +403,7 @@ main {
   justify-content: flex-end;
 }
 
-.modal--message {
+.modal--message-pantry {
   display: none;
   margin-top: 0;
   transition: 1s opacity;
@@ -448,6 +448,10 @@ main {
 
   ol {
     margin-right: 2%;
+  }
+
+  #modal--message-date {
+    display: none;
   }
 }
 
