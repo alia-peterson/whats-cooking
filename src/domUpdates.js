@@ -6,7 +6,7 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
-const modalShoppingMessage = document.querySelector('#modal--shopping-message')
+const modalShoppingMessageYes = document.querySelector('#modal--shopping-message-yes')
 const modalShoppingList = document.querySelector('.modal--shopping-list')
 const modalShoppingItems = document.querySelector('.modal--shopping-items')
 const modalTotalCost = document.querySelector('.modal--total-cost')
@@ -46,7 +46,7 @@ let domUpdates = {
   },
 
   displayShoppingList(shoppingList) {
-    modalShoppingMessage.innerText = `You don't have enough ingredients in your pantry to make this recipe! Here's what you need:`
+    modalShoppingMessageYes.style.display = 'none'
     modalShoppingList.style.display = 'block'
     shoppingList.forEach(shoppingItem => {
       const listItem = document.createElement('tr')
@@ -72,7 +72,10 @@ let domUpdates = {
       return totalCost
     }, 0)
 
-    modalTotalCost.innerText = `Total List Cost: $${totalListCost.toFixed(2)}`
+    modalTotalCost.innerHTML = `
+      <tr>
+        <td colspan="4" class="total">Total List Cost: $${totalListCost.toFixed(2)}</td>
+      <tr>`
   },
 
   clearShoppingList() {

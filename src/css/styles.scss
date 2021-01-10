@@ -426,6 +426,51 @@ main {
   text-shadow: 0px 0px 6px black;
 }
 
+#overlay {
+  filter: alpha(opacity=50);
+  background-color: #5B7894;
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+#modal--shopping-message-yes,
+#modal--shopping-message-no {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#modal--shopping-message-yes {
+  display: block;
+}
+
+.modal--shopping-list {
+  display: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 70%;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 0.25rem;
+  text-align: left;
+}
+
+tfoot {
+  font-weight: bold;
+}
+
+.total {
+  text-align: right;
+}
+
 .recipe--instructions h4 {
   background: white;
   color: #359567;
@@ -437,39 +482,4 @@ main {
 
 .recipe--instructions ol {
   margin-right: 2%;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-td, th {
-  border: 1px solid #999;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-.modal--total-cost {
-  font-weight: bold;
-}
-
-#modal--shopping-message {
-  font-weight: bold;
-  font-style: italic;
-}
-
-.modal--shopping-list {
-  display: none;
-}
-
-#overlay {
-  filter: alpha(opacity=50);
-  background-color: #5B7894;
-  height: 100%;
-  left: 0;
-  opacity: 0.5;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
 }
