@@ -431,12 +431,31 @@ main {
   color: #359567;
 }
 
-.recipe--instructions p {
-  margin-left: 5%;
+.recipe--instructions p table {
+  margin-left: 2%;
 }
 
 .recipe--instructions ol {
   margin-right: 2%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+#modal--shopping-message {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.modal--shopping-list {
+  display: none;
 }
 
 #overlay {

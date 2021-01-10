@@ -6,7 +6,10 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
-const makeRecipeMessage = document.querySelector('#modal--can-make')
+const modalShoppingMessage = document.querySelector('#modal--shopping-message')
+const modalShoppingList = document.querySelector('.modal--shopping-list')
+const modalShoppingItems = document.querySelector('.modal--shopping-items')
+const modalTotalCost = document.querySelector('.modal--total-cost')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -42,9 +45,40 @@ let domUpdates = {
     })
   },
 
-  displayShoppingList(ingredientsNeeded) {
-    makeRecipeMessage.innerText = `You do not have enough ingredients in your pantry to make this recipe.`
-    // shopping list functionality shows up here... add button so you can click to expand?
+  displayShoppingList(shoppingList) {
+    // console.log(shoppingList)
+    modalShoppingMessage.innerText = `You don't have enough ingredients in your pantry to make this recipe! Here's what you need:`
+    modalShoppingList.style.display = 'block'
+    shoppingList.forEach(shoppingItem => {
+      const listItem = document.createElement('tr')
+      const itemName = document.createElement('td')
+      const itemQuantity = document.createElement('td')
+      const itemCostPerUnit = document.createElement('td')
+      const itemTotalCost = document.createElement('td')
+
+      itemName.innerText = shoppingItem.name
+      itemQuantity.innerText = `${shoppingItem.quantity} ${shoppingItem.unit}`
+      itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
+      itemTotalCost.innerText = `$${(shoppingItem.cost * shoppingItem.quantity)/100}`
+
+      modalShoppingItems.appendChild(listItem)
+      listItem.appendChild(itemName)
+      listItem.appendChild(itemQuantity)
+      listItem.appendChild(itemCostPerUnit)
+      listItem.appendChild(itemTotalCost)
+    })
+
+    const totalListCost = shoppingList.reduce((totalCost, item) => {
+      item.cost + totalCost
+      return totalCost/100
+    }, 0)
+
+    modalTotalCost.innerText = `Total List Cost: $${totalListCost}`
+
+  },
+
+  clearShoppingList() {
+    modalShoppingItems.querySelectorAll('tr').forEach(tr => tr.remove())
   },
 
   generateRecipeInstructions(recipe, ingredients) {

@@ -94,7 +94,6 @@ function createCards() {
     domUpdates.addCardToDom(recipe, recipeName)
     createCardListeners()
   })
-  console.log(allRecipes);
 }
 
 function createCardListeners() {
@@ -212,22 +211,25 @@ function generateIngredients(recipe) {
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
+  // console.log(user.pantry)
   const shoppingList = []
-  const listItem = {}
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = user.pantry.find(item => item.ingredient === recipeItem.id)
+    const listItem = {}
 
     if (userItem) {
       if (userItem.amount < recipeItem.quantity.amount) {
         listItem.name = recipeItem.name
         listItem.quantity = recipeItem.quantity.amount - userItem.amount
+        listItem.unit = recipeItem.quantity.unit
         listItem.cost = recipeItem.cost
         shoppingList.push(listItem)
       }
     } else if (!userItem) {
       listItem.name = recipeItem.name
       listItem.quantity = recipeItem.quantity.amount
+      listItem.unit = recipeItem.quantity.unit
       listItem.cost = recipeItem.cost
       shoppingList.push(listItem)
     }
@@ -241,6 +243,7 @@ function determineIfEnoughIngredients(selectedRecipe) {
 function exitRecipe() {
   fullRecipeInfo.style.display = "none"
   domUpdates.clearRecipeInstructions()
+  domUpdates.clearShoppingList()
   // still need to incorporate overlay into background so that other
   // cards can not be selected while the modal is open
 }
