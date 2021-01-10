@@ -379,23 +379,6 @@ main {
 
 
 /* RECIPE INSTRUCTIONS */
-.recipe--instructions {
-  background: white;
-  border: 3px solid #C4EB67;
-  border-radius: 10px;
-  box-shadow: 1px 1px 115px black;
-  display: none;
-  height: 70%;
-  margin: 0;
-  overflow-x: scroll;
-  padding: 1% 1% 1% 1%;
-  position: fixed;
-  right: 15%;
-  top: 15%;
-  width: 70%;
-  z-index: 1000;
-}
-
 .button-exit {
   background: white;
   border: 2px double #359567;
@@ -414,6 +397,12 @@ main {
   }
 }
 
+.modal--bottom {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .modal--title {
   background-repeat: no-repeat;
   background-size: cover;
@@ -427,6 +416,21 @@ main {
 }
 
 .recipe--instructions {
+  background: white;
+  border: 3px solid #C4EB67;
+  border-radius: 10px;
+  box-shadow: 1px 1px 115px black;
+  display: none;
+  height: 70%;
+  margin: 0;
+  overflow-x: scroll;
+  padding: 1% 1% 1% 1%;
+  position: fixed;
+  right: 15%;
+  top: 15%;
+  width: 70%;
+  z-index: 1000;
+
   h4 {
     background: white;
     color: #359567;
@@ -441,8 +445,9 @@ main {
   }
 }
 
-#overlay {
+.overlay {
   filter: alpha(opacity=50);
+  display: none;
   background-color: #5B7894;
   height: 100%;
   left: 0;

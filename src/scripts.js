@@ -9,15 +9,17 @@ import './css/styles.scss';
 import User from './user';
 import Recipe from './recipe';
 
-const main = document.querySelector(".container")
-const showAllRecipesButton = document.querySelector(".button-show-all")
-const filterRecipesButton = document.querySelector(".button-filter")
-const fullRecipeInfo = document.querySelector(".recipe--instructions")
-const myPantryButton = document.querySelector(".button-pantry")
-const savedRecipesButton = document.querySelector(".button-saved")
-const searchButton = document.querySelector(".button-search")
-const searchForm = document.querySelector("#search")
-const searchInput = document.querySelector("#search-input")
+const main = document.querySelector('.container')
+const showAllRecipesButton = document.querySelector('.button-show-all')
+const filterRecipesButton = document.querySelector('.button-filter')
+const fullRecipeInfo = document.querySelector('.recipe--instructions')
+const myPantryButton = document.querySelector('.button-pantry')
+const savedRecipesButton = document.querySelector('.button-saved')
+const searchButton = document.querySelector('.button-search')
+const searchForm = document.querySelector('#search')
+const searchInput = document.querySelector('#search-input')
+const modalOverlay = document.querySelector('.overlay')
+const exitButton = document.querySelector('.button-exit')
 // const pantryInfo = []
 const allRecipes = []
 let menuOpen = false
@@ -39,6 +41,7 @@ myPantryButton.addEventListener("click", togglePantryDisplay)
 savedRecipesButton.addEventListener("click", showSavedRecipes)
 searchButton.addEventListener("click", searchRecipes)
 searchForm.addEventListener("submit", pressEnterSearch)
+exitButton.addEventListener('click', exitRecipeInstructions)
 
 // FETCH API DATASETS
 function retrieveRecipeData() {
@@ -59,6 +62,7 @@ function retrieveIngredientsData() {
     .then(data => {
       addRecipeInformation(data)
       addPantryInformation(data)
+
     })
 }
 
@@ -179,7 +183,7 @@ function interactWithRecipeCard(event) {
     removeFromFavorites(cardId, recipeCard, cardClass)
 
   } else {
-    openRecipeInfo(event)
+    openRecipeInstructions(event)
   }
 }
 
@@ -203,12 +207,18 @@ function showSavedRecipes() {
 }
 
 // CREATE RECIPE MODAL
-function openRecipeInfo(event) {
-  let recipeId = event.path.find(e => e.id).id
-  let recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+function openRecipeInstructions(event) {
+  const recipeId = event.path.find(e => e.id).id
+  const recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
-  const exitButton = document.querySelector('.button-exit')
-  exitButton.addEventListener('click', exitRecipe)
+  modalOverlay.style.display = 'block'
+}
+
+function exitRecipeInstructions() {
+  fullRecipeInfo.style.display = 'none'
+  modalOverlay.style.display = 'none'
+  
+  domUpdates.clearRecipeInstructions()
 }
 
 function generateIngredients(recipe) {
@@ -243,13 +253,6 @@ function determineIfEnoughIngredients(selectedRecipe) {
   if (shoppingList.length > 0) {
     domUpdates.displayShoppingList(shoppingList)
   }
-}
-
-function exitRecipe() {
-  fullRecipeInfo.style.display = "none"
-  domUpdates.clearRecipeInstructions()
-  // still need to incorporate overlay into background so that other
-  // cards can not be selected while the modal is open
 }
 
 // TOGGLE DISPLAYS
@@ -322,7 +325,7 @@ function displayPantryInfo(user) {
     }
   })
 
-  domUpdates.addPantryInfo(user.pantry)
+  domUpdates.addPantryInfoToDom(user.pantry)
 }
 
 function findCheckedPantryBoxes() {

@@ -65,7 +65,7 @@ let domUpdates = {
     instructionsCard.querySelectorAll('li').forEach(li => li.remove())
   },
 
-  addPantryInfo(pantry) {
+  addPantryInfoToDom(pantry) {
     pantry.forEach(item => {
       const listItem = document.createElement('tr')
       const itemName = document.createElement('td')
