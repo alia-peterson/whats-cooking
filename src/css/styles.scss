@@ -260,6 +260,10 @@ main {
   display: none !important;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .recipe--card:hover .recipe--photo {
   opacity: 50%;
   transition: .8s ease;

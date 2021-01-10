@@ -94,7 +94,7 @@ function createCards() {
     domUpdates.addCardToDom(recipe, recipeName)
     createCardListeners()
   })
-  console.log(allRecipes);
+  // console.log(allRecipes);
 }
 
 function createCardListeners() {
@@ -106,64 +106,61 @@ function createCardListeners() {
 
 // FILTER BY RECIPE TAGS
 function findTags() {
-  let tags = [];
-  recipeData.forEach(recipe => {
+  const tags = []
+
+  allRecipes.forEach(recipe => {
     recipe.tags.forEach(tag => {
       if (!tags.includes(tag)) {
-        tags.push(tag);
+        tags.push(tag)
       }
-    });
-  });
-  tags.sort();
-  domUpdates.addListTags(tags);
+    })
+  })
+ 
+  tags.sort()
+  domUpdates.addListTags(tags)
 }
 
 function findCheckedBoxes() {
-  let tagCheckboxes = document.querySelectorAll(".checked-tag");
-  let checkboxInfo = Array.from(tagCheckboxes)
-  let selectedTags = checkboxInfo.filter(box => {
-    return box.checked;
+  const tagCheckBoxes = document.querySelectorAll('.checked-tag')
+  const checkBoxInfo = Array.from(tagCheckBoxes)
+
+  const selectedTags = checkBoxInfo.filter(box => {
+    return box.checked
   })
-  findTaggedRecipes(selectedTags);
+
+  unhideRecipeCards()
+  findUntaggedRecipes(selectedTags)
 }
 
-function findTaggedRecipes(selected) {
-  let filteredResults = [];
+function unhideRecipeCards() {
+  const allCards = document.querySelectorAll('.recipe--card')
+
+  allCards.forEach(card => card.classList.remove('hidden'))
+}
+
+function findUntaggedRecipes(selected) {
+  const filteredRecipes = []
+
   selected.forEach(tag => {
-    let recipes = allRecipes.filter(recipe => {
-      return recipe.tags.includes(tag.id);
-    });
+    const recipes = allRecipes.filter(recipe => {
+      return !recipe.tags.includes(tag.id)
+    })
+
     recipes.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
+      if (!filteredRecipes.includes(recipe)) {
+        filteredRecipes.push(recipe)
       }
     })
-  });
+  })
 
-  if (main.classList.value === 'display-favorites') {
-    showAllRecipes();
-    showSavedRecipes();
-  } else {  
-    showAllRecipes();
-  }
-
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
-  }
+  hideUntaggedRecipes(filteredRecipes)
 }
 
-function filterRecipes(filtered) {
-  let foundRecipes = allRecipes.filter(recipe => {
-    return !filtered.includes(recipe);
-  });
-  hideUnselectedRecipes(foundRecipes)
-}
-
-function hideUnselectedRecipes(foundRecipes) {
+function hideUntaggedRecipes(foundRecipes) {
   foundRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
+    const domRecipe = document.getElementById(`${recipe.id}`)
+    domRecipe.classList.add('hidden')
+  })
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
@@ -304,10 +301,10 @@ function togglePantryDisplay() {
 function showAllRecipes() {
   allRecipes.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`)
-    domRecipe.style.display = "block"
+    domRecipe.style.display = 'block'
   })
 
-  main.classList.remove("display-favorites")
+  main.classList.remove('display-favorites')
   showWelcomeBanner()
 }
 
