@@ -54,9 +54,17 @@ let domUpdates = {
       const itemQuantity = document.createElement('td')
       const itemCostPerUnit = document.createElement('td')
       const itemTotalCost = document.createElement('td')
+      let unit = shoppingItem.unit
+
+      if (unit === "teaspoons" || unit === "teaspoon") {
+        unit = "tsp"
+      }
+      if (unit === "Tablespoons" || unit === "tablespoons" || unit === "tablespoon") {
+        unit = "Tbsp"
+      }
 
       itemName.innerText = shoppingItem.name
-      itemQuantity.innerText = `${shoppingItem.quantity} ${shoppingItem.unit}`
+      itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
       itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
       itemTotalCost.innerText = `$${((shoppingItem.cost * shoppingItem.quantity)/100).toFixed(2)}`
 
@@ -74,7 +82,7 @@ let domUpdates = {
 
     modalTotalCost.innerHTML = `
       <tr>
-        <td colspan="4" class="total">Total List Cost: $${totalListCost.toFixed(2)}</td>
+        <td colspan="4" class="total">Total Cost: $${totalListCost.toFixed(2)}</td>
       <tr>`
   },
 
