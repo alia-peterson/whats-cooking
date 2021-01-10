@@ -26,11 +26,11 @@ let user
 
 window.addEventListener("load", function() {
   retrieveRecipeData()
-  .then(generateUser)
-  .then(retrieveIngredientsData)
-  .then(() => displayPantryInfo(user))
-  .then(createCards)
-  .then(findTags)
+    .then(generateUser)
+    .then(retrieveIngredientsData)
+    .then(() => displayPantryInfo(user))
+    .then(createCards)
+    .then(findTags)
 })
 
 showAllRecipesButton.addEventListener("click", showAllRecipes)
@@ -57,19 +57,26 @@ function retrieveIngredientsData() {
   return fetch('http://localhost:3001/api/v1/ingredients')
     .then(response => response.json())
     .then(data => {
-      allRecipes.forEach(recipe => {
-        recipe.ingredients.forEach(ingredient => {
-          const foundItem = data.find(item => item.id === ingredient.id)
-          ingredient.name = foundItem.name
-          ingredient.cost = foundItem.estimatedCostInCents
-        })
-      })
-
-      user.pantry.forEach(pantryItem => {
-        const foundItem = data.find(item => item.id === pantryItem.ingredient)
-        pantryItem.name = foundItem.name
-      })
+      addRecipeInformation(data)
+      addPantryInformation(data)
     })
+}
+
+function addRecipeInformation(data) {
+  allRecipes.forEach(recipe => {
+    recipe.ingredients.forEach(ingredient => {
+      const foundItem = data.find(item => item.id === ingredient.id)
+      ingredient.name = foundItem.name
+      ingredient.cost = foundItem.estimatedCostInCents
+    })
+  })
+}
+
+function addPantryInformation(data) {
+  user.pantry.forEach(pantryItem => {
+    const foundItem = data.find(item => item.id === pantryItem.ingredient)
+    pantryItem.name = foundItem.name
+  })
 }
 
 function generateUser() {
@@ -200,7 +207,7 @@ function openRecipeInfo(event) {
   let recipeId = event.path.find(e => e.id).id
   let recipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   domUpdates.generateRecipeInstructions(recipe, generateIngredients(recipe))
-  const exitButton = document.querySelector('#button-exit')
+  const exitButton = document.querySelector('.button-exit')
   exitButton.addEventListener('click', exitRecipe)
 }
 
