@@ -452,18 +452,23 @@ main {
   display: none;
 }
 
-table {
+.modal--shopping-table {
   border-collapse: collapse;
-  width: 70%;
+  width: 60%;
 }
 
-td, th {
-  border: 1px solid #ccc;
+.modal--shopping-table td {
+  padding: 0.25rem;
+}
+
+.modal--shopping-table th {
+  color: #359567;
+  background-color: #C4EB67;
   padding: 0.25rem;
   text-align: left;
 }
 
-tfoot {
+.modal--shopping-table tfoot {
   font-weight: bold;
 }
 
