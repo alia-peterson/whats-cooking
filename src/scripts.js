@@ -62,7 +62,6 @@ function retrieveIngredientsData() {
     .then(data => {
       addRecipeInformation(data)
       addPantryInformation(data)
-
     })
 }
 
@@ -84,7 +83,7 @@ function addPantryInformation(data) {
 }
 
 function generateUser() {
-  fetch('http://localhost:3001/api/v1/users')
+  return fetch('http://localhost:3001/api/v1/users')
     .then(response => response.json())
     .then(users => {
       user = new User(users[Math.floor(Math.random() * users.length)])
@@ -217,7 +216,7 @@ function openRecipeInstructions(event) {
 function exitRecipeInstructions() {
   fullRecipeInfo.style.display = 'none'
   modalOverlay.style.display = 'none'
-  
+
   domUpdates.clearRecipeInstructions()
 }
 
