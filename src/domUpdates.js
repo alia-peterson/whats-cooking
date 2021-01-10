@@ -55,7 +55,7 @@ let domUpdates = {
       const itemCostPerUnit = document.createElement('td')
       const itemTotalCost = document.createElement('td')
       const unit = this.formatUnits(shoppingItem.unit)
-      const totalCost = (shoppingItem.cost * shoppingItem.quantity)/100
+      const totalCost = (shoppingItem.cost * shoppingItem.quantity) / 100
 
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
