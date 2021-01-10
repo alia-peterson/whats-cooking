@@ -6,7 +6,10 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
-const makeRecipeMessage = document.querySelector('#modal--can-make')
+const modalShoppingMessageYes = document.querySelector('#modal--shopping-message-yes')
+const modalShoppingList = document.querySelector('.modal--shopping-list')
+const modalShoppingItems = document.querySelector('.modal--shopping-items')
+const modalTotalCost = document.querySelector('.modal--total-cost')
 
 let domUpdates = {
   addWelcomeMessage(firstName) {
@@ -42,9 +45,66 @@ let domUpdates = {
     })
   },
 
-  displayShoppingList(ingredientsNeeded) {
-    makeRecipeMessage.innerText = `You do not have enough ingredients in your pantry to make this recipe.`
-    // shopping list functionality shows up here... add button so you can click to expand?
+  displayShoppingList(shoppingList) {
+    modalShoppingMessageYes.style.display = 'none'
+    modalShoppingList.style.display = 'block'
+    shoppingList.forEach(shoppingItem => {
+      const listItem = document.createElement('tr')
+      const itemName = document.createElement('td')
+      const itemQuantity = document.createElement('td')
+      const itemCostPerUnit = document.createElement('td')
+      const itemTotalCost = document.createElement('td')
+      const unit = this.formatUnits(shoppingItem.unit)
+      const totalCost = (shoppingItem.cost * shoppingItem.quantity)/100
+
+      itemName.innerText = shoppingItem.name
+      itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
+      itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
+      itemTotalCost.innerText = `$${totalCost.toFixed(2)}`
+
+      itemCostPerUnit.classList.add('price')
+      itemTotalCost.classList.add('price')
+
+      modalShoppingItems.appendChild(listItem)
+      listItem.appendChild(itemName)
+      listItem.appendChild(itemQuantity)
+      listItem.appendChild(itemCostPerUnit)
+      listItem.appendChild(itemTotalCost)
+    })
+
+    this.displayTotalCost(shoppingList)
+  },
+
+  displayTotalCost(shoppingList) {
+    const totalListCost = shoppingList.reduce((totalCost, item) => {
+      totalCost += (item.cost * item.quantity) / 100
+      return totalCost
+    }, 0)
+
+    modalTotalCost.innerHTML = `
+        <tr>
+          <td colspan="4" class="price">Total Cost: $${totalListCost.toFixed(2)}</td>
+        <tr>`
+  },
+
+  formatUnits(unit) {
+    if (unit.toLowerCase().includes('teaspoon')) {
+      unit = 'tsp'
+    } else if (unit.toLowerCase().includes('tablespoon')) {
+      unit = 'Tbsp'
+    }
+    return unit
+  },
+
+  formatQuantity(quantity) {
+    if (quantity.toString().length > 3) {
+      quantity = quantity.toFixed(2)
+    }
+    return quantity
+  },
+
+  clearShoppingList() {
+    modalShoppingItems.querySelectorAll('tr').forEach(tr => tr.remove())
   },
 
   generateRecipeInstructions(recipe, ingredients) {
@@ -91,6 +151,12 @@ let domUpdates = {
   capitalize(words) {
     return words.split(" ").map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(" ");
+  },
+
+  lowerCase(words) {
+    return words.split(" ").map(word => {
+      return word.charAt(0).toLowerCase() + word.slice(1);
     }).join(" ");
   }
 }
