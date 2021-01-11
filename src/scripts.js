@@ -375,7 +375,7 @@ function searchRecipes() {
   })
 
   const notSearchedRecipes = notSearchedNames.filter(recipe => {
-    return recipe.ingredients.some(ingredient => !ingredient.name.toLowerCase().includes(searchValue))
+    return recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(searchValue))
   })
 
   hideUnselectedRecipes(notSearchedRecipes)
