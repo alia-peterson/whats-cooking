@@ -24,7 +24,7 @@ h1 {
 }
 
 h2 {
-  color: #84C8A4;
+  color: #359567;
   margin: 10px 0px 10px 0px;
 }
 
@@ -108,7 +108,11 @@ span {
   }
 }
 
-.button-search {
+.search-label {
+  display: none;
+}
+
+.search-icon {
   border-left: 3px outset #C4EB67;
   border-radius: 0px 15px 15px 0px;
   padding: 1%;
@@ -224,7 +228,7 @@ main {
   border: 2px solid #C4EB67;
   border-radius: 7px;
   cursor: pointer;
-  height: 270px;
+  height: 300px;
   margin: 20px;
   padding: 15px;
   width: 250px;
@@ -241,9 +245,10 @@ main {
 
   span {
     margin: 0px 2px 2px 0px;
-    color: #359567;
-    background-color: #C4EB67;
+    color: #000;
+    background-color: #fff;
     border-radius: 3px;
+    border: 1px solid #359567;
     padding: 1px 4px 1px 4px;
     font-weight: bold;
   }
@@ -288,7 +293,7 @@ main {
   background: #359567;
   color: white;
   font-weight: 700;
-  font-size: 0px;
+  // font-size: 0px;
   opacity: 0%;
   padding: 0%;
   position: absolute;
@@ -326,7 +331,7 @@ main {
   color: white;
   cursor: pointer;
   font-family: "Quicksand", sans-serif;
-  font-size: 12pt;
+  font-size: 14pt;
   font-weight: bold;
   padding: 5px 10px 5px 10px;
 
