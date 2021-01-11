@@ -28,14 +28,6 @@ const allRecipes = []
 let menuOpen = false
 let currentUser
 
-window.addEventListener("load", function() {
-    // .then(generateUser)
-    // .then(retrieveIngredientsData)
-    // .then(() => displayPantryInfo(currentUser))
-    // .then(createRecipeCards)
-    // .then(findTags)
-})
-
 searchForm.addEventListener("submit", pressEnterSearch)
 searchInput.addEventListener('keyup', searchRecipes)
 showAllRecipesButton.addEventListener("click", showAllRecipes)
@@ -54,13 +46,15 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
   .then(values => {
     generateUser(values[0])
     createRecipeDataset(values[1])
-    addRecipeInformation(values[2])
-    addPantryInformation(values[2])
+    addRecipeNameAndCost(values[2])
+    addPantryIngredientNames(values[2])
     loadWebsite()
   })
 
 function loadWebsite() {
   createRecipeCards()
+  displayPantryInfo(currentUser)
+  findTags()
 }
 
 function generateUser(userData) {
@@ -76,7 +70,7 @@ function createRecipeDataset(recipeInfo) {
   })
 }
 
-function addRecipeInformation(allIngredients) {
+function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.ingredients.forEach(ingredient => {
       const foundItem = allIngredients.find(item => item.id === ingredient.id)
@@ -86,45 +80,48 @@ function addRecipeInformation(allIngredients) {
   })
 }
 
-function addPantryInformation(allIngredients) {
+function addPantryIngredientNames(allIngredients) {
   currentUser.pantry.forEach(pantryItem => {
     const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
     pantryItem.name = foundItem.name
   })
 }
 
-function updateUserPantry(recipeId) {
+function updateUserPantryFromRecipe(recipeId) {
+  let promise
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-  completedPosts = thisRecipe.ingredients.forEach(item => {
+  thisRecipe.ingredients.forEach(item => {
     const updatedPantryItem = {
       userID: currentUser.id,
       ingredientID: item.id,
       ingredientModification: item.quantity.amount
     }
 
-    const postFormat = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(updatedPantryItem)
-    }
-
-    return fetch('http://localhost:3001/api/v1/users', postFormat)
-      .then(response => response.json())
-      .then(retrieveUserPantry)
-      .catch(error => console.log(error))
-      // .catch(error => window.alert(`You do not have enough ${item.json()} for this recipe.`))
+    promise = fetchApi.postUserInformation(updatedPantryItem)
   })
-  displayPantryInfo(currentUser)
+  return promise
 }
 
-function retrieveUserPantry() {
-  fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .then(users => {
+function retrieveUpdatedUserPantry() {
+  const userPromise = fetchApi.getUserData()
+    userPromise.then(users => {
       const updatedUser = users.find(user => user.id === currentUser.id)
       currentUser.pantry = updatedUser.pantry
-      retrieveIngredientsData()
     })
+
+  return userPromise
+}
+
+async function updateUserPantryDisplay(recipeId) {
+  const promiseFromPosts = await updateUserPantryFromRecipe(recipeId)
+  const updatedUserPantry = await retrieveUpdatedUserPantry()
+  const updatedPantryNames = await fetchedIngredientData.then(array => {
+    addPantryIngredientNames(array)
+  })
+
+  displayPantryInfo(currentUser)
+
+  console.log(currentUser);
 }
 
 // CREATE RECIPE CARDS
@@ -277,7 +274,7 @@ function cookRecipe(event) {
   modalPantryMessage.style.opacity = 1
 
   updateCookedDate(event.target.getAttribute('recipeid'))
-  updateUserPantry(event.target.getAttribute('recipeid'))
+  updateUserPantryDisplay(event.target.getAttribute('recipeid'))
 
   setTimeout(function() {
     modalPantryMessage.style.opacity = 0
@@ -349,13 +346,13 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
 // TOGGLE DISPLAYS
 function showMyRecipesBanner() {
-  document.querySelector(".banner--message").style.display = "none";
-  document.querySelector(".banner--recipes").style.display = "flex";
+  document.querySelector(".banner--message").style.display = 'none'
+  document.querySelector(".banner--recipes").style.display = 'flex'
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = "block"
-  document.querySelector(".banner--recipes").style.display = "none"
+  document.querySelector(".banner--message").style.display = 'block'
+  document.querySelector(".banner--recipes").style.display = 'none'
 }
 
 // SEARCH RECIPES
@@ -381,13 +378,13 @@ function searchRecipes() {
 }
 
 function togglePantryDisplay() {
-  const menuDropdown = document.querySelector(".menu-pantry")
+  const menuDropdown = document.querySelector('.menu-pantry')
   menuOpen = !menuOpen
 
   if (menuOpen) {
-    menuDropdown.style.display = "block";
+    menuDropdown.style.display = 'block'
   } else {
-    menuDropdown.style.display = "none";
+    menuDropdown.style.display = 'none'
   }
 }
 
