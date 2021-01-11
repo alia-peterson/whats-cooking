@@ -87,14 +87,21 @@ function addPantryIngredientNames(allIngredients) {
   })
 }
 
-function updateUserPantryFromRecipe(recipeId) {
+function updateUserPantryFromRecipe(recipeId, typeModification) {
   let promise
+
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   thisRecipe.ingredients.forEach(item => {
+    let ingredientModificationValue = item.quantity.amount
+
+    if (typeModification === 'subtract') {
+      ingredientModificationValue = -item.quantity.amount
+    }
+
     const updatedPantryItem = {
       userID: currentUser.id,
       ingredientID: item.id,
-      ingredientModification: item.quantity.amount
+      ingredientModification: ingredientModificationValue
     }
 
     promise = fetchApi.postUserInformation(updatedPantryItem)
@@ -112,8 +119,8 @@ function retrieveUpdatedUserPantry() {
   return userPromise
 }
 
-async function updateUserPantryDisplay(recipeId) {
-  const promiseFromPosts = await updateUserPantryFromRecipe(recipeId)
+async function updateUserPantryDisplay(recipeId, typeModification) {
+  const promiseFromPosts = await updateUserPantryFromRecipe(recipeId, typeModification)
   const updatedUserPantry = await retrieveUpdatedUserPantry()
   const updatedPantryNames = await fetchedIngredientData.then(array => {
     addPantryIngredientNames(array)
@@ -274,7 +281,7 @@ function cookRecipe(event) {
   modalPantryMessage.style.opacity = 1
 
   updateCookedDate(event.target.getAttribute('recipeid'))
-  updateUserPantryDisplay(event.target.getAttribute('recipeid'))
+  updateUserPantryDisplay(event.target.getAttribute('recipeid'), 'subtract')
 
   setTimeout(function() {
     modalPantryMessage.style.opacity = 0
