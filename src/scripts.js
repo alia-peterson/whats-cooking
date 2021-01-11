@@ -22,8 +22,8 @@ const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
 const modalDateMessage = document.querySelector('#modal--message-date')
-const modalShoppingMessage = document.querySelector('.modal--message-shopping')
-const modalCookedMessage = document.querySelector('.modal--message-cooked')
+const modalShoppingMessage = document.querySelector('#modal--message-shopping')
+const modalCookedMessage = document.querySelector('#modal--message-cooked')
 const allRecipes = []
 let menuOpen = false
 let currentUser
@@ -246,7 +246,7 @@ function showSavedRecipes() {
   showMyRecipesBanner()
 }
 
-// CREATE RECIPE MODAL
+// RECIPE MODAL
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
@@ -257,9 +257,20 @@ function openRecipeInstructions(event) {
     displayCookedDate(thisRecipe)
   }
 
-  domUpdates.generateRecipeInstructions(thisRecipe, generateIngredients(thisRecipe))
+  domUpdates.generateRecipeInstructions(thisRecipe)
+  domUpdates.generateRecipeIngredients(thisRecipe)
   modalOverlay.style.display = 'block'
 }
+
+// function generateIngredients(recipe) {
+//   determineIfEnoughIngredients(recipe)
+//   return recipe.ingredients.map(i => {
+//     const quantity = domUpdates.formatQuantity(i.quantity.amount)
+//     const unit = domUpdates.formatUnits(i.quantity.unit)
+//
+//     return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
+//   }).join("\n")
+// }
 
 function exitRecipeInstructions() {
   fullRecipeInfo.style.display = 'none'
@@ -316,16 +327,6 @@ function updateCookedDate(recipeId) {
 
   thisRecipe.dateCooked = today
   displayCookedDate(thisRecipe)
-}
-
-function generateIngredients(recipe) {
-  determineIfEnoughIngredients(recipe)
-  return recipe.ingredients.map(i => {
-    const quantity = domUpdates.formatQuantity(i.quantity.amount)
-    const unit = domUpdates.formatUnits(i.quantity.unit)
-
-    return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
-  }).join("\n")
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
