@@ -29,7 +29,6 @@ let menuOpen = false
 let currentUser
 
 window.addEventListener("load", function() {
-  // fetchApi.getRecipeData()
     // .then(generateUser)
     // .then(retrieveIngredientsData)
     // .then(() => displayPantryInfo(currentUser))
@@ -47,13 +46,25 @@ exitButton.addEventListener('click', exitRecipeInstructions)
 cookRecipeButton.addEventListener('click', cookRecipe)
 
 // FETCH API DATASETS
+const fetchedUserData = fetchApi.getUserData()
 const fetchedRecipeData = fetchApi.getRecipeData()
 
-Promise.all([fetchedRecipeData])
+Promise.all([fetchedUserData, fetchedRecipeData])
   .then(values => {
-    createRecipeDataset(values[0])
+    generateUser(values[0])
+    createRecipeDataset(values[1])
     loadWebsite()
   })
+
+function loadWebsite() {
+  createRecipeCards()
+}
+
+function generateUser(userData) {
+  currentUser = new User(userData[Math.floor(Math.random() * userData.length)])
+  let firstName = currentUser.name.split(" ")[0]
+  domUpdates.addWelcomeMessage(firstName)
+}
 
 function createRecipeDataset(recipeInfo) {
   recipeInfo.forEach(recipe => {
@@ -61,23 +72,6 @@ function createRecipeDataset(recipeInfo) {
     allRecipes.push(newRecipe)
   })
 }
-
-function loadWebsite() {
-  generateUser()
-  createRecipeCards()
-}
-
-// function retrieveRecipeData() {
-//   return fetch('http://localhost:3001/api/v1/recipes')
-//     .then(response => response.json())
-//     .then(recipes => {
-//       recipes.forEach(recipe => {
-//         const newRecipe = new Recipe(recipe)
-//
-//         allRecipes.push(newRecipe)
-//       })
-//     })
-// }
 
 function retrieveIngredientsData() {
   return fetch('http://localhost:3001/api/v1/ingredients')
@@ -103,16 +97,6 @@ function addPantryInformation(data) {
     const foundItem = data.find(item => item.id === pantryItem.ingredient)
     pantryItem.name = foundItem.name
   })
-}
-
-function generateUser() {
-  return fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .then(users => {
-      currentUser = new User(users[Math.floor(Math.random() * users.length)])
-      let firstName = currentUser.name.split(" ")[0]
-      domUpdates.addWelcomeMessage(firstName)
-    })
 }
 
 function updateUserPantry(recipeId) {
