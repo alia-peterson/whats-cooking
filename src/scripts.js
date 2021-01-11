@@ -3,12 +3,10 @@ import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 
-import './css/base.scss';
-import './css/styles.scss';
+import './css/index.scss';
 
 import User from './user';
 import Recipe from './recipe';
-
 
 const main = document.querySelector('.container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
