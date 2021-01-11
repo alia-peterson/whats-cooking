@@ -13,32 +13,32 @@ main {
 }
 
 .recipe--card {
+  height: 300px;
+  width: 250px;
   background-color: white;
   border: 2px solid $dark-green;
   border-radius: 7px;
-  cursor: pointer;
-  height: 300px;
-  width: 250px;
   margin: 20px;
   padding: 15px;
   position: relative;
-}
+  cursor: pointer;
 
-.recipe--card:hover .recipe--photo {
-  opacity: 50%;
-  transition: .8s ease;
-}
+  &:hover h3 {
+    text-shadow: 0px 0px 4px $light-green;
+    transition: .8s ease;
+  }
 
-.recipe--card:hover .recipe--hover-text {
-  font-size: 20px;
-  opacity: 100%;
-  transition: .5s ease;
-  width: 100%;
-}
+  &:hover .recipe--photo {
+    opacity: 50%;
+    transition: .8s ease;
+  }
 
-.recipe--card:hover h3 {
-  text-shadow: 0px 0px 4px $light-green;
-  transition: .8s ease;
+  &:hover .recipe--hover-text {
+    font-size: 20px;
+    opacity: 100%;
+    transition: .5s ease;
+    width: 100%;
+  }
 }
 
 .recipe--hover-text {
@@ -66,8 +66,8 @@ main {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 7px;
-  cursor: pointer;
   transition: .8s ease;
+  cursor: pointer;
 }
 
 .recipe--tags {
