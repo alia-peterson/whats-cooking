@@ -106,7 +106,6 @@ let domUpdates = {
   generateRecipeInstructions(recipe) {
     instructionsCard.querySelector('h3').innerText = recipe.name
     instructionsCard.querySelector('h3').style.backgroundImage = `url(${recipe.image})`
-    // instructionsCard.querySelector('p').innerText = ingredients
 
     recipe.instructions.forEach(step => {
       const nextStep = document.createElement('li')
@@ -152,7 +151,7 @@ let domUpdates = {
     return instructionsList
   },
 
-  // can definitely rework these to be dynamic since they're so similar
+  // can probably rework these to be dynamic since they're so similar?
   clearPantryContents() {
     pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
   },

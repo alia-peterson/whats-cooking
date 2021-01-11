@@ -58,6 +58,7 @@ function loadWebsite() {
   findTags()
 }
 
+// POPULATE WEBSITE INFORMATION
 function generateUser(userData) {
   currentUser = new User(userData[Math.floor(Math.random() * userData.length)])
   let firstName = currentUser.name.split(" ")[0]
@@ -86,6 +87,20 @@ function addPantryIngredientNames(allIngredients) {
     const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
     pantryItem.name = foundItem.name
   })
+}
+
+// USER PANTRY DISPLAY AND UPDATES
+function displayPantryInfo(currentUser) {
+  currentUser.pantry.sort(function(a, b) {
+    if (a.name > b.name) {
+      return 1
+
+    } else if (a.name < b.name) {
+      return -1
+    }
+  })
+
+  domUpdates.addPantryInfoToDom(currentUser.pantry)
 }
 
 function updateUserPantryFromRecipe(recipeId, typeModification) {
@@ -262,16 +277,6 @@ function openRecipeInstructions(event) {
   modalOverlay.style.display = 'block'
 }
 
-// function generateIngredients(recipe) {
-//   determineIfEnoughIngredients(recipe)
-//   return recipe.ingredients.map(i => {
-//     const quantity = domUpdates.formatQuantity(i.quantity.amount)
-//     const unit = domUpdates.formatUnits(i.quantity.unit)
-//
-//     return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
-//   }).join("\n")
-// }
-
 function exitRecipeInstructions() {
   fullRecipeInfo.style.display = 'none'
   modalOverlay.style.display = 'none'
@@ -285,6 +290,16 @@ function displayCookedDate(selectedRecipe) {
   const cookedDate = selectedRecipe.dateCooked.toDateString()
   modalDateMessage.innerText = `Last cooked on: ${cookedDate}`
   modalDateMessage.style.display = 'inline'
+}
+
+function updateCookedDate(recipeId) {
+  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+
+  const timeElapsed = Date.now()
+  const today = new Date(timeElapsed)
+
+  thisRecipe.dateCooked = today
+  displayCookedDate(thisRecipe)
 }
 
 function cookRecipe(event) {
@@ -317,16 +332,6 @@ function shopRecipe(event) {
   setTimeout(function() {
     modalCookedMessage.style.opacity = 0
   }, 2000)
-}
-
-function updateCookedDate(recipeId) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-
-  const timeElapsed = Date.now()
-  const today = new Date(timeElapsed)
-
-  thisRecipe.dateCooked = today
-  displayCookedDate(thisRecipe)
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
@@ -384,8 +389,8 @@ function showWelcomeBanner() {
   document.querySelector(".banner--recipes").style.display = 'none'
 }
 
-// SEARCH RECIPES
 
+// SEARCH RECIPES
 function pressEnterSearch(event) {
   event.preventDefault()
   searchRecipes()
@@ -427,47 +432,4 @@ function showAllRecipes() {
 
   main.classList.remove('display-favorites')
   showWelcomeBanner()
-}
-
-// CREATE AND USE PANTRY
-function displayPantryInfo(currentUser) {
-  currentUser.pantry.sort(function(a, b) {
-    if (a.name > b.name) {
-      return 1
-
-    } else if (a.name < b.name) {
-      return -1
-    }
-  })
-
-  domUpdates.addPantryInfoToDom(currentUser.pantry)
-}
-
-function findCheckedPantryBoxes() {
-  let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
-  let pantryCheckboxInfo = Array.from(pantryCheckboxes)
-  let selectedIngredients = pantryCheckboxInfo.filter(box => {
-    return box.checked;
-  })
-  showAllRecipes();
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
-  }
-}
-
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
-  recipeData.forEach(recipe => {
-    let allRecipeIngredients = [];
-    recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
-    });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
-    }
-  })
 }
