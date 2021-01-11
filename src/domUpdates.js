@@ -1,6 +1,6 @@
 // import './scripts'
 
-const main = document.querySelector(".container")
+const recipeContainer = document.querySelector(".recipe--container")
 const bannerText = document.querySelector(".banner--message")
 const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
@@ -25,7 +25,7 @@ let domUpdates = {
     newRecipeCard.querySelector('img.recipe--photo').title = `${recipeInfo.name} recipe`
 
     this.displayTags(recipeInfo.tags, newRecipeCard)
-    main.appendChild(newRecipeCard)
+    recipeContainer.appendChild(newRecipeCard)
   },
 
   displayTags(tags, card) {
