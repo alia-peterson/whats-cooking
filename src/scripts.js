@@ -2,6 +2,7 @@
 import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
+import fetchApi from './fetchApi'
 
 import './css/base.scss';
 import './css/styles.scss';
@@ -28,12 +29,12 @@ let menuOpen = false
 let currentUser
 
 window.addEventListener("load", function() {
-  retrieveRecipeData()
-    .then(generateUser)
-    .then(retrieveIngredientsData)
-    .then(() => displayPantryInfo(currentUser))
-    .then(createCards)
-    .then(findTags)
+  // fetchApi.getRecipeData()
+    // .then(generateUser)
+    // .then(retrieveIngredientsData)
+    // .then(() => displayPantryInfo(currentUser))
+    // .then(createRecipeCards)
+    // .then(findTags)
 })
 
 searchForm.addEventListener("submit", pressEnterSearch)
@@ -46,17 +47,37 @@ exitButton.addEventListener('click', exitRecipeInstructions)
 cookRecipeButton.addEventListener('click', cookRecipe)
 
 // FETCH API DATASETS
-function retrieveRecipeData() {
-  return fetch('http://localhost:3001/api/v1/recipes')
-    .then(response => response.json())
-    .then(recipes => {
-      recipes.forEach(recipe => {
-        const newRecipe = new Recipe(recipe)
+const fetchedRecipeData = fetchApi.getRecipeData()
 
-        allRecipes.push(newRecipe)
-      })
-    })
+Promise.all([fetchedRecipeData])
+  .then(values => {
+    createRecipeDataset(values[0])
+    loadWebsite()
+  })
+
+function createRecipeDataset(recipeInfo) {
+  recipeInfo.forEach(recipe => {
+    const newRecipe = new Recipe(recipe)
+    allRecipes.push(newRecipe)
+  })
 }
+
+function loadWebsite() {
+  generateUser()
+  createRecipeCards()
+}
+
+// function retrieveRecipeData() {
+//   return fetch('http://localhost:3001/api/v1/recipes')
+//     .then(response => response.json())
+//     .then(recipes => {
+//       recipes.forEach(recipe => {
+//         const newRecipe = new Recipe(recipe)
+//
+//         allRecipes.push(newRecipe)
+//       })
+//     })
+// }
 
 function retrieveIngredientsData() {
   return fetch('http://localhost:3001/api/v1/ingredients')
@@ -129,7 +150,7 @@ function retrieveUserPantry() {
 }
 
 // CREATE RECIPE CARDS
-function createCards() {
+function createRecipeCards() {
   allRecipes.forEach(recipe => {
     let recipeName = recipe.name
 
