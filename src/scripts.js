@@ -173,7 +173,6 @@ function findCheckedBoxes() {
     return box.checked
   })
 
-  unhideRecipeCards()
   findUntaggedRecipes(selectedTags)
 }
 
@@ -202,6 +201,7 @@ function findUntaggedRecipes(selected) {
 }
 
 function hideUnselectedRecipes(foundRecipes) {
+  unhideRecipeCards()
   foundRecipes.forEach(recipe => {
     const domRecipe = document.getElementById(`${recipe.id}`)
     domRecipe.classList.add('hidden')
@@ -367,18 +367,20 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  unhideRecipeCards();
-  const searchValue = searchInput.value.toLowerCase()
+  const value = searchInput.value.toLowerCase()
 
-  const notSearchedNames = allRecipes.filter(recipe => {
-    return !recipe.name.toLowerCase().includes(searchValue)
+  const filteredByName = allRecipes.filter(recipe => {
+    const name = recipe.name.toLowerCase()
+
+    return !name.includes(value)
   })
 
-  const notSearchedRecipes = notSearchedNames.filter(recipe => {
-    return recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(searchValue))
+  const filteredByIngredient = filteredByName.filter(recipe => {
+    return !recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(value))
   })
 
-  hideUnselectedRecipes(notSearchedRecipes)
+
+  hideUnselectedRecipes(filteredByIngredient)
 }
 
 function togglePantryDisplay() {
