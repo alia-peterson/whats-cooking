@@ -301,7 +301,8 @@ function shopRecipe(event) {
   const recipeID = event.target.getAttribute('recipeid')
   const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
 
-  determineIfEnoughIngredients(currentRecipe)
+  // determineIfEnoughIngredients(currentRecipe)
+  domUpdates.clearShoppingList()
   updateUserPantryDisplay(recipeID)
 
   setTimeout(function() {
@@ -331,6 +332,7 @@ function generateIngredients(recipe) {
 
 function determineIfEnoughIngredients(selectedRecipe) {
   const shoppingList = []
+  domUpdates.clearShoppingList()
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
