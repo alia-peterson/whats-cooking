@@ -264,6 +264,7 @@ function exitRecipeInstructions() {
   modalDateMessage.style.display = 'none'
 
   domUpdates.clearRecipeInstructions()
+  domUpdates.clearShoppingList()
 }
 
 function displayCookedDate(selectedRecipe) {
@@ -351,12 +352,6 @@ function determineIfEnoughIngredients(selectedRecipe) {
 function showMyRecipesBanner() {
   document.querySelector(".banner--message").style.display = "none";
   document.querySelector(".banner--recipes").style.display = "flex";
-}
-
-function exitRecipe() {
-  fullRecipeInfo.style.display = "none"
-  domUpdates.clearRecipeInstructions()
-  domUpdates.clearShoppingList()
 }
 
 function showWelcomeBanner() {
