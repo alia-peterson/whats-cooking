@@ -413,8 +413,9 @@ main {
   }
 }
 
-.modal--message-pantry {
-  display: none;
+.modal--message-pantry
+.modal--message-shopping {
+  display: none !important;
   margin-top: 0;
   transition: 1s opacity;
 }

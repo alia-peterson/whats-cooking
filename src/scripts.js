@@ -17,13 +17,15 @@ const savedRecipesButton = document.querySelector('#button-saved')
 const myPantryButton = document.querySelector('#button-pantry')
 const filterRecipesButton = document.querySelector('#button-filter')
 const exitButton = document.querySelector('#button-exit')
+const shoppingListButton = document.querySelector('#button-shopping')
 const cookRecipeButton = document.querySelector('#button-cooked')
 const fullRecipeInfo = document.querySelector('.recipe--instructions')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
 const modalDateMessage = document.querySelector('#modal--message-date')
-const modalPantryMessage = document.querySelector('.modal--message-pantry')
+const modalShoppingMessage = document.querySelector('.modal--message-shopping')
+const modalCookedMessage = document.querySelector('.modal--message-cooked')
 const allRecipes = []
 let menuOpen = false
 let currentUser
@@ -36,6 +38,7 @@ myPantryButton.addEventListener("click", togglePantryDisplay)
 filterRecipesButton.addEventListener("click", findCheckedBoxes)
 exitButton.addEventListener('click', exitRecipeInstructions)
 cookRecipeButton.addEventListener('click', cookRecipe)
+shoppingListButton.addEventListener('click', shopRecipe)
 
 // FETCH API DATASETS
 const fetchedUserData = fetchApi.getUserData()
@@ -119,7 +122,7 @@ function retrieveUpdatedUserPantry() {
   return userPromise
 }
 
-async function updateUserPantryDisplay(recipeId, typeModification) {
+async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
   const promiseFromPosts = await updateUserPantryFromRecipe(recipeId, typeModification)
   const updatedUserPantry = await retrieveUpdatedUserPantry()
   const updatedPantryNames = await fetchedIngredientData.then(array => {
@@ -127,8 +130,6 @@ async function updateUserPantryDisplay(recipeId, typeModification) {
   })
 
   displayPantryInfo(currentUser)
-
-  console.log(currentUser);
 }
 
 // CREATE RECIPE CARDS
@@ -252,6 +253,7 @@ function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   cookRecipeButton.setAttribute('recipeid', recipeId)
+  shoppingListButton.setAttribute('recipeid', recipeId)
 
   if (thisRecipe.dateCooked) {
     displayCookedDate(thisRecipe)
@@ -277,14 +279,33 @@ function displayCookedDate(selectedRecipe) {
 }
 
 function cookRecipe(event) {
-  modalPantryMessage.style.display = 'inline'
-  modalPantryMessage.style.opacity = 1
+  modalCookedMessage.style.display = 'inline'
+  modalCookedMessage.style.opacity = 1
 
-  updateCookedDate(event.target.getAttribute('recipeid'))
-  updateUserPantryDisplay(event.target.getAttribute('recipeid'), 'subtract')
+  const recipeID = event.target.getAttribute('recipeid')
+  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
+
+  determineIfEnoughIngredients(currentRecipe)
+  updateCookedDate(recipeID)
+  updateUserPantryDisplay(recipeID, 'subtract')
 
   setTimeout(function() {
-    modalPantryMessage.style.opacity = 0
+    modalCookedMessage.style.opacity = 0
+  }, 2000)
+}
+
+function shopRecipe(event) {
+  modalShoppingMessage.style.display = 'inline'
+  modalShoppingMessage.style.opacity = 1
+
+  const recipeID = event.target.getAttribute('recipeid')
+  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
+
+  determineIfEnoughIngredients(currentRecipe)
+  updateUserPantryDisplay(recipeID)
+
+  setTimeout(function() {
+    modalCookedMessage.style.opacity = 0
   }, 2000)
 }
 
