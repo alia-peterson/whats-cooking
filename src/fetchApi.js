@@ -10,6 +10,11 @@ const fetchApi = {
     .then(response => response.json())
   },
 
+  getIngredientsData() {
+    return fetch('http://localhost:3001/api/v1/ingredients')
+      .then(response => response.json())
+  }
+
 }
 
 export default fetchApi

@@ -48,11 +48,14 @@ cookRecipeButton.addEventListener('click', cookRecipe)
 // FETCH API DATASETS
 const fetchedUserData = fetchApi.getUserData()
 const fetchedRecipeData = fetchApi.getRecipeData()
+const fetchedIngredientData = fetchApi.getIngredientsData()
 
-Promise.all([fetchedUserData, fetchedRecipeData])
+Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
   .then(values => {
     generateUser(values[0])
     createRecipeDataset(values[1])
+    addRecipeInformation(values[2])
+    addPantryInformation(values[2])
     loadWebsite()
   })
 
@@ -73,28 +76,19 @@ function createRecipeDataset(recipeInfo) {
   })
 }
 
-function retrieveIngredientsData() {
-  return fetch('http://localhost:3001/api/v1/ingredients')
-    .then(response => response.json())
-    .then(data => {
-      addRecipeInformation(data)
-      addPantryInformation(data)
-    })
-}
-
-function addRecipeInformation(data) {
+function addRecipeInformation(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.ingredients.forEach(ingredient => {
-      const foundItem = data.find(item => item.id === ingredient.id)
+      const foundItem = allIngredients.find(item => item.id === ingredient.id)
       ingredient.name = foundItem.name
       ingredient.cost = foundItem.estimatedCostInCents
     })
   })
 }
 
-function addPantryInformation(data) {
+function addPantryInformation(allIngredients) {
   currentUser.pantry.forEach(pantryItem => {
-    const foundItem = data.find(item => item.id === pantryItem.ingredient)
+    const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
     pantryItem.name = foundItem.name
   })
 }
