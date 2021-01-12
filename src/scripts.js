@@ -21,6 +21,7 @@ const fullRecipeInfo = document.querySelector('.recipe--instructions')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
+const modalIngredientsMessage = document.querySelector('#modal--message-ingredients')
 const modalDateMessage = document.querySelector('#modal--message-date')
 const modalShoppingMessage = document.querySelector('#modal--message-shopping')
 const modalCookedMessage = document.querySelector('#modal--message-cooked')
@@ -333,6 +334,7 @@ async function cookOrShopRecipe(messageType, modification, event) {
 
   } else {
     domUpdates.clearShoppingList()
+    modalIngredientsMessage.style.display = 'none'
     setModalButtonDisplay('block', 'none')
   }
 }
@@ -381,9 +383,11 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
   if (shoppingList.length > 0) {
     domUpdates.displayShoppingList(shoppingList)
+    modalIngredientsMessage.style.display = 'inline'
     setModalButtonDisplay('none', 'block')
 
   } else {
+    modalIngredientsMessage.style.display = 'none'
     setModalButtonDisplay('block', 'none')
   }
 }
