@@ -167,14 +167,14 @@ let domUpdates = {
 
   capitalize(words) {
     return words.split(" ").map(word => {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(" ");
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    }).join(" ")
   },
 
   lowerCase(words) {
     return words.split(" ").map(word => {
-      return word.charAt(0).toLowerCase() + word.slice(1);
-    }).join(" ");
+      return word.charAt(0).toLowerCase() + word.slice(1)
+    }).join(" ")
   }
 }
 
