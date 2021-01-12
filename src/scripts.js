@@ -1,6 +1,3 @@
-// import users from './data/users-data';
-// import recipeData from  './data/recipe-data';
-// import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 import fetchApi from './fetchApi'
 
