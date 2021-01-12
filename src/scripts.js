@@ -84,10 +84,16 @@ function addRecipeNameAndCost(allIngredients) {
   currentUser.addPantryIngredientNames(allIngredients)
 }
 
+// FIND A SPECIFIC RECIPE
+function findRecipe(recipeId) {
+ return allRecipes.find(recipe => recipe.id === Number(recipeId))
+}
+
+
 
 // USER PANTRY DISPLAY AND UPDATES
 function updateUserPantryFromRecipe(recipeId, typeModification) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
   const apiCalls = thisRecipe.ingredients.map(item => {
     let ingredientModificationValue = item.quantity.amount
 
@@ -240,7 +246,7 @@ function showSavedRecipes() {
 // RECIPE MODAL
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
 
   determineIfEnoughIngredients(thisRecipe)
 
@@ -272,7 +278,7 @@ function displayCookedDate(selectedRecipe) {
 }
 
 function updateCookedDate(recipeId) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
 
   const timeElapsed = Date.now()
   const today = new Date(timeElapsed)
@@ -288,7 +294,7 @@ async function cookOrShopRecipe(messageType, modification, event) {
   cookRecipeButton.disabled = true
 
   const recipeID = event.target.getAttribute('recipeid')
-  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
+  const currentRecipe = findRecipe(recipeID)
 
   await updateUserPantryDisplay(recipeID, modification)
 
