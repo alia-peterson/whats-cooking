@@ -54,13 +54,15 @@ let domUpdates = {
       const itemQuantity = document.createElement('td')
       const itemCostPerUnit = document.createElement('td')
       const itemTotalCost = document.createElement('td')
+
       const unit = this.formatUnits(shoppingItem.unit)
-      const totalCost = (shoppingItem.cost * shoppingItem.quantity) / 100
+      const totalCost = this.formatPrice((shoppingItem.cost *
+        shoppingItem.quantity) / 100)
 
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
-      itemCostPerUnit.innerText = `$${shoppingItem.cost / 100}`
-      itemTotalCost.innerText = `$${totalCost.toFixed(2)}`
+      itemCostPerUnit.innerText = `$${this.formatPrice(shoppingItem.cost / 100)}`
+      itemTotalCost.innerText = `$${totalCost}`
 
       itemCostPerUnit.classList.add('price')
       itemTotalCost.classList.add('price')
@@ -76,15 +78,16 @@ let domUpdates = {
   },
 
   displayTotalCost(shoppingList) {
-    const totalListCost = shoppingList.reduce((totalCost, item) => {
+    let totalListCost = shoppingList.reduce((totalCost, item) => {
       totalCost += (item.cost * item.quantity) / 100
       return totalCost
     }, 0)
 
+    totalListCost = this.formatPrice(totalListCost)
     modalTotalCost.innerHTML = `
-        <tr>
-          <td colspan="4" class="price">Total Cost: $${totalListCost.toFixed(2)}</td>
-        <tr>`
+      <tr>
+        <td colspan="4" class="price">Total Cost: $${totalListCost}</td>
+      <tr>`
   },
 
   formatUnits(unit) {
@@ -100,6 +103,17 @@ let domUpdates = {
     if (quantity.toString().length > 3) {
       quantity = quantity.toFixed(2)
     }
+
+    return quantity
+  },
+
+  formatPrice(quantity) {
+    const format = (num, decimals) => num.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+
+    quantity = format(quantity)
     return quantity
   },
 
@@ -122,7 +136,8 @@ let domUpdates = {
       const quantity = domUpdates.formatQuantity(i.quantity.amount)
       const unit = domUpdates.formatUnits(i.quantity.unit)
 
-      currentIngredient.innerText = `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
+      const ingFormat = `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
+      currentIngredient.innerText = ingFormat
       instructionsCard.querySelector('ul').appendChild(currentIngredient)
     })
   },
