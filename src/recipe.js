@@ -15,6 +15,14 @@ class Recipe {
         ingredient.cost = foundItem.estimatedCostInCents
       })
   }
+
+  formatName() {
+    if (this.name.length > 40) {
+      this.name = this.name.substring(0, 40) + "..."
+    }
+    
+    return this.name
+  }
   
 }
 

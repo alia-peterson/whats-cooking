@@ -130,13 +130,7 @@ async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
 // CREATE RECIPE CARDS
 function createRecipeCards() {
   allRecipes.forEach(recipe => {
-    let recipeName = recipe.name
-
-    if (recipe.name.length > 40) {
-      recipeName = recipe.name.substring(0, 40) + "..."
-    }
-
-    domUpdates.addCardToDom(recipe, recipeName)
+    domUpdates.addCardToDom(recipe, recipe.formatName())
     createCardListeners()
   })
 }
