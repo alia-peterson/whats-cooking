@@ -4,8 +4,8 @@
   grid-area: image;
   display: flex;
   justify-content: center;
-  height: 150px;
   background-size: cover;
+  height: 150px;
 
   h1 {
     text-align: center;
@@ -14,29 +14,23 @@
 }
 
 .banner--recipes {
-  align-items: center;
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
-
 
 /* FILTER SIDEBAR */
 aside {
   background-color: white;
-  display: flex;
-  justify-content: center;
-  height: auto;
   text-align: center;
   color: $dark-green;
 }
 
 .wrap {
-  background-color: white;
   height: 100vh;
-  padding: 10px;
-  position: relative;
   width: 200px;
+  padding: 10px;
 }
 
 .list-tags {
@@ -49,10 +43,9 @@ aside {
   }
 }
 
-
 /* BUTTONS */
-.button-show-all,
-.button-filter {
+.button-filter,
+.button-show-all {
   background-color: $medium-green;
   border: 0;
   border-radius: 3px;
@@ -61,14 +54,14 @@ aside {
   font-family: "Quicksand", sans-serif;
   font-size: 14pt;
   font-weight: bold;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px;
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background-color: $button-hover;
   }
 
   &:disabled {
-    background-color: $button-hover;
     cursor: default !important;
   }
 }
@@ -78,7 +71,6 @@ aside {
   margin-top: 20px;
   width: 200px;
 }
-
 
 /* PANTRY LIST */
 .menu-pantry {
@@ -97,7 +89,7 @@ aside {
 
   h2 {
     color: $dark-green;
-    margin: 0px;
+    margin: 0;
     padding-bottom: 5%;
   }
 
