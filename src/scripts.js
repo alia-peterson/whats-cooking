@@ -1,13 +1,13 @@
 // import users from './data/users-data';
-import recipeData from  './data/recipe-data';
+// import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 import fetchApi from './fetchApi'
 
-import './css/index.scss';
+import './css/index.scss'
 
-import User from './user';
-import Recipe from './recipe';
+import User from './user'
+import Recipe from './recipe'
 
 const recipeContainer = document.querySelector('.recipe--container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
@@ -110,7 +110,7 @@ function displayPantryInfo(currentUser) {
   domUpdates.addPantryInfoToDom(currentUser.pantry)
 }
 
-async function updateUserPantryFromRecipe(recipeId, typeModification) {
+function updateUserPantryFromRecipe(recipeId, typeModification) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   const apiCalls = thisRecipe.ingredients.map(item => {
     let ingredientModificationValue = item.quantity.amount
@@ -128,15 +128,15 @@ async function updateUserPantryFromRecipe(recipeId, typeModification) {
     return fetchApi.postUserInformation(updatedPantryItem)
   })
 
-  await Promise.all(apiCalls)
+  Promise.all(apiCalls)
 }
 
 function retrieveUpdatedUserPantry() {
   const userPromise = fetchApi.getUserData()
-    userPromise.then(users => {
-      const updatedUser = users.find(user => user.id === currentUser.id)
-      currentUser.pantry = updatedUser.pantry
-    })
+  userPromise.then(users => {
+    const updatedUser = users.find(user => user.id === currentUser.id)
+    currentUser.pantry = updatedUser.pantry
+  })
 
   return userPromise
 }
@@ -157,7 +157,7 @@ function createRecipeCards() {
     let recipeName = recipe.name
 
     if (recipe.name.length > 40) {
-      recipeName = recipe.name.substring(0, 40) + "...";
+      recipeName = recipe.name.substring(0, 40) + "..."
     }
 
     domUpdates.addCardToDom(recipe, recipeName)
@@ -252,7 +252,7 @@ function addToFavorites(cardId, recipeCard, cardClass) {
   event.target.src = "./images/apple-logo.png"
   cardClass.remove("unfilled")
   recipeCard.classList.add('favorite')
-  currentUser.saveRecipe(cardId);
+  currentUser.saveRecipe(cardId)
 }
 
 function removeFromFavorites(cardId, recipeCard, cardClass) {
