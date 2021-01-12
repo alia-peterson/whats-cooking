@@ -57,7 +57,7 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
 
 function loadWebsite() {
   const pantry = currentUser.alphabetizePantry()
-  
+
   createRecipeCards()
   domUpdates.addPantryInfoToDom(pantry)
   findTags()
@@ -95,7 +95,6 @@ function findRecipe(recipeId) {
   return allRecipes.find(recipe => recipe.id === Number(recipeId))
 }
 
-
 // USER PANTRY DISPLAY AND UPDATES
 function updateUserPantryFromRecipe(recipeId, typeModification) {
   const thisRecipe = findRecipe(recipeId)
@@ -114,6 +113,7 @@ function updateUserPantryFromRecipe(recipeId, typeModification) {
 
     return fetchApi.postUserInformation(updatedPantryItem)
   })
+
   return Promise.all(apiCalls).catch(handleErrorMessages)
 }
 
@@ -244,7 +244,6 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 function showSavedRecipes() {
   recipeContainer.classList.value = ('display-favorites')
   toggleBanner('none', 'flex')
-
 }
 
 // RECIPE MODAL

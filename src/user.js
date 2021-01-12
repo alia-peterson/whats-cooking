@@ -31,11 +31,22 @@ class User {
     return this.pantry.sort(function(a, b) {
       if (a.name > b.name) {
         return 1
-  
+
       } else if (a.name < b.name) {
         return -1
       }
     })
+  }
+
+  saveCookedRecipe(recipeID, cookDate) {
+    if (!this.cookedRecipes.find(i => i.id === Number(recipeID))) {
+      const recipe = {
+        id: recipeID,
+        cookDate: cookDate
+      }
+
+      this.cookedRecipes.push(recipe)
+    }
   }
 }
 
