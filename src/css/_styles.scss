@@ -51,7 +51,7 @@ aside {
   border-radius: 3px;
   color: white;
   cursor: pointer;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primary-font;
   font-size: 14pt;
   font-weight: bold;
   padding: 5px 10px;
@@ -85,7 +85,7 @@ aside {
   width: 250px;
   z-index: 3;
   color: $dark-green;
-  box-shadow: 1px 1px 115px black;
+  box-shadow: $pop-up-shadow;
 
   h2 {
     color: $dark-green;
