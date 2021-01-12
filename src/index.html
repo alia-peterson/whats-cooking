@@ -8,12 +8,14 @@
     <link rel="icon" href="../images/apple-logo.png"/>
   </head>
   <body>
-    <header>
-      <h1><span>fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
-      <form class="header--form" id="search" role="search">
-        <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
+    <header class="header">
+      <h1><span class="header--brand-name">fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
+      <form  id="search" class="header--form" role="search">
+        <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
         <label for="search-input" class="search-label">Search</label>
-        <img src="./images/search.png" class="search-icon" alt="search icon">
+        <div class="search-icon">
+          <img src="./images/search.png"  alt="search icon">
+        </div>  
       </form>
       <button id="button-saved" class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="favorites button">My Recipes</button>
       <button id="button-pantry" class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="pantry button">My Pantry</button>
