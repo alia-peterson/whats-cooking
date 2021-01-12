@@ -52,7 +52,7 @@ aside {
 /* BUTTONS */
 .button-show-all,
 .button-filter {
-  background-color: #359567;
+  background-color: $medium-green;
   border: 0;
   border-radius: 3px;
   color: white;
@@ -63,11 +63,11 @@ aside {
   padding: 5px 10px 5px 10px;
 
   &:hover {
-    background-color: #84C8A4;
+    background-color: $button-hover;
   }
 
   &:disabled {
-    background-color: #84C8A4;
+    background-color: $button-hover;
     cursor: default !important;
   }
 }
@@ -82,7 +82,7 @@ aside {
 /* PANTRY LIST */
 .menu-pantry {
   align-items: center;
-  background-color: #DAE4EE;
+  background-color: $gray;
   display: none;
   max-height: 60vh;
   overflow: scroll;
@@ -95,13 +95,13 @@ aside {
   z-index: 3;
 
   h2 {
-    color: #359567;
+    color: $medium-green;
     margin: 0px;
   }
 }
 
 .list-pantry {
-  color: #000000;
+  color: $dark-green;
   padding-left: 15px;
   text-align: left;
 }
