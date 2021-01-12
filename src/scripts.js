@@ -58,7 +58,7 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
 
 function loadWebsite() {
   createRecipeCards()
-  domUpdates.addPantryInfoToDom(currentUser.alphabatizePantry())
+  domUpdates.addPantryInfoToDom(currentUser.alphabetizePantry())
   findTags()
 }
 
@@ -130,7 +130,7 @@ async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
     currentUser.addPantryIngredientNames(array)
   })
 
-  domUpdates.addPantryInfoToDom(currentUser.alphabatizePantry())
+  domUpdates.addPantryInfoToDom(currentUser.alphabetizePantry())
 }
 
 // CREATE RECIPE CARDS
