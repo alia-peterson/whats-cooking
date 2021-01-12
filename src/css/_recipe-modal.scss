@@ -16,37 +16,81 @@
   }
 }
 
-.modal--bottom {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-height: 95px;
-  justify-content: flex-end;
+.modal {
+  &--bottom {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 95px;
+    justify-content: flex-end;
 
-  p {
+    p {
+      display: none;
+      margin: 0;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  &--message {
     display: none;
-    margin: 0;
-    text-align: left;
+    margin-top: 0;
+    transition: 1s opacity;
+  }
+
+  &--shopping-list {
+    display: none;
     width: 100%;
+  }
+
+  &--shopping-table {
+    border-collapse: collapse;
+    width: 100%;
+
+    td {
+      padding: 0.25rem;
+    }
+
+    th {
+      color: #359567;
+      background-color: #C4EB67;
+      padding: 0.25rem;
+      text-align: left;
+    }
+
+    tfoot {
+      font-weight: bold;
+    }
+  }
+
+  &--title {
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 7px 7px 0px 0px;
+    color: white;
+    font-size: 30px;
+    margin: 0;
+    padding: 5%;
+    text-align: center;
+    text-shadow: 0px 0px 6px black;
   }
 }
 
-.modal--message-pantry {
+.overlay {
+  filter: alpha(opacity=50);
   display: none;
-  margin-top: 0;
-  transition: 1s opacity;
+  background-color: #5B7894;
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
-.modal--title {
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 7px 7px 0px 0px;
-  color: white;
-  font-size: 30px;
-  margin: 0;
-  padding: 5%;
-  text-align: center;
-  text-shadow: 0px 0px 6px black;
+.price {
+  text-align: right;
 }
 
 .recipe--instructions {
@@ -70,75 +114,21 @@
     color: #359567;
   }
 
-  p {
+  p table {
     margin-left: 5%;
   }
 
   ol {
     margin-right: 2%;
   }
+
+  ul {
+    list-style: none;
+  }
 }
 
-.overlay {
-  filter: alpha(opacity=50);
-  display: none;
-  background-color: #5B7894;
-  height: 100%;
-  left: 0;
-  opacity: 0.5;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-}
-
-#modal--shopping-message-yes,
-#modal--shopping-message-no {
+#modal--message-ingredients {
+  display: block;
   font-weight: bold;
   font-style: italic;
-}
-
-#modal--shopping-message-yes {
-  display: block;
-}
-
-.modal--shopping-list {
-  display: none;
-}
-
-.modal--shopping-table {
-  border-collapse: collapse;
-  width: 60%;
-}
-
-.modal--shopping-table td {
-  padding: 0.25rem;
-}
-
-.modal--shopping-table th {
-  color: #359567;
-  background-color: #C4EB67;
-  padding: 0.25rem;
-  text-align: left;
-}
-
-.modal--shopping-table tfoot {
-  font-weight: bold;
-}
-
-.price {
-  text-align: right;
-}
-
-.recipe--instructions h4 {
-  background: white;
-  color: #359567;
-}
-
-.recipe--instructions p table {
-  margin-left: 2%;
-}
-
-.recipe--instructions ol {
-  margin-right: 2%;
 }

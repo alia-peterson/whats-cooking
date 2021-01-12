@@ -63,7 +63,7 @@ aside {
   padding: 5px 10px 5px 10px;
 
   &:hover {
-    background-color: --primary-color;
+    background-color: #84C8A4;
   }
 
   &:disabled {
@@ -84,6 +84,7 @@ aside {
   align-items: center;
   background-color: #DAE4EE;
   display: none;
+  max-height: 60vh;
   overflow: scroll;
   padding: 12px;
   position: absolute;

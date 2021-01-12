@@ -1,138 +1,163 @@
 // import users from './data/users-data';
-import recipeData from  './data/recipe-data';
+// import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
+import fetchApi from './fetchApi'
 
-import './css/index.scss';
+import './css/index.scss'
 
-import User from './user';
-import Recipe from './recipe';
+import User from './user'
+import Recipe from './recipe'
 
-const main = document.querySelector('.container')
+const recipeContainer = document.querySelector('.recipe--container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
 const savedRecipesButton = document.querySelector('#button-saved')
 const myPantryButton = document.querySelector('#button-pantry')
 const filterRecipesButton = document.querySelector('#button-filter')
 const exitButton = document.querySelector('#button-exit')
+const shoppingListButton = document.querySelector('#button-shopping')
 const cookRecipeButton = document.querySelector('#button-cooked')
 const fullRecipeInfo = document.querySelector('.recipe--instructions')
 const searchForm = document.querySelector('#search')
 const searchInput = document.querySelector('#search-input')
 const modalOverlay = document.querySelector('.overlay')
+const modalIngredientsMessage = document.querySelector('#modal--message-ingredients')
 const modalDateMessage = document.querySelector('#modal--message-date')
-const modalPantryMessage = document.querySelector('.modal--message-pantry')
+const modalShoppingMessage = document.querySelector('#modal--message-shopping')
+const modalCookedMessage = document.querySelector('#modal--message-cooked')
 const allRecipes = []
 let menuOpen = false
 let currentUser
 
-window.addEventListener("load", function() {
-  retrieveRecipeData()
-    .then(generateUser)
-    .then(retrieveIngredientsData)
-    .then(() => displayPantryInfo(currentUser))
-    .then(createCards)
-    .then(findTags)
+searchForm.addEventListener('submit', pressEnterSearch)
+searchInput.addEventListener('keyup', searchRecipes)
+showAllRecipesButton.addEventListener('click', showAllRecipes)
+savedRecipesButton.addEventListener('click', showSavedRecipes)
+myPantryButton.addEventListener('click', togglePantryDisplay)
+filterRecipesButton.addEventListener('click', findCheckedBoxes)
+exitButton.addEventListener('click', exitRecipeInstructions)
+
+cookRecipeButton.addEventListener('click', function() {
+  cookOrShopRecipe(modalCookedMessage, 'subtract', event)
 })
 
-searchForm.addEventListener("submit", pressEnterSearch)
-searchInput.addEventListener('keyup', searchRecipes)
-showAllRecipesButton.addEventListener("click", showAllRecipes)
-savedRecipesButton.addEventListener("click", showSavedRecipes)
-myPantryButton.addEventListener("click", togglePantryDisplay)
-filterRecipesButton.addEventListener("click", findCheckedBoxes)
-exitButton.addEventListener('click', exitRecipeInstructions)
-cookRecipeButton.addEventListener('click', cookRecipe)
+shoppingListButton.addEventListener('click', function() {
+  cookOrShopRecipe(modalShoppingMessage, 'add', event)
+})
 
 // FETCH API DATASETS
-function retrieveRecipeData() {
-  return fetch('http://localhost:3001/api/v1/recipes')
-    .then(response => response.json())
-    .then(recipes => {
-      recipes.forEach(recipe => {
-        const newRecipe = new Recipe(recipe)
+const fetchedUserData = fetchApi.getUserData()
+const fetchedRecipeData = fetchApi.getRecipeData()
+const fetchedIngredientData = fetchApi.getIngredientsData()
 
-        allRecipes.push(newRecipe)
-      })
-    })
+Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
+  .then(values => {
+    generateUser(values[0])
+    createRecipeDataset(values[1])
+    addRecipeNameAndCost(values[2])
+    addPantryIngredientNames(values[2])
+    loadWebsite()
+  })
+
+function loadWebsite() {
+  createRecipeCards()
+  displayPantryInfo(currentUser)
+  findTags()
 }
 
-function retrieveIngredientsData() {
-  return fetch('http://localhost:3001/api/v1/ingredients')
-    .then(response => response.json())
-    .then(data => {
-      addRecipeInformation(data)
-      addPantryInformation(data)
-    })
+// POPULATE WEBSITE INFORMATION
+function generateUser(userData) {
+  currentUser = new User(userData[Math.floor(Math.random() * userData.length)])
+  let firstName = currentUser.name.split(" ")[0]
+  domUpdates.addWelcomeMessage(firstName)
 }
 
-function addRecipeInformation(data) {
+function createRecipeDataset(recipeInfo) {
+  recipeInfo.forEach(recipe => {
+    const newRecipe = new Recipe(recipe)
+    allRecipes.push(newRecipe)
+  })
+}
+
+function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.ingredients.forEach(ingredient => {
-      const foundItem = data.find(item => item.id === ingredient.id)
+      const foundItem = allIngredients.find(item => item.id === ingredient.id)
       ingredient.name = foundItem.name
       ingredient.cost = foundItem.estimatedCostInCents
     })
   })
 }
 
-function addPantryInformation(data) {
+function addPantryIngredientNames(allIngredients) {
   currentUser.pantry.forEach(pantryItem => {
-    const foundItem = data.find(item => item.id === pantryItem.ingredient)
+    const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
     pantryItem.name = foundItem.name
   })
 }
 
-function generateUser() {
-  return fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .then(users => {
-      currentUser = new User(users[Math.floor(Math.random() * users.length)])
-      let firstName = currentUser.name.split(" ")[0]
-      domUpdates.addWelcomeMessage(firstName)
-    })
+// USER PANTRY DISPLAY AND UPDATES
+function displayPantryInfo(currentUser) {
+  currentUser.pantry.sort(function(a, b) {
+    if (a.name > b.name) {
+      return 1
+
+    } else if (a.name < b.name) {
+      return -1
+    }
+  })
+
+  domUpdates.addPantryInfoToDom(currentUser.pantry)
 }
 
-function updateUserPantry(recipeId) {
+function updateUserPantryFromRecipe(recipeId, typeModification) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-  completedPosts = thisRecipe.ingredients.forEach(item => {
+  const apiCalls = thisRecipe.ingredients.map(item => {
+    let ingredientModificationValue = item.quantity.amount
+
+    if (typeModification === 'subtract') {
+      ingredientModificationValue = -item.quantity.amount
+    }
+
     const updatedPantryItem = {
       userID: currentUser.id,
       ingredientID: item.id,
-      ingredientModification: item.quantity.amount
+      ingredientModification: ingredientModificationValue
     }
 
-    const postFormat = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(updatedPantryItem)
-    }
-
-    return fetch('http://localhost:3001/api/v1/users', postFormat)
-      .then(response => response.json())
-      .then(retrieveUserPantry)
-      .catch(error => console.log(error))
-      // .catch(error => window.alert(`You do not have enough ${item.json()} for this recipe.`))
+    return fetchApi.postUserInformation(updatedPantryItem)
   })
+
+  Promise.all(apiCalls)
+}
+
+function retrieveUpdatedUserPantry() {
+  const userPromise = fetchApi.getUserData()
+  userPromise.then(users => {
+    const updatedUser = users.find(user => user.id === currentUser.id)
+    currentUser.pantry = updatedUser.pantry
+  })
+
+  return userPromise
+}
+
+async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
+  await updateUserPantryFromRecipe(recipeId, typeModification)
+  await retrieveUpdatedUserPantry()
+  await fetchedIngredientData.then(array => {
+    addPantryIngredientNames(array)
+  })
+
   displayPantryInfo(currentUser)
 }
 
-function retrieveUserPantry() {
-  fetch('http://localhost:3001/api/v1/users')
-    .then(response => response.json())
-    .then(users => {
-      const updatedUser = users.find(user => user.id === currentUser.id)
-      currentUser.pantry = updatedUser.pantry
-      retrieveIngredientsData()
-    })
-}
-
 // CREATE RECIPE CARDS
-function createCards() {
+function createRecipeCards() {
   allRecipes.forEach(recipe => {
     let recipeName = recipe.name
 
     if (recipe.name.length > 40) {
-      recipeName = recipe.name.substring(0, 40) + "...";
+      recipeName = recipe.name.substring(0, 40) + "..."
     }
 
     domUpdates.addCardToDom(recipe, recipeName)
@@ -227,7 +252,7 @@ function addToFavorites(cardId, recipeCard, cardClass) {
   event.target.src = "./images/apple-logo.png"
   cardClass.remove("unfilled")
   recipeCard.classList.add('favorite')
-  currentUser.saveRecipe(cardId);
+  currentUser.saveRecipe(cardId)
 }
 
 function removeFromFavorites(cardId, recipeCard, cardClass) {
@@ -238,21 +263,26 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 }
 
 function showSavedRecipes() {
-  main.classList.value = ('display-favorites')
+  recipeContainer.classList.value = ('display-favorites')
   showMyRecipesBanner()
 }
 
-// CREATE RECIPE MODAL
+// RECIPE MODAL
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+
+  determineIfEnoughIngredients(thisRecipe)
+
   cookRecipeButton.setAttribute('recipeid', recipeId)
+  shoppingListButton.setAttribute('recipeid', recipeId)
 
   if (thisRecipe.dateCooked) {
     displayCookedDate(thisRecipe)
   }
 
-  domUpdates.generateRecipeInstructions(thisRecipe, generateIngredients(thisRecipe))
+  domUpdates.generateRecipeInstructions(thisRecipe)
+  domUpdates.generateRecipeIngredients(thisRecipe)
   modalOverlay.style.display = 'block'
 }
 
@@ -271,18 +301,6 @@ function displayCookedDate(selectedRecipe) {
   modalDateMessage.style.display = 'inline'
 }
 
-function cookRecipe(event) {
-  modalPantryMessage.style.display = 'inline'
-  modalPantryMessage.style.opacity = 1
-
-  updateCookedDate(event.target.getAttribute('recipeid'))
-  updateUserPantry(event.target.getAttribute('recipeid'))
-
-  setTimeout(function() {
-    modalPantryMessage.style.opacity = 0
-  }, 2000)
-}
-
 function updateCookedDate(recipeId) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
 
@@ -293,14 +311,37 @@ function updateCookedDate(recipeId) {
   displayCookedDate(thisRecipe)
 }
 
-function generateIngredients(recipe) {
-  determineIfEnoughIngredients(recipe)
-  return recipe.ingredients.map(i => {
-    const quantity = domUpdates.formatQuantity(i.quantity.amount)
-    const unit = domUpdates.formatUnits(i.quantity.unit)
+async function cookOrShopRecipe(messageType, modification, event) {
+  messageType.style.display = 'inline'
+  messageType.style.opacity = 1
+  shoppingListButton.disabled = true
+  cookRecipeButton.disabled = true
 
-    return `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
-  }).join("\n")
+  const recipeID = event.target.getAttribute('recipeid')
+  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
+
+  await updateUserPantryDisplay(recipeID, modification)
+
+  setTimeout(function() {
+    messageType.style.opacity = 0
+    shoppingListButton.disabled = false
+    cookRecipeButton.disabled = false
+  }, 1500)
+
+  if (modification === 'subtract') {
+    updateCookedDate(recipeID)
+    determineIfEnoughIngredients(currentRecipe)
+
+  } else {
+    domUpdates.clearShoppingList()
+    modalIngredientsMessage.style.display = 'none'
+    setModalButtonDisplay('block', 'none')
+  }
+}
+
+function setModalButtonDisplay(cookRecipeState, shopRecipeState) {
+  cookRecipeButton.style.display = cookRecipeState
+  shoppingListButton.style.display = shopRecipeState
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
@@ -308,57 +349,49 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
-    const listItem = {}
+
+    const listItem = {
+      name: domUpdates.lowerCase(recipeItem.name),
+      quantity: domUpdates.formatQuantity(recipeItem.quantity.amount),
+      unit: recipeItem.quantity.unit,
+      cost: recipeItem.cost.toFixed(2)
+    }
 
     if (userItem) {
       const quantityNeeded = recipeItem.quantity.amount - userItem.amount
 
-      if (userItem.amount < recipeItem.quantity.amount) {
-        listItem.name = domUpdates.lowerCase(recipeItem.name)
+      if (quantityNeeded > 0) {
         listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
-        listItem.unit = recipeItem.quantity.unit
-        listItem.cost = recipeItem.cost.toFixed(2)
-
-        if (listItem.quantity.toString().length > 3) {
-          listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
-        }
-
-        shoppingList.push(listItem)
       }
-
-    } else if (!userItem) {
-      listItem.name = domUpdates.lowerCase(recipeItem.name)
-      listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
-      listItem.unit = recipeItem.quantity.unit
-      listItem.cost = recipeItem.cost.toFixed(2)
-
-      if (listItem.quantity.toString().length > 3) {
-        listItem.quantity = recipeItem.quantity.amount.toFixed(2)
-      }
-
-      shoppingList.push(listItem)
     }
+
+    shoppingList.push(listItem)
   })
 
   if (shoppingList.length > 0) {
     domUpdates.displayShoppingList(shoppingList)
-    cookRecipeButton.disabled = true
+    modalIngredientsMessage.style.display = 'inline'
+    setModalButtonDisplay('none', 'block')
+
+  } else {
+    modalIngredientsMessage.style.display = 'none'
+    setModalButtonDisplay('block', 'none')
   }
 }
 
 // TOGGLE DISPLAYS
 function showMyRecipesBanner() {
-  document.querySelector(".banner--message").style.display = "none";
-  document.querySelector(".banner--recipes").style.display = "flex";
+  document.querySelector(".banner--message").style.display = 'none'
+  document.querySelector(".banner--recipes").style.display = 'flex'
 }
 
 function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = "block"
-  document.querySelector(".banner--recipes").style.display = "none"
+  document.querySelector(".banner--message").style.display = 'block'
+  document.querySelector(".banner--recipes").style.display = 'none'
 }
 
-// SEARCH RECIPES
 
+// SEARCH RECIPES
 function pressEnterSearch(event) {
   event.preventDefault()
   searchRecipes()
@@ -382,13 +415,13 @@ function searchRecipes() {
 }
 
 function togglePantryDisplay() {
-  const menuDropdown = document.querySelector(".menu-pantry")
+  const menuDropdown = document.querySelector('.menu-pantry')
   menuOpen = !menuOpen
 
   if (menuOpen) {
-    menuDropdown.style.display = "block";
+    menuDropdown.style.display = 'block'
   } else {
-    menuDropdown.style.display = "none";
+    menuDropdown.style.display = 'none'
   }
 }
 
@@ -398,49 +431,6 @@ function showAllRecipes() {
     domRecipe.style.display = 'block'
   })
 
-  main.classList.remove('display-favorites')
+  recipeContainer.classList.remove('display-favorites')
   showWelcomeBanner()
-}
-
-// CREATE AND USE PANTRY
-function displayPantryInfo(currentUser) {
-  currentUser.pantry.sort(function(a, b) {
-    if (a.name > b.name) {
-      return 1
-
-    } else if (a.name < b.name) {
-      return -1
-    }
-  })
-
-  domUpdates.addPantryInfoToDom(currentUser.pantry)
-}
-
-function findCheckedPantryBoxes() {
-  let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
-  let pantryCheckboxInfo = Array.from(pantryCheckboxes)
-  let selectedIngredients = pantryCheckboxInfo.filter(box => {
-    return box.checked;
-  })
-  showAllRecipes();
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
-  }
-}
-
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
-  recipeData.forEach(recipe => {
-    let allRecipeIngredients = [];
-    recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
-    });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
-    }
-  })
 }

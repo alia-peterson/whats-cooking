@@ -8,12 +8,14 @@
     <link rel="icon" href="../images/apple-logo.png"/>
   </head>
   <body>
-    <header>
-      <h1><span>fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
-      <form class="header--form" id="search" role="search">
-        <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
+    <header class="header">
+      <h1><span class="header--brand-name">fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
+      <form  id="search" class="header--form" role="search">
+        <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
         <label for="search-input" class="search-label">Search</label>
-        <img src="./images/search.png" class="search-icon" alt="search icon">
+        <div class="search-icon">
+          <img src="./images/search.png"  alt="search icon">
+        </div>  
       </form>
       <button id="button-saved" class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="favorites button">My Recipes</button>
       <button id="button-pantry" class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="pantry button">My Pantry</button>
@@ -44,17 +46,18 @@
         <button id="button-filter" class="button-filter">Filter Recipes</button>
       </div>
     </aside>
-    <main class="container">
+    <main class="recipe--container">
       <div class="overlay"></div>
       <article class="recipe--instructions">
         <button id="button-exit" class="button-exit">X</button>
         <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
-        <p id="modal--ingredients">Ingredients</p>
-        <p id="modal--shopping-message-yes">You have all the ingredients in your pantry!</p>
+        <ul id="modal--ingredients"></ul>
+        <p id="modal--message-ingredients" class="modal--message">You don't have enough ingredients in your pantry to make this recipe. See shopping list below for what you need.</p>
+        <h4>Instructions</h4>
+        <ol class="modal--instructions"></ol>
         <section class="modal--shopping-list">
           <h4>Shopping List</h4>
-          <p id="modal--shopping-message-no">You don't have enough ingredients in your pantry to make this recipe. Here's what you need:</p>
           <table class="modal--shopping-table">
             <thead>
               <tr>
@@ -68,11 +71,11 @@
             <tfoot class="modal--total-cost"></tfoot>
           </table>
         </section>
-        <h4>Instructions</h4>
-        <ol class="modal--instructions"></ol>
         <div class="modal--bottom">
           <p id="modal--message-date">Last cooked on: </p>
-          <h4 class="modal--message-pantry">Items Removed From Pantry</h4>
+          <h4 id="modal--message-shopping" class="modal--message">Items Added to Pantry</h4>
+          <h4 id="modal--message-cooked" class="modal--message">Items Removed From Pantry</h4>
+          <button id="button-shopping" class="button-filter" type="button" name="button">Add Items to Pantry</button>
           <button id="button-cooked" class="button-filter" type="button" name="button">Cook This Recipe</button>
         </div>
       </article>
