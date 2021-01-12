@@ -1,5 +1,3 @@
-// import './scripts'
-
 const recipeContainer = document.querySelector(".recipe--container")
 const bannerText = document.querySelector(".banner--message")
 const recipeTagList = document.querySelector(".list-tags")

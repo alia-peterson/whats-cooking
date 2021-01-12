@@ -1,6 +1,3 @@
-// import users from './data/users-data';
-// import recipeData from  './data/recipe-data';
-// import ingredientData from './data/ingredient-data';
 import domUpdates from './domUpdates'
 import fetchApi from './fetchApi'
 
@@ -55,13 +52,14 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
     generateUser(values[0])
     createRecipeDataset(values[1])
     addRecipeNameAndCost(values[2])
-    addPantryIngredientNames(values[2])
     loadWebsite()
   }).catch(handleErrorMessages)
 
 function loadWebsite() {
+  const pantry = currentUser.alphabetizePantry()
+  
   createRecipeCards()
-  displayPantryInfo(currentUser)
+  domUpdates.addPantryInfoToDom(pantry)
   findTags()
 }
 
@@ -86,37 +84,21 @@ function createRecipeDataset(recipeInfo) {
 
 function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
-    recipe.ingredients.forEach(ingredient => {
-      const foundItem = allIngredients.find(item => item.id === ingredient.id)
-      ingredient.name = foundItem.name
-      ingredient.cost = foundItem.estimatedCostInCents
-    })
+    recipe.updateIngredientsInfo(allIngredients)
   })
+
+  currentUser.addPantryIngredientNames(allIngredients)
 }
 
-function addPantryIngredientNames(allIngredients) {
-  currentUser.pantry.forEach(pantryItem => {
-    const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
-    pantryItem.name = foundItem.name
-  })
+// FIND A SPECIFIC RECIPE
+function findRecipe(recipeId) {
+  return allRecipes.find(recipe => recipe.id === Number(recipeId))
 }
+
 
 // USER PANTRY DISPLAY AND UPDATES
-function displayPantryInfo(currentUser) {
-  currentUser.pantry.sort(function(a, b) {
-    if (a.name > b.name) {
-      return 1
-
-    } else if (a.name < b.name) {
-      return -1
-    }
-  })
-
-  domUpdates.addPantryInfoToDom(currentUser.pantry)
-}
-
 function updateUserPantryFromRecipe(recipeId, typeModification) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
   const apiCalls = thisRecipe.ingredients.map(item => {
     let ingredientModificationValue = item.quantity.amount
 
@@ -148,22 +130,16 @@ function retrieveUpdatedUserPantry() {
 function updateUserPantryDisplay(recipeId, typeModification = 'add') {
   return updateUserPantryFromRecipe(recipeId, typeModification)
     .then(retrieveUpdatedUserPantry)
-    .then(() => fetchedIngredientData.then(array => {
-      addPantryIngredientNames(array)
+    .then(() => fetchedIngredientData.then(ingredients => {
+      currentUser.addPantryIngredientNames(ingredients)
     }))
-    .then(() => displayPantryInfo(currentUser))
+    .then(() => domUpdates.addPantryInfoToDom(currentUser.alphabetizePantry()))
 }
 
 // CREATE RECIPE CARDS
 function createRecipeCards() {
   allRecipes.forEach(recipe => {
-    let recipeName = recipe.name
-
-    if (recipe.name.length > 40) {
-      recipeName = recipe.name.substring(0, 40) + "..."
-    }
-
-    domUpdates.addCardToDom(recipe, recipeName)
+    domUpdates.addCardToDom(recipe, recipe.formatName())
     createCardListeners()
   })
 }
@@ -267,13 +243,14 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 
 function showSavedRecipes() {
   recipeContainer.classList.value = ('display-favorites')
-  showMyRecipesBanner()
+  toggleBanner('none', 'flex')
+
 }
 
 // RECIPE MODAL
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
 
   determineIfEnoughIngredients(thisRecipe)
 
@@ -305,7 +282,7 @@ function displayCookedDate(selectedRecipe) {
 }
 
 function updateCookedDate(recipeId) {
-  const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+  const thisRecipe = findRecipe(recipeId)
 
   const timeElapsed = Date.now()
   const today = new Date(timeElapsed)
@@ -321,7 +298,7 @@ function cookOrShopRecipe(messageType, modification, event) {
   cookRecipeButton.disabled = true
 
   const recipeID = event.target.getAttribute('recipeid')
-  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
+  const currentRecipe = findRecipe(recipeID)
 
   updateUserPantryDisplay(recipeID, modification)
     .then(() => {
@@ -385,16 +362,10 @@ function determineIfEnoughIngredients(selectedRecipe) {
 }
 
 // TOGGLE DISPLAYS
-function showMyRecipesBanner() {
-  document.querySelector(".banner--message").style.display = 'none'
-  document.querySelector(".banner--recipes").style.display = 'flex'
+function toggleBanner(messageBanner, recipeBanner) {
+  document.querySelector(".banner--message").style.display = messageBanner
+  document.querySelector(".banner--recipes").style.display = recipeBanner
 }
-
-function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = 'block'
-  document.querySelector(".banner--recipes").style.display = 'none'
-}
-
 
 // SEARCH RECIPES
 function pressEnterSearch(event) {
@@ -437,5 +408,5 @@ function showAllRecipes() {
   })
 
   recipeContainer.classList.remove('display-favorites')
-  showWelcomeBanner()
+  toggleBanner('block', 'none')
 }

@@ -4,7 +4,7 @@ class User {
     this.name = user.name
     this.pantry = user.pantry
     this.favoriteRecipes = []
-    this.recipesToCook = []
+    this.cookedRecipes = []
   }
 
   saveRecipe(recipe) {
@@ -20,18 +20,21 @@ class User {
     }
   }
 
-  decideToCook(recipe) {
-    this.recipesToCook.push(recipe)
+  addPantryIngredientNames(ingredientList) {
+    this.pantry.forEach(pantryItem => {
+      const foundItem = ingredientList.find(item => item.id === pantryItem.ingredient)
+      pantryItem.name = foundItem.name
+    })
   }
 
-  filterRecipes(type) {
-    return this.favoriteRecipes.filter(recipe => recipe.type.includes(type))
-  }
-
-  searchForRecipe(keyword) {
-    return this.favoriteRecipes.filter(recipe => {
-      return recipe.name.includes(keyword) ||
-             recipe.ingredients.includes(keyword)
+  alphabetizePantry() {
+    return this.pantry.sort(function(a, b) {
+      if (a.name > b.name) {
+        return 1
+  
+      } else if (a.name < b.name) {
+        return -1
+      }
     })
   }
 }

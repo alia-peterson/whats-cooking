@@ -7,6 +7,22 @@ class Recipe {
     this.ingredients = recipe.ingredients
     this.instructions = recipe.instructions
   }
+
+  updateIngredientsInfo(ingredientList) {
+    this.ingredients.forEach(ingredient => {
+      const foundItem = ingredientList.find(item => item.id === ingredient.id)
+      ingredient.name = foundItem.name
+      ingredient.cost = foundItem.estimatedCostInCents
+    })
+  }
+
+  formatName() {
+    if (this.name.length > 40) {
+      this.name = this.name.substring(0, 40) + "..."
+    }
+    
+    return this.name
+  }
   
 }
 
