@@ -29,12 +29,12 @@ const allRecipes = []
 let menuOpen = false
 let currentUser
 
-searchForm.addEventListener("submit", pressEnterSearch)
+searchForm.addEventListener('submit', pressEnterSearch)
 searchInput.addEventListener('keyup', searchRecipes)
-showAllRecipesButton.addEventListener("click", showAllRecipes)
-savedRecipesButton.addEventListener("click", showSavedRecipes)
-myPantryButton.addEventListener("click", togglePantryDisplay)
-filterRecipesButton.addEventListener("click", findCheckedBoxes)
+showAllRecipesButton.addEventListener('click', showAllRecipes)
+savedRecipesButton.addEventListener('click', showSavedRecipes)
+myPantryButton.addEventListener('click', togglePantryDisplay)
+filterRecipesButton.addEventListener('click', findCheckedBoxes)
 exitButton.addEventListener('click', exitRecipeInstructions)
 
 cookRecipeButton.addEventListener('click', function() {
@@ -349,36 +349,23 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
-    const listItem = {}
+
+    const listItem = {
+      name: domUpdates.lowerCase(recipeItem.name),
+      quantity: domUpdates.formatQuantity(recipeItem.quantity.amount),
+      unit: recipeItem.quantity.unit,
+      cost: recipeItem.cost.toFixed(2)
+    }
 
     if (userItem) {
       const quantityNeeded = recipeItem.quantity.amount - userItem.amount
 
-      if (userItem.amount < recipeItem.quantity.amount) {
-        listItem.name = domUpdates.lowerCase(recipeItem.name)
+      if (quantityNeeded > 0) {
         listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
-        listItem.unit = recipeItem.quantity.unit
-        listItem.cost = recipeItem.cost.toFixed(2)
-
-        if (listItem.quantity.toString().length > 3) {
-          listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
-        }
-
-        shoppingList.push(listItem)
       }
-
-    } else if (!userItem) {
-      listItem.name = domUpdates.lowerCase(recipeItem.name)
-      listItem.quantity = domUpdates.formatQuantity(recipeItem.quantity.amount)
-      listItem.unit = recipeItem.quantity.unit
-      listItem.cost = recipeItem.cost.toFixed(2)
-
-      if (listItem.quantity.toString().length > 3) {
-        listItem.quantity = recipeItem.quantity.amount.toFixed(2)
-      }
-
-      shoppingList.push(listItem)
     }
+
+    shoppingList.push(listItem)
   })
 
   if (shoppingList.length > 0) {
