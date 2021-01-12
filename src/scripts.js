@@ -57,12 +57,17 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
     addRecipeNameAndCost(values[2])
     addPantryIngredientNames(values[2])
     loadWebsite()
-  })
+  }).catch(handleErrorMessages)
 
 function loadWebsite() {
   createRecipeCards()
   displayPantryInfo(currentUser)
   findTags()
+}
+
+function handleErrorMessages(error) {
+  window.alert('The server was not accessible at this time. Please reload the page or try again later.')
+  console.log(error)
 }
 
 // POPULATE WEBSITE INFORMATION
@@ -127,8 +132,7 @@ function updateUserPantryFromRecipe(recipeId, typeModification) {
 
     return fetchApi.postUserInformation(updatedPantryItem)
   })
-
-  Promise.all(apiCalls)
+  return Promise.all(apiCalls).catch(handleErrorMessages)
 }
 
 function retrieveUpdatedUserPantry() {
@@ -141,14 +145,13 @@ function retrieveUpdatedUserPantry() {
   return userPromise
 }
 
-async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
-  await updateUserPantryFromRecipe(recipeId, typeModification)
-  await retrieveUpdatedUserPantry()
-  await fetchedIngredientData.then(array => {
-    addPantryIngredientNames(array)
-  })
-
-  displayPantryInfo(currentUser)
+function updateUserPantryDisplay(recipeId, typeModification = 'add') {
+  return updateUserPantryFromRecipe(recipeId, typeModification)
+    .then(retrieveUpdatedUserPantry)
+    .then(() => fetchedIngredientData.then(array => {
+      addPantryIngredientNames(array)
+    }))
+    .then(() => displayPantryInfo(currentUser))
 }
 
 // CREATE RECIPE CARDS
@@ -311,7 +314,7 @@ function updateCookedDate(recipeId) {
   displayCookedDate(thisRecipe)
 }
 
-async function cookOrShopRecipe(messageType, modification, event) {
+function cookOrShopRecipe(messageType, modification, event) {
   messageType.style.display = 'inline'
   messageType.style.opacity = 1
   shoppingListButton.disabled = true
@@ -320,7 +323,8 @@ async function cookOrShopRecipe(messageType, modification, event) {
   const recipeID = event.target.getAttribute('recipeid')
   const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
 
-  await updateUserPantryDisplay(recipeID, modification)
+  updateUserPantryDisplay(recipeID, modification)
+    .then(() => {
 
   setTimeout(function() {
     messageType.style.opacity = 0
@@ -336,7 +340,7 @@ async function cookOrShopRecipe(messageType, modification, event) {
     domUpdates.clearShoppingList()
     modalIngredientsMessage.style.display = 'none'
     setModalButtonDisplay('block', 'none')
-  }
+  }})
 }
 
 function setModalButtonDisplay(cookRecipeState, shopRecipeState) {
@@ -346,7 +350,6 @@ function setModalButtonDisplay(cookRecipeState, shopRecipeState) {
 
 function determineIfEnoughIngredients(selectedRecipe) {
   const shoppingList = []
-
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
 
@@ -357,15 +360,17 @@ function determineIfEnoughIngredients(selectedRecipe) {
       cost: recipeItem.cost.toFixed(2)
     }
 
-    if (userItem) {
+    if (!userItem) {
+      shoppingList.push(listItem)
+
+    } else if (userItem) {
       const quantityNeeded = recipeItem.quantity.amount - userItem.amount
 
       if (quantityNeeded > 0) {
         listItem.quantity = domUpdates.formatQuantity(quantityNeeded)
+        shoppingList.push(listItem)
       }
     }
-
-    shoppingList.push(listItem)
   })
 
   if (shoppingList.length > 0) {
