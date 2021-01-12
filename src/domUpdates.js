@@ -137,6 +137,8 @@ let domUpdates = {
       itemName.innerText = item.name
       itemQuantity.innerText = item.amount
 
+      itemQuantity.classList.add('amount')
+
       pantryList.appendChild(listItem)
       listItem.appendChild(itemName)
       listItem.appendChild(itemQuantity)

@@ -28,6 +28,7 @@ aside {
   justify-content: center;
   height: auto;
   text-align: center;
+  color: $dark-green;
 }
 
 .wrap {
@@ -81,27 +82,41 @@ aside {
 
 /* PANTRY LIST */
 .menu-pantry {
-  align-items: center;
-  background-color: $gray;
   display: none;
+  background-color: $gray;
   max-height: 60vh;
   overflow: scroll;
-  padding: 12px;
+  padding: 3%;
   position: absolute;
-  text-align: center;
   top: 85%;
   right: 1px;
   width: 250px;
   z-index: 3;
+  color: $dark-green;
+  box-shadow: 1px 1px 115px black;
 
   h2 {
-    color: $medium-green;
+    color: $dark-green;
     margin: 0px;
+    padding-bottom: 5%;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  td {
+    margin: 2px;
+  }
+
+  .amount {
+    text-align: center;
   }
 }
 
 .list-pantry {
   color: $dark-green;
-  padding-left: 15px;
+  margin-top: 15px;
   text-align: left;
 }
