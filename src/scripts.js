@@ -52,13 +52,13 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
     generateUser(values[0])
     createRecipeDataset(values[1])
     addRecipeNameAndCost(values[2])
-    currentUser.addPantryIngredientNames(values[2])
+    // currentUser.addPantryIngredientNames(values[2])
     loadWebsite()
   })
 
 function loadWebsite() {
   createRecipeCards()
-  displayPantryInfo(currentUser)
+  domUpdates.addPantryInfoToDom(currentUser.alphabatizePantry())
   findTags()
 }
 
@@ -80,22 +80,12 @@ function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.updateIngredientsInfo(allIngredients)
   })
+
+  currentUser.addPantryIngredientNames(allIngredients)
 }
+
 
 // USER PANTRY DISPLAY AND UPDATES
-function displayPantryInfo(currentUser) {
-  currentUser.pantry.sort(function(a, b) {
-    if (a.name > b.name) {
-      return 1
-
-    } else if (a.name < b.name) {
-      return -1
-    }
-  })
-
-  domUpdates.addPantryInfoToDom(currentUser.pantry)
-}
-
 function updateUserPantryFromRecipe(recipeId, typeModification) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
   const apiCalls = thisRecipe.ingredients.map(item => {
@@ -134,7 +124,7 @@ async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
     currentUser.addPantryIngredientNames(array)
   })
 
-  displayPantryInfo(currentUser)
+  domUpdates.addPantryInfoToDom(currentUser.alphabatizePantry())
 }
 
 // CREATE RECIPE CARDS

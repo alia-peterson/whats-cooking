@@ -31,10 +31,21 @@ class User {
     })
   }
 
-  addPantryIngredientNames(allIngredients) {
+  addPantryIngredientNames(ingredientList) {
     this.pantry.forEach(pantryItem => {
-      const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
+      const foundItem = ingredientList.find(item => item.id === pantryItem.ingredient)
       pantryItem.name = foundItem.name
+    })
+  }
+
+  alphabatizePantry() {
+    return this.pantry.sort(function(a, b) {
+      if (a.name > b.name) {
+        return 1
+  
+      } else if (a.name < b.name) {
+        return -1
+      }
     })
   }
 
