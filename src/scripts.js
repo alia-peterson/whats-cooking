@@ -240,7 +240,8 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 
 function showSavedRecipes() {
   recipeContainer.classList.value = ('display-favorites')
-  showMyRecipesBanner()
+  toggleBanner('none', 'flex')
+
 }
 
 // RECIPE MODAL
@@ -356,16 +357,10 @@ function determineIfEnoughIngredients(selectedRecipe) {
 }
 
 // TOGGLE DISPLAYS
-function showMyRecipesBanner() {
-  document.querySelector(".banner--message").style.display = 'none'
-  document.querySelector(".banner--recipes").style.display = 'flex'
+function toggleBanner(messageBanner, recipeBanner) {
+  document.querySelector(".banner--message").style.display = messageBanner
+  document.querySelector(".banner--recipes").style.display = recipeBanner
 }
-
-function showWelcomeBanner() {
-  document.querySelector(".banner--message").style.display = 'block'
-  document.querySelector(".banner--recipes").style.display = 'none'
-}
-
 
 // SEARCH RECIPES
 function pressEnterSearch(event) {
@@ -408,5 +403,5 @@ function showAllRecipes() {
   })
 
   recipeContainer.classList.remove('display-favorites')
-  showWelcomeBanner()
+  toggleBanner('block', 'none')
 }
