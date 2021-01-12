@@ -1,8 +1,8 @@
 .button-exit {
   background: white;
-  border: 2px double #359567;
+  border: 2px double $medium-green;
   border-radius: 5px;
-  color: #359567;
+  color: $medium-green;
   cursor: pointer;
   font-size: 20px;
   font-weight: 700;
@@ -11,7 +11,7 @@
   transition: .3s ease;
 
   &:hover {
-    background: #C4EB67;
+    background: $light-green;
     transition: .3s ease;
   }
 }
@@ -52,8 +52,8 @@
     }
 
     th {
-      color: #359567;
-      background-color: #C4EB67;
+      color: $medium-green;
+      background-color: $light-green;
       padding: 0.25rem;
       text-align: left;
     }
@@ -95,7 +95,7 @@
 
 .recipe--instructions {
   background: white;
-  border: 3px solid #C4EB67;
+  border: 3px solid $light-green;
   border-radius: 10px;
   box-shadow: 1px 1px 115px black;
   display: none;
@@ -111,7 +111,7 @@
 
   h4 {
     background: white;
-    color: #359567;
+    color: $medium-green;
   }
 
   p table {
