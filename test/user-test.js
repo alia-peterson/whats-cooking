@@ -3,16 +3,21 @@ import { expect } from 'chai'
 import User from '../src/user'
 import data from '../src/data/users-data'
 
-describe('User', function() {
+import ingredientsData from '../src/data/ingredient-data'
+
+describe.only('User', function() {
   let user
   let userInfo
   let recipe
+  let ingredientList
 
   beforeEach(function() {
     userInfo = data[0]
     user = new User(userInfo)
 
     recipe = {name: 'Chicken Parm', type: ['italian', 'dinner']}
+
+    ingredientList = ingredientsData
   })
 
   it('should be a function', function() {
@@ -35,18 +40,9 @@ describe('User', function() {
     expect(user.favoriteRecipes).to.deep.equal([])
   })
 
-  it('should initialize with an empty recipesToCook array', function() {
-    expect(user.recipesToCook).to.deep.equal([])
-  })
-
   it('should be able to save a recipe to favoriteRecipes', function() {
     user.saveRecipe(recipe)
     expect(user.favoriteRecipes[0].name).to.equal('Chicken Parm')
-  })
-
-  it('should be able to decide to cook a recipe', function() {
-    user.decideToCook(recipe)
-    expect(user.recipesToCook[0].name).to.equal('Chicken Parm')
   })
 
   it('should be able to filter recipes by type', function() {
@@ -54,8 +50,19 @@ describe('User', function() {
     expect(user.filterRecipes('italian')).to.deep.equal([recipe])
   })
 
-  it('should be able to search recipes by name', function() {
-    user.saveRecipe(recipe)
-    expect(user.searchForRecipe('Chicken Parm')).to.deep.equal([recipe])
+  it('should initialize with pantry ingredients without names', function() {
+    expect(user.pantry[0].name).to.be.undefined
+  })
+
+  it('should add names to pantry ingredients', function() {
+    user.addPantryIngredientNames(ingredientList)
+    expect(user.pantry[0].name).to.equal('zucchini squash')
+  })
+
+  it('should alphabatize the pantry after the names have been added', function() {
+    user.addPantryIngredientNames(ingredientList)
+
+    const sortedPantry = user.alphabetizePantry()
+    expect(sortedPantry[0].name).to.equal('almondmilk')
   })
 })

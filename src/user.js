@@ -24,13 +24,6 @@ class User {
     return this.favoriteRecipes.filter(recipe => recipe.type.includes(type))
   }
 
-  searchForRecipe(keyword) {
-    return this.favoriteRecipes.filter(recipe => {
-      return recipe.name.includes(keyword) ||
-             recipe.ingredients.includes(keyword)
-    })
-  }
-
   addPantryIngredientNames(ingredientList) {
     this.pantry.forEach(pantryItem => {
       const foundItem = ingredientList.find(item => item.id === pantryItem.ingredient)
@@ -38,7 +31,7 @@ class User {
     })
   }
 
-  alphabatizePantry() {
+  alphabetizePantry() {
     return this.pantry.sort(function(a, b) {
       if (a.name > b.name) {
         return 1
