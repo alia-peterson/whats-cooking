@@ -14,7 +14,7 @@ describe('Recipe', function() {
 
   beforeEach(function() {
     recipeInfo = data[0]
-    recipe2Info = data[1]
+    recipe2Info = data[2]
     recipe = new Recipe(recipeInfo)
     recipe2 = new Recipe(recipe2Info)
     ingredients = ingredientsData
@@ -44,6 +44,11 @@ describe('Recipe', function() {
     expect(recipe.ingredients).to.deep.eq(data[0].ingredients)
   })
 
+  it('should initialize with ingredients that do not have costs', function() {
+    const cost = recipe.ingredients[0].cost
+    expect(cost).to.be.undefined
+  })
+
   it('should add a name to each ingredient', function() {
     recipe.updateIngredientsInfo(ingredients)
 
@@ -52,9 +57,19 @@ describe('Recipe', function() {
   })
 
   it('should add a cost to each ingredient', function() {
-    recipe.updateIngredientsInfo(ingredients);
+    recipe.updateIngredientsInfo(ingredients)
 
     const ingredientCost = ingredients[0].estimatedCostInCents
     expect(recipe.ingredients[0].cost).to.equal(ingredientCost)
+  })
+
+  it('should format recipe names that are too long', function() {
+    const formattedName = recipe.formatName()
+    expect(formattedName).to.equal('Loaded Chocolate Chip Pudding Cookie Cup...')
+  })
+
+  it('should not format names that are under 40 characters', function() {
+    const formattedName = recipe2.formatName()
+    expect(formattedName).to.equal(recipe2.name)
   })
 })
