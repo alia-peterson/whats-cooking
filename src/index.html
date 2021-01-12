@@ -13,8 +13,8 @@
   <header class="header">
     <h1><span class="header--brand-name">fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
     <form id="search" class="header--form" role="search">
-      <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
       <label for="search-input" class="search-label">Search</label>
+      <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
       <div class="search-icon">
         <img src="./images/search.png" alt="search icon">
       </div>
@@ -22,7 +22,7 @@
     <button id="button-saved" class="button-nav button-ing-pan button-saved" type="button" name="button"><img src="./images/cookbook.png" alt="favorites button">My Recipes</button>
     <button id="button-pantry" class="button-nav button-pantry button-saved-ing" type="button" name="button"><img src="./images/seasoning.png" alt="pantry button">My Pantry</button>
     <menu class="menu-pantry">
-      <h2>My Pantry</h2>
+      <h3>My Pantry</h3>
       <table>
         <thead>
           <tr>
@@ -35,15 +35,15 @@
     </menu>
   </header>
   <section class="banner">
-    <h1 class="banner--message">Welcome Lovely User!</h1>
+    <h2 class="banner--message">Welcome Lovely User!</h2>
     <div class="banner--recipes">
-      <h1>My Recipes</h1>
+      <h2>My Recipes</h2>
       <button id="button-show-all" class="button-show-all">Show All Recipes</button>
     </div>
   </section>
   <aside>
     <div class="wrap">
-      <h2>Recipe Type</h2>
+      <h3>Recipe Type</h3>
       <ul class="list-tags"></ul>
       <button id="button-filter" class="button-filter">Filter Recipes</button>
     </div>
@@ -83,7 +83,7 @@
     </article>
     <template id="template--card">
       <article class="recipe--card" id="0">
-        <h3 class="recipe--title" maxlength="40">Recipe Name</h3>
+        <h4 class="recipe--title" maxlength="40">Recipe Name</h4>
         <div class="recipe--photo-container">
           <img class="recipe--photo" src="source" alt="alt-text" title="recipe-title">
           <div class="recipe--hover-text">
