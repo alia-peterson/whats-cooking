@@ -4,7 +4,7 @@ class User {
     this.name = user.name
     this.pantry = user.pantry
     this.favoriteRecipes = []
-    this.recipesToCook = []
+    this.cookedRecipes  = []
   }
 
   saveRecipe(recipe) {
@@ -20,10 +20,6 @@ class User {
     }
   }
 
-  decideToCook(recipe) {
-    this.recipesToCook.push(recipe)
-  }
-
   filterRecipes(type) {
     return this.favoriteRecipes.filter(recipe => recipe.type.includes(type))
   }
@@ -34,6 +30,8 @@ class User {
              recipe.ingredients.includes(keyword)
     })
   }
+
+
 }
 
 module.exports = User
