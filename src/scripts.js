@@ -76,16 +76,6 @@ function createRecipeDataset(recipeInfo) {
   })
 }
 
-// function addRecipeNameAndCost(allIngredients) {
-//   allRecipes.forEach(recipe => {
-//     recipe.ingredients.forEach(ingredient => {
-//       const foundItem = allIngredients.find(item => item.id === ingredient.id)
-//       ingredient.name = foundItem.name
-//       ingredient.cost = foundItem.estimatedCostInCents
-//     })
-//   })
-// }
-
 function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.updateIngredientsInfo(allIngredients)
