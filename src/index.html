@@ -50,11 +50,12 @@
         <button id="button-exit" class="button-exit">X</button>
         <h3 class="modal--title">Recipe Name</h3>
         <h4>Ingredients</h4>
-        <p id="modal--ingredients">Ingredients</p>
-        <p id="modal--shopping-message-yes">You have all the ingredients in your pantry!</p>
+        <ul id="modal--ingredients"></ul>
+        <p id="modal--message-ingredients" class="modal--message">You don't have enough ingredients in your pantry to make this recipe. See shopping list below for what you need.</p>
+        <h4>Instructions</h4>
+        <ol class="modal--instructions"></ol>
         <section class="modal--shopping-list">
           <h4>Shopping List</h4>
-          <p id="modal--shopping-message-no">You don't have enough ingredients in your pantry to make this recipe. Here's what you need:</p>
           <table class="modal--shopping-table">
             <thead>
               <tr>
@@ -68,11 +69,11 @@
             <tfoot class="modal--total-cost"></tfoot>
           </table>
         </section>
-        <h4>Instructions</h4>
-        <ol class="modal--instructions"></ol>
         <div class="modal--bottom">
           <p id="modal--message-date">Last cooked on: </p>
-          <h4 class="modal--message-pantry">Items Removed From Pantry</h4>
+          <h4 id="modal--message-shopping" class="modal--message">Items Added to Pantry</h4>
+          <h4 id="modal--message-cooked" class="modal--message">Items Removed From Pantry</h4>
+          <button id="button-shopping" class="button-filter" type="button" name="button">Add Items to Pantry</button>
           <button id="button-cooked" class="button-filter" type="button" name="button">Cook This Recipe</button>
         </div>
       </article>

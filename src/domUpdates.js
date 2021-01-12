@@ -6,7 +6,7 @@ const recipeTagList = document.querySelector(".list-tags")
 const pantryList = document.querySelector(".table-pantry")
 const cardTemplate = document.querySelector('#template--card')
 const instructionsCard = document.querySelector('.recipe--instructions')
-const modalShoppingMessageYes = document.querySelector('#modal--shopping-message-yes')
+const modalShoppingMessage = document.querySelector('#modal--message-ingredients')
 const modalShoppingList = document.querySelector('.modal--shopping-list')
 const modalShoppingItems = document.querySelector('.modal--shopping-items')
 const modalTotalCost = document.querySelector('.modal--total-cost')
@@ -46,7 +46,7 @@ let domUpdates = {
   },
 
   displayShoppingList(shoppingList) {
-    modalShoppingMessageYes.style.display = 'none'
+    modalShoppingMessage.style.display = 'none'
     modalShoppingList.style.display = 'block'
     shoppingList.forEach(shoppingItem => {
       const listItem = document.createElement('tr')
@@ -59,7 +59,7 @@ let domUpdates = {
 
       itemName.innerText = shoppingItem.name
       itemQuantity.innerText = `${shoppingItem.quantity} ${unit}`
-      itemCostPerUnit.innerText = `$${shoppingItem.cost/100}`
+      itemCostPerUnit.innerText = `$${shoppingItem.cost / 100}`
       itemTotalCost.innerText = `$${totalCost.toFixed(2)}`
 
       itemCostPerUnit.classList.add('price')
@@ -103,14 +103,9 @@ let domUpdates = {
     return quantity
   },
 
-  clearShoppingList() {
-    modalShoppingItems.querySelectorAll('tr').forEach(tr => tr.remove())
-  },
-
-  generateRecipeInstructions(recipe, ingredients) {
+  generateRecipeInstructions(recipe) {
     instructionsCard.querySelector('h3').innerText = recipe.name
     instructionsCard.querySelector('h3').style.backgroundImage = `url(${recipe.image})`
-    instructionsCard.querySelector('p').innerText = ingredients
 
     recipe.instructions.forEach(step => {
       const nextStep = document.createElement('li')
@@ -121,8 +116,15 @@ let domUpdates = {
     instructionsCard.style.display = 'inline'
   },
 
-  clearRecipeInstructions() {
-    instructionsCard.querySelectorAll('li').forEach(li => li.remove())
+  generateRecipeIngredients(recipe) {
+    recipe.ingredients.forEach(i => {
+      const currentIngredient = document.createElement('li')
+      const quantity = domUpdates.formatQuantity(i.quantity.amount)
+      const unit = domUpdates.formatUnits(i.quantity.unit)
+
+      currentIngredient.innerText = `${quantity} ${unit} ${domUpdates.lowerCase(i.name)}`
+      instructionsCard.querySelector('ul').appendChild(currentIngredient)
+    })
   },
 
   addPantryInfoToDom(pantry) {
@@ -141,16 +143,26 @@ let domUpdates = {
     })
   },
 
-  clearPantryContents() {
-    pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
-  },
-
   createListElements(instructions) {
     let instructionsList = ''
     instructions.forEach(item => {
       instructionsList += `<li>${item}</li>`
     })
     return instructionsList
+  },
+
+  // can probably rework these to be dynamic since they're so similar?
+  clearPantryContents() {
+    pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
+  },
+
+  clearShoppingList() {
+    modalShoppingList.style.display = 'none'
+    modalShoppingItems.querySelectorAll('tr').forEach(tr => tr.remove())
+  },
+
+  clearRecipeInstructions() {
+    instructionsCard.querySelectorAll('li').forEach(li => li.remove())
   },
 
   capitalize(words) {
