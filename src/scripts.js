@@ -9,7 +9,7 @@ import './css/index.scss';
 import User from './user';
 import Recipe from './recipe';
 
-const main = document.querySelector('.container')
+const recipeContainer = document.querySelector('.recipe--container')
 const showAllRecipesButton = document.querySelector('#button-show-all')
 const savedRecipesButton = document.querySelector('#button-saved')
 const myPantryButton = document.querySelector('#button-pantry')
@@ -263,7 +263,7 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 }
 
 function showSavedRecipes() {
-  main.classList.value = ('display-favorites')
+  recipeContainer.classList.value = ('display-favorites')
   showMyRecipesBanner()
 }
 
@@ -431,6 +431,6 @@ function showAllRecipes() {
     domRecipe.style.display = 'block'
   })
 
-  main.classList.remove('display-favorites')
+  recipeContainer.classList.remove('display-favorites')
   showWelcomeBanner()
 }
