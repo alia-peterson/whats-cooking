@@ -35,8 +35,14 @@ savedRecipesButton.addEventListener("click", showSavedRecipes)
 myPantryButton.addEventListener("click", togglePantryDisplay)
 filterRecipesButton.addEventListener("click", findCheckedBoxes)
 exitButton.addEventListener('click', exitRecipeInstructions)
-cookRecipeButton.addEventListener('click', cookRecipe)
-shoppingListButton.addEventListener('click', shopRecipe)
+
+cookRecipeButton.addEventListener('click', function() {
+  cookOrShopRecipe(modalCookedMessage, 'subtract', event)
+})
+
+shoppingListButton.addEventListener('click', function() {
+  cookOrShopRecipe(modalShoppingMessage, 'add', event)
+})
 
 // FETCH API DATASETS
 const fetchedUserData = fetchApi.getUserData()
@@ -103,11 +109,9 @@ function displayPantryInfo(currentUser) {
   domUpdates.addPantryInfoToDom(currentUser.pantry)
 }
 
-function updateUserPantryFromRecipe(recipeId, typeModification) {
-  let promise
-
+async function updateUserPantryFromRecipe(recipeId, typeModification) {
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
-  thisRecipe.ingredients.forEach(item => {
+  const apiCalls = thisRecipe.ingredients.map(item => {
     let ingredientModificationValue = item.quantity.amount
 
     if (typeModification === 'subtract') {
@@ -120,9 +124,10 @@ function updateUserPantryFromRecipe(recipeId, typeModification) {
       ingredientModification: ingredientModificationValue
     }
 
-    promise = fetchApi.postUserInformation(updatedPantryItem)
+    return fetchApi.postUserInformation(updatedPantryItem)
   })
-  return promise
+
+  await Promise.all(apiCalls)
 }
 
 function retrieveUpdatedUserPantry() {
@@ -136,9 +141,9 @@ function retrieveUpdatedUserPantry() {
 }
 
 async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
-  const promiseFromPosts = await updateUserPantryFromRecipe(recipeId, typeModification)
-  const updatedUserPantry = await retrieveUpdatedUserPantry()
-  const updatedPantryNames = await fetchedIngredientData.then(array => {
+  await updateUserPantryFromRecipe(recipeId, typeModification)
+  await retrieveUpdatedUserPantry()
+  await fetchedIngredientData.then(array => {
     addPantryIngredientNames(array)
   })
 
@@ -265,6 +270,9 @@ function showSavedRecipes() {
 function openRecipeInstructions(event) {
   const recipeId = event.path.find(element => element.id).id
   const thisRecipe = allRecipes.find(recipe => recipe.id === Number(recipeId))
+
+  determineIfEnoughIngredients(thisRecipe)
+
   cookRecipeButton.setAttribute('recipeid', recipeId)
   shoppingListButton.setAttribute('recipeid', recipeId)
 
@@ -302,41 +310,40 @@ function updateCookedDate(recipeId) {
   displayCookedDate(thisRecipe)
 }
 
-function cookRecipe(event) {
-  modalCookedMessage.style.display = 'inline'
-  modalCookedMessage.style.opacity = 1
+async function cookOrShopRecipe(messageType, modification, event) {
+  messageType.style.display = 'inline'
+  messageType.style.opacity = 1
+  shoppingListButton.disabled = true
+  cookRecipeButton.disabled = true
 
   const recipeID = event.target.getAttribute('recipeid')
   const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
 
-  determineIfEnoughIngredients(currentRecipe)
-  updateCookedDate(recipeID)
-  updateUserPantryDisplay(recipeID, 'subtract')
+  await updateUserPantryDisplay(recipeID, modification)
 
   setTimeout(function() {
-    modalCookedMessage.style.opacity = 0
-  }, 2000)
+    messageType.style.opacity = 0
+    shoppingListButton.disabled = false
+    cookRecipeButton.disabled = false
+  }, 1500)
+
+  if (modification === 'subtract') {
+    updateCookedDate(recipeID)
+    determineIfEnoughIngredients(currentRecipe)
+
+  } else {
+    domUpdates.clearShoppingList()
+    setModalButtonDisplay('block', 'none')
+  }
 }
 
-function shopRecipe(event) {
-  modalShoppingMessage.style.display = 'inline'
-  modalShoppingMessage.style.opacity = 1
-
-  const recipeID = event.target.getAttribute('recipeid')
-  const currentRecipe = allRecipes.find(recipe => recipe.id === Number(recipeID))
-
-  // determineIfEnoughIngredients(currentRecipe)
-  domUpdates.clearShoppingList()
-  updateUserPantryDisplay(recipeID)
-
-  setTimeout(function() {
-    modalCookedMessage.style.opacity = 0
-  }, 2000)
+function setModalButtonDisplay(cookRecipeState, shopRecipeState) {
+  cookRecipeButton.style.display = cookRecipeState
+  shoppingListButton.style.display = shopRecipeState
 }
 
 function determineIfEnoughIngredients(selectedRecipe) {
   const shoppingList = []
-  domUpdates.clearShoppingList()
 
   selectedRecipe.ingredients.forEach(recipeItem => {
     const userItem = currentUser.pantry.find(item => item.ingredient === recipeItem.id)
@@ -374,7 +381,10 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
   if (shoppingList.length > 0) {
     domUpdates.displayShoppingList(shoppingList)
-    cookRecipeButton.disabled = true
+    setModalButtonDisplay('none', 'block')
+
+  } else {
+    setModalButtonDisplay('block', 'none')
   }
 }
 

@@ -157,6 +157,7 @@ let domUpdates = {
   },
 
   clearShoppingList() {
+    modalShoppingList.style.display = 'none'
     modalShoppingItems.querySelectorAll('tr').forEach(tr => tr.remove())
   },
 
