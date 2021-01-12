@@ -5,7 +5,7 @@
   height: 100px;
 
   &--brand-name {
-    color: #C4EB67;
+    color: $light-green;
   }
 
   &--apple-icon {
@@ -16,7 +16,7 @@
 
   &--form {
     border-radius: 15px 15px 15px 15px;
-    border: 3px outset #C4EB67;
+    border: 3px outset $light-green;
     box-shadow: 0px 0px 7px 0px #475d74;
     margin: 1.2% 0.5% 1.2% 0%;
     width: 100%;
@@ -30,7 +30,7 @@
   border-radius: 10px 0px 0px 10px;
   border: none;
   box-shadow: inset -3px -1px 20px 1px #5c7894;
-  color: #5B7894;
+  color: $background-blue;
   font-size: 2rem;
   outline: none;
   padding: 0% 2% 0% 0%;
@@ -53,13 +53,13 @@
   }
 
   &::placeholder {
-    color: #5B7894;
+    color: $background-blue;
     font-size: 1.5rem;
   }
 }
 
 .search-icon {
-  border-left: 3px outset #C4EB67;
+  border-left: 3px outset $light-green;
   padding: 1%;
   display: flex;
   justify-content: center;
@@ -75,7 +75,7 @@
 }
 
 .button-nav {
-  background: #5B7894 no-repeat;
+  background: $background-blue no-repeat;
   border: none;
   cursor: pointer;
   font-size: 0px;
@@ -91,7 +91,7 @@
   justify-content: center;
 
   &:hover {
-    color: #C4EB67;
+    color: $light-green;
     font-size: .85rem;
     text-shadow: 0px 2px 4px black;
     transition: .4s ease;
@@ -105,7 +105,7 @@
 }
 
 .button-saved-ing {
-  border-left: 3px solid #C4EB67;
+  border-left: 3px solid $light-green;
 }
 
 .button-pantry {
