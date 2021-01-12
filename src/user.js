@@ -1,36 +1,39 @@
 class User {
   constructor(user) {
-    this.id = user.id;
-    this.name = user.name;
-    this.pantry = user.pantry;
-    this.favoriteRecipes = [];
-    this.recipesToCook = [];
+    this.id = user.id
+    this.name = user.name
+    this.pantry = user.pantry
+    this.favoriteRecipes = []
+    this.recipesToCook = []
   }
 
   saveRecipe(recipe) {
     if (!this.favoriteRecipes.includes(recipe)) {
-      this.favoriteRecipes.push(recipe);
+      this.favoriteRecipes.push(recipe)
     }
   }
 
   removeRecipe(recipe) {
     if (recipe) {
-      let i = this.favoriteRecipes.indexOf(recipe);
-      this.favoriteRecipes.splice(i, 1);
+      let i = this.favoriteRecipes.indexOf(recipe)
+      this.favoriteRecipes.splice(i, 1)
     }
   }
 
   decideToCook(recipe) {
-    this.recipesToCook.push(recipe);
+    this.recipesToCook.push(recipe)
   }
 
   filterRecipes(type) {
-    return this.favoriteRecipes.filter(recipe => recipe.type.includes(type));
+    return this.favoriteRecipes.filter(recipe => recipe.type.includes(type))
   }
 
   searchForRecipe(keyword) {
-    return this.favoriteRecipes.filter(recipe => recipe.name.includes(keyword) || recipe.ingredients.includes(keyword));
+    return this.favoriteRecipes.filter(recipe => {
+      return recipe.name.includes(keyword) ||
+             recipe.ingredients.includes(keyword)
+    })
   }
 }
 
-module.exports = User;
+module.exports = User
