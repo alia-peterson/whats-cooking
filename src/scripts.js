@@ -52,13 +52,14 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
     generateUser(values[0])
     createRecipeDataset(values[1])
     addRecipeNameAndCost(values[2])
-    // currentUser.addPantryIngredientNames(values[2])
     loadWebsite()
   })
 
 function loadWebsite() {
+  const pantry = currentUser.alphabetizePantry()
+  
   createRecipeCards()
-  domUpdates.addPantryInfoToDom(currentUser.alphabetizePantry())
+  domUpdates.addPantryInfoToDom(pantry)
   findTags()
 }
 
@@ -126,8 +127,8 @@ function retrieveUpdatedUserPantry() {
 async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
   await updateUserPantryFromRecipe(recipeId, typeModification)
   await retrieveUpdatedUserPantry()
-  await fetchedIngredientData.then(array => {
-    currentUser.addPantryIngredientNames(array)
+  await fetchedIngredientData.then(ingredients => {
+    currentUser.addPantryIngredientNames(ingredients)
   })
 
   domUpdates.addPantryInfoToDom(currentUser.alphabetizePantry())

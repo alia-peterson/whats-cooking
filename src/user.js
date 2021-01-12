@@ -4,7 +4,7 @@ class User {
     this.name = user.name
     this.pantry = user.pantry
     this.favoriteRecipes = []
-    this.cookedRecipes  = []
+    this.cookedRecipes = []
   }
 
   saveRecipe(recipe) {
@@ -37,7 +37,6 @@ class User {
       }
     })
   }
-
 }
 
 module.exports = User
