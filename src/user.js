@@ -31,6 +31,12 @@ class User {
     })
   }
 
+  addPantryIngredientNames(allIngredients) {
+    this.pantry.forEach(pantryItem => {
+      const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
+      pantryItem.name = foundItem.name
+    })
+  }
 
 }
 

@@ -52,7 +52,7 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
     generateUser(values[0])
     createRecipeDataset(values[1])
     addRecipeNameAndCost(values[2])
-    addPantryIngredientNames(values[2])
+    currentUser.addPantryIngredientNames(values[2])
     loadWebsite()
   })
 
@@ -79,13 +79,6 @@ function createRecipeDataset(recipeInfo) {
 function addRecipeNameAndCost(allIngredients) {
   allRecipes.forEach(recipe => {
     recipe.updateIngredientsInfo(allIngredients)
-  })
-}
-
-function addPantryIngredientNames(allIngredients) {
-  currentUser.pantry.forEach(pantryItem => {
-    const foundItem = allIngredients.find(item => item.id === pantryItem.ingredient)
-    pantryItem.name = foundItem.name
   })
 }
 
@@ -138,7 +131,7 @@ async function updateUserPantryDisplay(recipeId, typeModification = 'add') {
   await updateUserPantryFromRecipe(recipeId, typeModification)
   await retrieveUpdatedUserPantry()
   await fetchedIngredientData.then(array => {
-    addPantryIngredientNames(array)
+    currentUser.addPantryIngredientNames(array)
   })
 
   displayPantryInfo(currentUser)
