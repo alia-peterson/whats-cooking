@@ -23,21 +23,22 @@ main {
   position: relative;
   cursor: pointer;
 
-  &:hover h3 {
-    text-shadow: 0px 0px 4px $light-green;
+  &:hover {
     transition: .8s ease;
-  }
 
-  &:hover .recipe--photo {
-    opacity: 50%;
-    transition: .8s ease;
-  }
+    h3 {
+      text-shadow: 0px 0px 4px $light-green;
+    }
 
-  &:hover .recipe--hover-text {
-    font-size: 20px;
-    opacity: 100%;
-    transition: .5s ease;
-    width: 100%;
+    .recipe--photo {
+      opacity: 50%;
+    }
+
+    .recipe--hover-text {
+      font-size: 20px;
+      opacity: 100%;
+      width: 100%;
+    }
   }
 }
 
@@ -77,10 +78,10 @@ main {
   flex-wrap: wrap;
 
   span {
-    margin: 0px 2px 2px 0px;
     color: $dark-green;
-    border-radius: 3px;
     border: 1px solid $apple-green;
+    border-radius: 3px;
+    margin: 0px 2px 2px 0px;
     padding: 1px 4px 1px 4px;
     font-weight: bold;
   }
