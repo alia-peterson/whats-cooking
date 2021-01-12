@@ -64,8 +64,8 @@ describe('Recipe', function() {
   })
 
   it('should format recipe names that are too long', function() {
-    const formattedName = recipe.formatName()
-    expect(formattedName).to.equal('Loaded Chocolate Chip Pudding Cookie Cup...')
+    const newName = recipe.formatName()
+    expect(newName).to.equal('Loaded Chocolate Chip Pudding Cookie Cup...')
   })
 
   it('should not format names that are under 40 characters', function() {

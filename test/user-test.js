@@ -5,7 +5,7 @@ import data from '../src/data/users-data'
 
 import ingredientsData from '../src/data/ingredient-data'
 
-describe.only('User', function() {
+describe('User', function() {
   let user
   let userInfo
   let recipe
@@ -43,11 +43,6 @@ describe.only('User', function() {
   it('should be able to save a recipe to favoriteRecipes', function() {
     user.saveRecipe(recipe)
     expect(user.favoriteRecipes[0].name).to.equal('Chicken Parm')
-  })
-
-  it('should be able to filter recipes by type', function() {
-    user.saveRecipe(recipe)
-    expect(user.filterRecipes('italian')).to.deep.equal([recipe])
   })
 
   it('should initialize with pantry ingredients without names', function() {

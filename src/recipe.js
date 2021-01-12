@@ -9,11 +9,11 @@ class Recipe {
   }
 
   updateIngredientsInfo(ingredientList) {
-      this.ingredients.forEach(ingredient => {
-        const foundItem = ingredientList.find(item => item.id === ingredient.id)
-        ingredient.name = foundItem.name
-        ingredient.cost = foundItem.estimatedCostInCents
-      })
+    this.ingredients.forEach(ingredient => {
+      const foundItem = ingredientList.find(item => item.id === ingredient.id)
+      ingredient.name = foundItem.name
+      ingredient.cost = foundItem.estimatedCostInCents
+    })
   }
 
   formatName() {

@@ -86,7 +86,7 @@ function addRecipeNameAndCost(allIngredients) {
 
 // FIND A SPECIFIC RECIPE
 function findRecipe(recipeId) {
- return allRecipes.find(recipe => recipe.id === Number(recipeId))
+  return allRecipes.find(recipe => recipe.id === Number(recipeId))
 }
 
 

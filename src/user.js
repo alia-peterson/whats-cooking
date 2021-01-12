@@ -20,10 +20,6 @@ class User {
     }
   }
 
-  filterRecipes(type) {
-    return this.favoriteRecipes.filter(recipe => recipe.type.includes(type))
-  }
-
   addPantryIngredientNames(ingredientList) {
     this.pantry.forEach(pantryItem => {
       const foundItem = ingredientList.find(item => item.id === pantryItem.ingredient)
