@@ -10,6 +10,7 @@
   }
 
   .recipe--hover-text {
+    font-family: $primary-font;
     font-size: 20px;
     opacity: 100%;
     width: 100%;
@@ -45,10 +46,10 @@ main {
   background-color: white;
   border: 2px solid $dark-green;
   border-radius: 7px;
+  cursor: pointer;
   margin: 20px;
   padding: 15px;
   position: relative;
-  cursor: pointer;
 
   .recipe--title {
     margin-top: 5px;
@@ -63,6 +64,7 @@ main {
 .recipe--apple-icon {
   height: 50px;
   width: 45px;
+  z-index: -1;
 }
 
 .recipe--hover-text {
@@ -79,9 +81,12 @@ main {
   align-items: center;
   background-color: inherit;
   border: none;
+  box-sizing: border-box;
   cursor: inherit;
   display: flex;
   height: 130px;
+  margin: 0;
+  padding: 0;
   justify-content: center;
   position: relative;
 
