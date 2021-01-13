@@ -60,7 +60,7 @@ Another way to narrow down your recipe selection is to use the filter feature. O
 #### Favorite Recipes 
 Users can save their recipes to a list of favorites. In the bottom, right corner of each card is a little outline of a granny smith. If a user is digging a recipe, they can click that apple and it will be added to their favorites. In the top, right side of the page, the user can click on the "My Recipes" button and see all of their saved recipes. Those recipes can also be filtered and searched. 
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/8J8SBaqrNxbPz8jla8/giphy.gif">
 </p>
     <details>
       <summary>Under the Hood</summary>
@@ -70,7 +70,7 @@ Users can save their recipes to a list of favorites. In the bottom, right corner
 #### Pantry
 The user can also keep track of their pantry with this app. In the top, right corner, the user can select the "My Pantry" button to see all of the ingredients that they have in their cupboard to helo decide what recipes they want to make. 
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/6hPk6pvU7ZBH9BJFRn/giphy.gif">
 </p>
     <details>
       <summary>Under the Hood</summary>
@@ -78,9 +78,15 @@ The user can also keep track of their pantry with this app. In the top, right co
     </details>
 
 #### Recipes
-When the user selects a recipe card, the recipe expands to show the list of ingredients and instructions for making the recipe. The page will let a user know if their pantry has the necessary ingredients to cook this recipe and gives them a shopping list for the ingredients they might need. When the user has done their shopping, they can click the "Add Items to Pantry" button. If the user has all of the necessary ingredients in their pantry, they can click the "Cook Recipe" button, and those ingredients will be removed from their pantry. The user can also see when they cooked that recipe last. 
+When the user selects a recipe card, the recipe expands to show the list of ingredients and instructions for making the recipe. The page will let a user know if their pantry has the necessary ingredients to cook this recipe and gives them a shopping list for the ingredients they might need. 
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/ELG5rt7fx4SgS7SkDv/giphy.gif">
+</p>
+<br>
+
+When the user has done their shopping, they can click the "Add Items to Pantry" button. If the user has all of the necessary ingredients in their pantry, they can click the "Cook Recipe" button, and those ingredients will be removed from their pantry. The user can also see when they cooked that recipe last. 
+<p align = "center">
+<img src="https://media.giphy.com/media/eSrlmC6rIqMrdoyDoz/giphy.gif">
 </p>
     <details>
       <summary>Under the Hood</summary>
