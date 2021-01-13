@@ -165,6 +165,15 @@ function findTags() {
 
   tags.sort()
   domUpdates.addListTags(tags)
+  const allTags = document.querySelectorAll('.checked-tag')
+  allTags.forEach(tag => tag.addEventListener('keyup', checkSelectedBox))
+}
+
+function checkSelectedBox(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault()
+    event.target.click()
+  }
 }
 
 function findCheckedBoxes() {
