@@ -71,7 +71,7 @@ function handleErrorMessages(error) {
 // POPULATE WEBSITE INFORMATION
 function generateUser(userData) {
   currentUser = new User(userData[Math.floor(Math.random() * userData.length)])
-  let firstName = currentUser.name.split(" ")[0]
+  let firstName = currentUser.name.split(' ')[0]
   domUpdates.addWelcomeMessage(firstName)
 }
 
@@ -146,8 +146,14 @@ function createRecipeCards() {
 
 function createCardListeners() {
   const allCards = document.querySelectorAll('.recipe--card')
+  const cardAppleIcons = document.querySelectorAll('.button-apple')
+
   allCards.forEach(card => {
     card.addEventListener('click', interactWithRecipeCard)
+  })
+
+  cardAppleIcons.forEach(icon => {
+    icon.addEventListener('keydown', pressEnterAppleIcon)
   })
 }
 
@@ -225,33 +231,43 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
-  let cardId = parseInt(event.target.closest(".recipe--card").id)
+  const cardId = parseInt(event.target.closest('.recipe--card').id)
   const recipeCard = document.getElementById(cardId)
-  const cardClass = event.target.classList
+  const selectedItemClass = event.target.classList
+  const appleIcon = event.target.querySelector('img')
 
-  if (cardClass.contains("recipe--apple-icon") && cardClass.contains("unfilled")) {
-    addToFavorites(cardId, recipeCard, cardClass)
+  if (selectedItemClass.contains('button-apple') &&
+      appleIcon.classList.contains('unfilled')) {
+    addToFavorites(cardId, recipeCard, appleIcon)
 
-  } else if (cardClass.contains("recipe--apple-icon")) {
-    removeFromFavorites(cardId, recipeCard, cardClass)
+  } else if (selectedItemClass.contains('button-apple')) {
+    removeFromFavorites(cardId, recipeCard, appleIcon)
 
   } else {
     openRecipeInstructions(event)
   }
 }
 
-function addToFavorites(cardId, recipeCard, cardClass) {
-  event.target.src = "./images/apple-logo.png"
-  cardClass.remove("unfilled")
+function pressEnterAppleIcon(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault()
+    interactWithRecipeCard(event)
+  }
+}
+
+function addToFavorites(cardId, recipeCard, appleIcon) {
+  appleIcon.src = './images/apple-logo.png'
+  appleIcon.classList.remove('unfilled')
   recipeCard.classList.add('favorite')
   currentUser.saveRecipe(cardId)
 }
 
-function removeFromFavorites(cardId, recipeCard, cardClass) {
-  event.target.src = "./images/apple-logo-outline.png"
-  cardClass.add("unfilled")
+function removeFromFavorites(cardId, recipeCard, appleIcon) {
+  appleIcon.src = './images/apple-logo-outline.png'
+  appleIcon.classList.add('unfilled')
   recipeCard.classList.remove('favorite')
   currentUser.removeRecipe(cardId)
+
 }
 
 function showSavedRecipes() {
@@ -376,8 +392,8 @@ function determineIfEnoughIngredients(selectedRecipe) {
 
 // TOGGLE DISPLAYS
 function toggleBanner(messageBanner, recipeBanner) {
-  document.querySelector(".banner--message").style.display = messageBanner
-  document.querySelector(".banner--recipes").style.display = recipeBanner
+  document.querySelector('.banner--message').style.display = messageBanner
+  document.querySelector('.banner--recipes').style.display = recipeBanner
 }
 
 // SEARCH RECIPES
