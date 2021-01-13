@@ -231,6 +231,7 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
+  clearInstructionsCard()
   const cardId = parseInt(event.target.closest('.recipe--card').id)
   const recipeCard = document.getElementById(cardId)
   const selectedItemClass = event.target.classList
@@ -245,6 +246,7 @@ function interactWithRecipeCard(event) {
 
   } else {
     openRecipeInstructions(event)
+    exitButton.focus()
   }
 }
 
@@ -299,6 +301,10 @@ function exitRecipeInstructions() {
   modalOverlay.style.display = 'none'
   modalDateMessage.style.display = 'none'
 
+  clearInstructionsCard()
+}
+
+function clearInstructionsCard() {
   domUpdates.clearRecipeInstructions()
   domUpdates.clearShoppingList()
 }
@@ -323,8 +329,6 @@ function updateCookedDate(recipeID) {
 function cookOrShopRecipe(messageType, modification, event) {
   messageType.style.display = 'inline'
   messageType.style.opacity = 1
-  shoppingListButton.disabled = true
-  cookRecipeButton.disabled = true
 
   const recipeID = event.target.getAttribute('recipeID')
   const currentRecipe = findRecipe(recipeID)
@@ -334,18 +338,18 @@ function cookOrShopRecipe(messageType, modification, event) {
 
   setTimeout(function() {
     messageType.style.opacity = 0
-    shoppingListButton.disabled = false
-    cookRecipeButton.disabled = false
   }, 1500)
 
   if (modification === 'subtract') {
     updateCookedDate(recipeID)
     determineIfEnoughIngredients(currentRecipe)
+    shoppingListButton.focus()
 
   } else {
     domUpdates.clearShoppingList()
     modalIngredientsMessage.style.display = 'none'
     setModalButtonDisplay('block', 'none')
+    cookRecipeButton.focus()
   }})
 }
 
