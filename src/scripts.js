@@ -181,7 +181,6 @@ function addTagEventListeners() {
 
 function checkSelectedBox(event) {
   if (event.keyCode === 13) {
-    event.preventDefault()
     event.target.click()
   }
 }
@@ -269,7 +268,6 @@ function removeFromFavorites(cardId, recipeCard, appleIcon) {
   appleIcon.classList.add('unfilled')
   recipeCard.classList.remove('favorite')
   currentUser.removeRecipe(cardId)
-
 }
 
 function showSavedRecipes() {
