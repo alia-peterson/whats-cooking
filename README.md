@@ -29,7 +29,8 @@ The motivation behind this project was to get experience working in an existing 
 #### View Recipes
 When the page is first opened, the user sees all of the available recipes on the page in little cards. 
 <p align = "center">
-<img src="https://lwgsummerland.files.wordpress.com/2013/06/sexyvegeman.jpg">
+<img src="https://user-images.githubusercontent.com/70095063/104495280-cf843180-5594-11eb-92a0-920539490dbb.png" width="900" height="auto">
+<!-- <blockquote class="imgur-embed-pub" lang="en" data-id="a/CCHCRQU" data-context="false" ><a href="//imgur.com/a/CCHCRQU"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script> -->
 </p>
     <details>
       <summary>Under the Hood</summary>
