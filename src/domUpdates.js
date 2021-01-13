@@ -166,7 +166,6 @@ let domUpdates = {
     return instructionsList
   },
 
-  // can probably rework these to be dynamic since they're so similar?
   clearPantryContents() {
     pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
   },
