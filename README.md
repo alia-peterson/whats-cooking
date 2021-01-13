@@ -40,7 +40,7 @@ When the page is first opened, the user sees all of the available recipes on the
 #### Search Recipes
 You'll find all of the recipes you need here, but that can be a lot to handle, so we got a search bar, baby! Just type in a recipe name or ingredient, and we'll find everything that suits your needs.  
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/94qT4z80QExCPprrmX/giphy.gif">
 </p>
     <details>
       <summary>Under the Hood</summary>
@@ -50,7 +50,7 @@ You'll find all of the recipes you need here, but that can be a lot to handle, s
 #### Filter Recipes 
 Another way to narrow down your recipe selection is to use the filter feature. On the left side, select a type of recipe to display, then click "Filter Recipes", and you'll only see the recipes that fit those tags. 
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/rgOW0YRZdT9V32XzVy/giphy.gif">
 </p>
     <details>
       <summary>Under the Hood</summary>
