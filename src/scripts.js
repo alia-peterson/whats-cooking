@@ -165,6 +165,10 @@ function findTags() {
 
   tags.sort()
   domUpdates.addListTags(tags)
+  addTagEventListeners()
+}
+
+function addTagEventListeners() {
   const allTags = document.querySelectorAll('.checked-tag')
   allTags.forEach(tag => tag.addEventListener('keyup', checkSelectedBox))
 }
