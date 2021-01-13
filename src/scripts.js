@@ -231,16 +231,20 @@ function hideUnselectedRecipes(foundRecipes) {
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
   clearInstructionsCard()
+
   const cardId = parseInt(event.target.closest('.recipe--card').id)
   const recipeCard = document.getElementById(cardId)
-  const selectedItemClass = event.target.classList
-  const appleIcon = event.target.querySelector('img')
+  const selectedItemClass = event.target.closest('.button-apple')
+  let appleIcon = event.target.querySelector('img')
 
-  if (selectedItemClass.contains('button-apple') &&
-      appleIcon.classList.contains('unfilled')) {
+  if (!appleIcon) {
+    appleIcon = event.target.closest('img')
+  }
+
+  if (selectedItemClass && appleIcon.classList.contains('unfilled')) {
     addToFavorites(cardId, recipeCard, appleIcon)
 
-  } else if (selectedItemClass.contains('button-apple')) {
+  } else if (selectedItemClass) {
     removeFromFavorites(cardId, recipeCard, appleIcon)
 
   } else {
