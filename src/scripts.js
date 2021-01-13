@@ -386,7 +386,6 @@ function searchRecipes() {
     return !recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(value))
   })
 
-
   hideUnselectedRecipes(filteredByIngredient)
 }
 
