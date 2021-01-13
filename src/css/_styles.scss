@@ -3,42 +3,34 @@
   background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url("../images/green-apples.jpg");
   grid-area: image;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  background-size: cover;
   height: 150px;
-  overflow: hidden;
-  width: 100%;
 
-  h1 {
+  h2 {
     text-align: center;
     width: 100%;
   }
 }
 
 .banner--recipes {
-  align-items: center;
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
-
 
 /* FILTER SIDEBAR */
 aside {
   background-color: white;
-  display: flex;
-  justify-content: center;
-  height: auto;
   text-align: center;
+  color: $dark-green;
 }
 
 .wrap {
-  background-color: white;
   height: 100vh;
-  padding: 10px;
-  position: relative;
   width: 200px;
+  padding: 10px;
 }
 
 .list-tags {
@@ -51,26 +43,25 @@ aside {
   }
 }
 
-
 /* BUTTONS */
-.button-show-all,
-.button-filter {
-  background-color: #359567;
+.button-filter,
+.button-show-all {
+  background-color: $medium-green;
   border: 0;
   border-radius: 3px;
   color: white;
   cursor: pointer;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primary-font;
   font-size: 14pt;
   font-weight: bold;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px;
 
-  &:hover {
-    background-color: #84C8A4;
+  &:hover,
+  &:disabled {
+    background-color: $button-hover;
   }
 
   &:disabled {
-    background-color: #84C8A4;
     cursor: default !important;
   }
 }
@@ -81,31 +72,44 @@ aside {
   width: 200px;
 }
 
-
 /* PANTRY LIST */
 .menu-pantry {
-  align-items: center;
-  background-color: #DAE4EE;
   display: none;
+  background-color: $gray;
   max-height: 60vh;
   overflow: scroll;
-  padding: 12px;
+  padding: 3%;
   position: absolute;
-  text-align: center;
   top: 85%;
   right: 1px;
   width: 250px;
   z-index: 3;
+  color: $dark-green;
+  box-shadow: $pop-up-shadow;
 
-  h2 {
-    color: #359567;
-    margin: 0px;
+  h3 {
+    color: $dark-green;
+    margin: 0;
+    padding-bottom: 5%;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  td {
+    margin: 2px;
+  }
+
+  .amount {
+    text-align: center;
   }
 }
 
 .list-pantry {
-  color: #000000;
-  padding-left: 15px;
+  color: $dark-green;
+  margin-top: 15px;
   text-align: left;
 }
 

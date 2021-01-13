@@ -1,34 +1,40 @@
 body {
-  background-color: #5B7894;
+  background-color: $background-blue;
   display: grid;
-  font-family: "Quicksand", sans-serif;
   grid-template-columns: 1fr 5fr;
   grid-template-areas:
     "header header"
     "image image"
     "aside main";
   margin: 0;
+  font-family: $primary-font;
   -webkit-font-smoothing: auto;
 }
 
 h1 {
   align-self: center;
   color: white;
-  font-family: "Sulphur Point", sans-serif;
+  font-family: $secondary-font;
   font-size: 50px;
+  width: 70%;
   margin: 0%;
   padding: 0.5% 0.7% 0%;
   width: 40%;
 }
 
 h2 {
-  color: #359567;
-  margin: 10px 0px 10px 0px;
+  @extend h1;
 }
 
 h3 {
-  color: #359567;
+  font-size: 1.5em;
+  color: $medium-green;
+  margin: 10px 0px 10px 0px;
+}
+
+h4 {
+  font-size: 1.2em;
+  color: $medium-green;
   cursor: pointer;
-  height: 17%;
-  margin: 5px 5px 10px 0px;
+  margin: 15px 5px 10px 0px;
 }

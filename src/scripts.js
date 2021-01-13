@@ -57,7 +57,7 @@ Promise.all([fetchedUserData, fetchedRecipeData, fetchedIngredientData])
 
 function loadWebsite() {
   const pantry = currentUser.alphabetizePantry()
-  
+
   createRecipeCards()
   domUpdates.addPantryInfoToDom(pantry)
   findTags()
@@ -91,14 +91,13 @@ function addRecipeNameAndCost(allIngredients) {
 }
 
 // FIND A SPECIFIC RECIPE
-function findRecipe(recipeId) {
-  return allRecipes.find(recipe => recipe.id === Number(recipeId))
+function findRecipe(recipeID) {
+  return allRecipes.find(recipe => recipe.id === Number(recipeID))
 }
 
-
 // USER PANTRY DISPLAY AND UPDATES
-function updateUserPantryFromRecipe(recipeId, typeModification) {
-  const thisRecipe = findRecipe(recipeId)
+function updateUserPantryFromRecipe(recipeID, typeModification) {
+  const thisRecipe = findRecipe(recipeID)
   const apiCalls = thisRecipe.ingredients.map(item => {
     let ingredientModificationValue = item.quantity.amount
 
@@ -114,6 +113,7 @@ function updateUserPantryFromRecipe(recipeId, typeModification) {
 
     return fetchApi.postUserInformation(updatedPantryItem)
   })
+
   return Promise.all(apiCalls).catch(handleErrorMessages)
 }
 
@@ -127,8 +127,8 @@ function retrieveUpdatedUserPantry() {
   return userPromise
 }
 
-function updateUserPantryDisplay(recipeId, typeModification = 'add') {
-  return updateUserPantryFromRecipe(recipeId, typeModification)
+function updateUserPantryDisplay(recipeID, typeModification = 'add') {
+  return updateUserPantryFromRecipe(recipeID, typeModification)
     .then(retrieveUpdatedUserPantry)
     .then(() => fetchedIngredientData.then(ingredients => {
       currentUser.addPantryIngredientNames(ingredients)
@@ -244,21 +244,20 @@ function removeFromFavorites(cardId, recipeCard, cardClass) {
 function showSavedRecipes() {
   recipeContainer.classList.value = ('display-favorites')
   toggleBanner('none', 'flex')
-
 }
 
 // RECIPE MODAL
 function openRecipeInstructions(event) {
-  const recipeId = event.path.find(element => element.id).id
-  const thisRecipe = findRecipe(recipeId)
+  const recipeID = event.path.find(element => element.id).id
+  const thisRecipe = findRecipe(recipeID)
 
   determineIfEnoughIngredients(thisRecipe)
 
-  cookRecipeButton.setAttribute('recipeid', recipeId)
-  shoppingListButton.setAttribute('recipeid', recipeId)
+  cookRecipeButton.setAttribute('recipeID', recipeID)
+  shoppingListButton.setAttribute('recipeID', recipeID)
 
-  if (thisRecipe.dateCooked) {
-    displayCookedDate(thisRecipe)
+  if (currentUser.findCookedDate(recipeID)) {
+    displayCookedDate(recipeID)
   }
 
   domUpdates.generateRecipeInstructions(thisRecipe)
@@ -275,20 +274,21 @@ function exitRecipeInstructions() {
   domUpdates.clearShoppingList()
 }
 
-function displayCookedDate(selectedRecipe) {
-  const cookedDate = selectedRecipe.dateCooked.toDateString()
-  modalDateMessage.innerText = `Last cooked on: ${cookedDate}`
-  modalDateMessage.style.display = 'inline'
+function displayCookedDate(recipeID) {
+  const cookDate = currentUser.findCookedDate(recipeID).toDateString()
+
+  if (cookDate) {
+    modalDateMessage.innerText = `Last cooked on: ${cookDate}`
+    modalDateMessage.style.display = 'inline'
+  }
 }
 
-function updateCookedDate(recipeId) {
-  const thisRecipe = findRecipe(recipeId)
-
+function updateCookedDate(recipeID) {
   const timeElapsed = Date.now()
   const today = new Date(timeElapsed)
 
-  thisRecipe.dateCooked = today
-  displayCookedDate(thisRecipe)
+  currentUser.saveCookedRecipe(recipeID, today)
+  displayCookedDate(recipeID)
 }
 
 function cookOrShopRecipe(messageType, modification, event) {
@@ -297,7 +297,7 @@ function cookOrShopRecipe(messageType, modification, event) {
   shoppingListButton.disabled = true
   cookRecipeButton.disabled = true
 
-  const recipeID = event.target.getAttribute('recipeid')
+  const recipeID = event.target.getAttribute('recipeID')
   const currentRecipe = findRecipe(recipeID)
 
   updateUserPantryDisplay(recipeID, modification)
