@@ -108,3 +108,11 @@ aside {
   padding-left: 15px;
   text-align: left;
 }
+
+// MOBILE BREAKPOINTS
+@media screen and (max-width: 768px) {
+  .menu-pantry {
+    top: 93%;
+    max-height: 85vh;
+  }
+}
