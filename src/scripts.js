@@ -146,8 +146,14 @@ function createRecipeCards() {
 
 function createCardListeners() {
   const allCards = document.querySelectorAll('.recipe--card')
+  const cardAppleIcons = document.querySelectorAll('.button-apple')
+
   allCards.forEach(card => {
     card.addEventListener('click', interactWithRecipeCard)
+  })
+
+  cardAppleIcons.forEach(icon => {
+    icon.addEventListener('keydown', pressEnterAppleIcon)
   })
 }
 
@@ -165,6 +171,18 @@ function findTags() {
 
   tags.sort()
   domUpdates.addListTags(tags)
+  addTagEventListeners()
+}
+
+function addTagEventListeners() {
+  const allTags = document.querySelectorAll('.checked-tag')
+  allTags.forEach(tag => tag.addEventListener('keyup', checkSelectedBox))
+}
+
+function checkSelectedBox(event) {
+  if (event.keyCode === 13) {
+    event.target.click()
+  }
 }
 
 function findCheckedBoxes() {
@@ -212,31 +230,43 @@ function hideUnselectedRecipes(foundRecipes) {
 
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
-  let cardId = parseInt(event.target.closest('.recipe--card').id)
+  clearInstructionsCard()
+  const cardId = parseInt(event.target.closest('.recipe--card').id)
   const recipeCard = document.getElementById(cardId)
-  const cardClass = event.target.classList
+  const selectedItemClass = event.target.classList
+  const appleIcon = event.target.querySelector('img')
 
-  if (cardClass.contains('recipe--apple-icon') && cardClass.contains('unfilled')) {
-    addToFavorites(cardId, recipeCard, cardClass)
 
-  } else if (cardClass.contains('recipe--apple-icon')) {
-    removeFromFavorites(cardId, recipeCard, cardClass)
+  if (selectedItemClass.contains('button-apple') &&
+      appleIcon.classList.contains('unfilled')) {
+    addToFavorites(cardId, recipeCard, appleIcon)
+
+  } else if (selectedItemClass.contains('button-apple')) {
+    removeFromFavorites(cardId, recipeCard, appleIcon)
 
   } else {
     openRecipeInstructions(event)
+    exitButton.focus()
   }
 }
 
-function addToFavorites(cardId, recipeCard, cardClass) {
-  event.target.src = './images/apple-logo.png'
-  cardClass.remove('unfilled')
+function pressEnterAppleIcon(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault()
+    interactWithRecipeCard(event)
+  }
+}
+
+function addToFavorites(cardId, recipeCard, appleIcon) {
+  appleIcon.src = './images/apple-logo.png'
+  appleIcon.classList.remove('unfilled')
   recipeCard.classList.add('favorite')
   currentUser.saveRecipe(cardId)
 }
 
-function removeFromFavorites(cardId, recipeCard, cardClass) {
-  event.target.src = './images/apple-logo-outline.png'
-  cardClass.add('unfilled')
+function removeFromFavorites(cardId, recipeCard, appleIcon) {
+  appleIcon.src = './images/apple-logo-outline.png'
+  appleIcon.classList.add('unfilled')
   recipeCard.classList.remove('favorite')
   currentUser.removeRecipe(cardId)
 }
@@ -270,6 +300,10 @@ function exitRecipeInstructions() {
   modalOverlay.style.display = 'none'
   modalDateMessage.style.display = 'none'
 
+  clearInstructionsCard()
+}
+
+function clearInstructionsCard() {
   domUpdates.clearRecipeInstructions()
   domUpdates.clearShoppingList()
 }
@@ -294,8 +328,6 @@ function updateCookedDate(recipeID) {
 function cookOrShopRecipe(messageType, modification, event) {
   messageType.style.display = 'inline'
   messageType.style.opacity = 1
-  shoppingListButton.disabled = true
-  cookRecipeButton.disabled = true
 
   const recipeID = event.target.getAttribute('recipeID')
   const currentRecipe = findRecipe(recipeID)
@@ -305,18 +337,18 @@ function cookOrShopRecipe(messageType, modification, event) {
 
   setTimeout(function() {
     messageType.style.opacity = 0
-    shoppingListButton.disabled = false
-    cookRecipeButton.disabled = false
   }, 1500)
 
   if (modification === 'subtract') {
     updateCookedDate(recipeID)
     determineIfEnoughIngredients(currentRecipe)
+    shoppingListButton.focus()
 
   } else {
     domUpdates.clearShoppingList()
     modalIngredientsMessage.style.display = 'none'
     setModalButtonDisplay('block', 'none')
+    cookRecipeButton.focus()
   }})
 }
 
@@ -385,7 +417,6 @@ function searchRecipes() {
   const filteredByIngredient = filteredByName.filter(recipe => {
     return !recipe.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(value))
   })
-
 
   hideUnselectedRecipes(filteredByIngredient)
 }

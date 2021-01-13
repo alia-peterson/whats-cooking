@@ -1,3 +1,21 @@
+@mixin hover-transitions {
+  transition: .8s ease;
+
+  h4 {
+    text-shadow: 0px 0px 4px $light-green;
+  }
+
+  .recipe--photo {
+    opacity: 50%;
+  }
+
+  .recipe--hover-text {
+    font-size: 20px;
+    opacity: 100%;
+    width: 100%;
+  }
+}
+
 main {
   align-content: flex-start;
   display: flex;
@@ -5,6 +23,15 @@ main {
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.button-apple {
+  background-color: inherit;
+  border: none;
+  bottom: 10px;
+  cursor: inherit;
+  right: 15px;
+  position: absolute;
 }
 
 .hidden,
@@ -23,27 +50,19 @@ main {
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    transition: .8s ease;
-
-    h4 {
-      text-shadow: 0px 0px 4px $light-green;
-    }
-
-    .recipe--photo {
-      opacity: 50%;
-    }
-
-    .recipe--hover-text {
-      font-size: 20px;
-      opacity: 100%;
-      width: 100%;
-    }
-  }
-
   .recipe--title {
     margin-top: 5px;
+    min-height: 15%;
   }
+
+  &:hover {
+    @include hover-transitions;
+  }
+}
+
+.recipe--apple-icon {
+  height: 50px;
+  width: 45px;
 }
 
 .recipe--hover-text {
@@ -57,11 +76,18 @@ main {
 }
 
 .recipe--photo-container {
-  height: 130px;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: inherit;
+  border: none;
+  cursor: inherit;
+  display: flex;
+  height: 130px;
+  justify-content: center;
   position: relative;
+
+  &:focus {
+    @include hover-transitions;
+  }
 }
 
 .recipe--photo {
@@ -89,12 +115,4 @@ main {
     padding: 1px 4px 1px 4px;
     font-weight: bold;
   }
-}
-
-.recipe--apple-icon {
-  height: 50px;
-  width: 45px;
-  bottom: 10px;
-  right: 15px;
-  position: absolute;
 }
