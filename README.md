@@ -77,7 +77,7 @@ The user can also keep track of their pantry with this app. In the top, right co
     </details>
 
 #### Recipes
-When the user selects a recipe card, the recipe expands to show the list of ingredients and instructions for making the recipe. The page will let a user know if their pantry has the necessary ingredients to cook this recipe and gives them a shopping list for the ingredients they might need. When the user has done their shopping, they can click the "Add Items to Pantry" button. If the user has all of the necessary ingredients in their pantry, they can click the "Cook Recipe" button, and those ingredients will be removed from their pantry. 
+When the user selects a recipe card, the recipe expands to show the list of ingredients and instructions for making the recipe. The page will let a user know if their pantry has the necessary ingredients to cook this recipe and gives them a shopping list for the ingredients they might need. When the user has done their shopping, they can click the "Add Items to Pantry" button. If the user has all of the necessary ingredients in their pantry, they can click the "Cook Recipe" button, and those ingredients will be removed from their pantry. The user can also see when they cooked that recipe last. 
 <p align = "center">
 <img src="">
 </p>
@@ -87,14 +87,15 @@ When the user selects a recipe card, the recipe expands to show the list of ingr
     <br>
     <br>
     If the user has the required ingredients, they can click the "Cook Recipe" button and the User's pantry will be uodated using a a Fetch POST to remove the ingredients. If the user does not have the necessary ingredients, they can click the "Add Items to Pantry" button and the User's pantry will be updated using a Fetch POST to add the ingredients.
+    <br>
+    <br>
+    When the user decides to cook a recipe, the Recipe is added to the User's cookedRecipes property. If the user has cooked the recipe before and it already exists in that property, then the Recipe is not added, but the date is updated. 
     </details>
 
-
-
-
 #### Continuous Improvement/Future Improvements
-- duplicate api ingredients issue 
-
+- Check for duplicate ingredients in the API before being added to the classes
+- Style more responsively 
+- Select individual items to add to the pantry
 ---
 
 ## Technologies
