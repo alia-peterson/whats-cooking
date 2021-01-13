@@ -38,14 +38,30 @@ class User {
     })
   }
 
-  saveCookedRecipe(recipeID, cookDate) {
-    if (!this.cookedRecipes.find(i => i.id === Number(recipeID))) {
-      const recipe = {
-        id: recipeID,
-        cookDate: cookDate
-      }
+  findCookedRecipe(recipeID) {
+    return this.cookedRecipes.find(i => i.id === recipeID)
+  }
 
+  saveCookedRecipe(recipeID, cookDate) {
+    const recipe = {
+      id: recipeID,
+      date: cookDate
+    }
+
+    if (this.findCookedRecipe(recipeID)) {
+      this.findCookedRecipe(recipeID).date = cookDate
+
+    } else {
       this.cookedRecipes.push(recipe)
+      
+    }
+  }
+
+  findCookedDate(recipeID) {
+    const recipe = this.findCookedRecipe(recipeID)
+
+    if (recipe) {
+      return recipe.date
     }
   }
 }
