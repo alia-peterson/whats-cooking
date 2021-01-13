@@ -1,11 +1,11 @@
 .header {
-  display: flex;
   grid-area: header;
+  display: flex;
   position: relative;
   height: 100px;
 
   &--brand-name {
-    color: #C4EB67;
+    color: $light-green;
   }
 
   &--apple-icon {
@@ -15,13 +15,13 @@
   }
 
   &--form {
+    display: flex;
+    justify-content: center;
+    border: 3px outset $light-green;
     border-radius: 15px 15px 15px 15px;
-    border: 3px outset #C4EB67;
     box-shadow: 0px 0px 7px 0px #475d74;
     margin: 1.2% 0.5% 1.2% 0%;
     width: 100%;
-    display: flex;
-    justify-content: center;
   }
 }
 
@@ -30,7 +30,7 @@
   border-radius: 10px 0px 0px 10px;
   border: none;
   box-shadow: inset -3px -1px 20px 1px #5c7894;
-  color: #5B7894;
+  color: $background-blue;
   font-size: 2rem;
   outline: none;
   padding: 0% 2% 0% 0%;
@@ -43,23 +43,23 @@
     transition: .8s ease;
   }
 
-  &:focus {
-    box-shadow: inset 0px 0px 0px 0px white;
-
-    &::placeholder {
-      font-size: 0rem;
-      transition: .8s ease;
-    }
-  }
-
   &::placeholder {
-    color: #5B7894;
+    color: $background-blue;
     font-size: 1.5rem;
   }
 }
 
+.search-input:focus {
+  @extend .search-input:hover;
+
+  &::placeholder {
+    font-size: 0rem;
+    transition: .8s ease;
+  }
+}
+
 .search-icon {
-  border-left: 3px outset #C4EB67;
+  border-left: 3px outset $light-green;
   padding: 1%;
   display: flex;
   justify-content: center;
@@ -75,14 +75,14 @@
 }
 
 .button-nav {
-  background: #5B7894 no-repeat;
+  background: $background-blue no-repeat;
   border: none;
   cursor: pointer;
   font-size: 0px;
   margin: 0%;
   outline: none;
   text-align: center;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primary-font;
   transition: .4s ease;
   width: 15%;
   display: flex;
@@ -91,7 +91,7 @@
   justify-content: center;
 
   &:hover {
-    color: #C4EB67;
+    color: $light-green;
     font-size: .85rem;
     text-shadow: 0px 2px 4px black;
     transition: .4s ease;
@@ -105,7 +105,7 @@
 }
 
 .button-saved-ing {
-  border-left: 3px solid #C4EB67;
+  border-left: 3px solid $light-green;
 }
 
 .button-pantry {
