@@ -236,6 +236,7 @@ function interactWithRecipeCard(event) {
   const selectedItemClass = event.target.classList
   const appleIcon = event.target.querySelector('img')
 
+
   if (selectedItemClass.contains('button-apple') &&
       appleIcon.classList.contains('unfilled')) {
     addToFavorites(cardId, recipeCard, appleIcon)
