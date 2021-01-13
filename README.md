@@ -68,7 +68,7 @@ Users can save their recipes to a list of favorites. In the bottom, right corner
     </details>
    
 #### Pantry
-The user can also keep track of their pantry with this app. In the top, right corner, the user can select the "My Pantry" button to see all of the ingredients that they have in their cupboard to helo decide what recipes they want to make. 
+The user can also keep track of their pantry with this app. In the top, right corner, the user can select the "My Pantry" button to see all of the ingredients that they have in their cupboard to help decide what recipes they want to make. 
 <p align = "center">
 <img src="https://media.giphy.com/media/6hPk6pvU7ZBH9BJFRn/giphy.gif">
 </p>
@@ -101,7 +101,7 @@ When the user has done their shopping, they can click the "Add Items to Pantry" 
 
 #### Continuous Improvement/Future Improvements
 - Check for duplicate ingredients in the API before being added to the classes
-- Style more responsively 
+- Improve mobile responsive design so that the Recipe Type filter sidebar is shown/hidden on click
 - Select individual items to add to the pantry
 ---
 
