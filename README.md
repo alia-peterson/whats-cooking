@@ -44,7 +44,7 @@ You'll find all of the recipes you need here, but that can be a lot to handle, s
 </p>
     <details>
       <summary>Under the Hood</summary>
-      Everytime a user types into the search bar, the recipes are filtered by their name for recipes that do not meet the search criteria. Then those unmatching recipes are filtered for recipes whose ingredients do not include the search criteria. Then the recipes whose names and ingredients do not meet the search criteria are hidden from the DOM
+      When the user starts to type into the search bar, the recipes are filtered first by name and then by ingredient. The recipes that do not match the search criteria are then hidden from view.
     </details>
     
 #### Filter Recipes 
