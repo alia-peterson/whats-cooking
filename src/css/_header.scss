@@ -19,7 +19,7 @@
     justify-content: center;
     border: 3px outset $light-green;
     border-radius: 15px;
-    box-shadow: 0px 0px 7px 0px #475d74;
+    box-shadow: $box-shadow-form;
     margin: 1.2% 0.5% 1.2% 0%;
     width: 100%;
   }
@@ -28,16 +28,15 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 20%;
     margin: 2%;
   }
 }
 
 .search-input {
-  background: -webkit-gradient( linear,left top, left bottom, color-stop(0, rgb(255, 255, 255)), color-stop(1, rgb(225,225,225)));
+  background: -webkit-gradient(linear,left top, left bottom, color-stop(0, rgb(255, 255, 255)), color-stop(1, rgb(225,225,225)));
   border-radius: 10px 0px 0px 10px;
   border: none;
-  box-shadow: inset -3px -1px 20px 1px #5c7894;
+  box-shadow: $box-shadow-inset;
   color: $background-blue;
   font-size: 2rem;
   outline: none;
@@ -47,7 +46,7 @@
   width: 100%;
 
   &:hover {
-    box-shadow: inset 0px 0px 0px 0px white;
+    box-shadow: $box-shadow-inset-light;
     transition: .8s ease;
   }
 
@@ -79,7 +78,15 @@
 }
 
 .search-label {
-  display: none;
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(1px);
 }
 
 .button-nav {
@@ -97,11 +104,12 @@
   align-items: center;
   justify-content: center;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: $light-green;
     font-size: .85rem;
     font-weight: bold;
-    text-shadow: 0px 2px 4px black;
+    text-shadow: $text-shadow-black;
     transition: .4s ease;
   }
 
@@ -132,10 +140,10 @@
 
   .button-nav {
     width: auto;
-    color: #C4EB67;
+    color: $light-green;
     font-size: .85rem;
     font-weight: bold;
-    text-shadow: 0px 2px 4px black;
+    text-shadow: $text-shadow-black;
     transition: .4s ease;
     flex-direction: row;
     align-items: center;

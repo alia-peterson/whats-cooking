@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  
-  <head>
-    <meta charset="utf-8">
-    <title>Fresh Picks</title>
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Sulphur+Point:400,700&display=swap" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../images/apple-logo.png"/>
-  </head>
-  
-  <body>
-    <header class="header">
-      <h1><span class="header--brand-name">fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
-      <form id="search" class="header--form" role="search">
-        <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
-        <label for="search-input" class="search-label">Search</label>
-        <div class="search-icon">
-          <img src="./images/search.png"  alt="search icon">
-        </div>
-      </form>
-      <div class="header--buttons">
-        <button id="button-saved" class="button-nav button-saved button-ing-pan" type="button" name="button"><img src="./images/cookbook.png" alt="favorites button">My Recipes</button>
-        <button id="button-pantry" class="button-nav button-pantry" type="button" name="button"><img src="./images/seasoning.png" alt="pantry button">My Pantry</button>
+
+<head>
+  <meta charset="utf-8">
+  <title>Fresh Picks</title>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Sulphur+Point:400,700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../images/apple-logo.png" />
+</head>
+
+<body>
+  <header class="header">
+    <h1><span class="header--brand-name">fresh</span>Picks<img class="header--apple-icon" src="./images/apple-logo.png" alt="apple icon"></h1>
+    <form id="search" class="header--form" role="search">
+      <input id="search-input" class="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
+      <label for="search-input" class="search-label">Search</label>
+      <div class="search-icon">
+        <img src="./images/search.png" alt="search icon">
       </div>
-      <menu class="menu-pantry">
-        <h3>My Pantry</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Item Name</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody class="table-pantry"></tbody>
-        </table>
-      </menu>
-    </header>
-    <section class="banner">
-     <h2 class="banner--message">Welcome Lovely User!</h2>
-     <div class="banner--recipes">
+    </form>
+    <div class="header--buttons">
+      <button id="button-saved" class="button-nav" type="button" name="button"><img src="./images/cookbook.png" alt="favorites button">My Recipes</button>
+      <button id="button-pantry" class="button-nav" type="button" name="button"><img src="./images/seasoning.png" alt="pantry button">My Pantry</button>
+    </div>
+    <menu class="menu-pantry">
+      <h3>My Pantry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody class="table-pantry"></tbody>
+      </table>
+    </menu>
+  </header>
+  <section class="banner">
+    <h2 class="banner--message">Welcome Lovely User!</h2>
+    <div class="banner--recipes">
       <h2>My Recipes</h2>
       <button id="button-show-all" class="button-show-all">Show All Recipes</button>
-     </div>
+    </div>
   </section>
   <aside>
     <div class="wrap">
       <h3>Recipe Type</h3>
       <ul class="list-tags"></ul>
-      <button id="button-filter" class="button-filter">Filter Recipes</button>
+      <button id="button-filter" class="button-primary">Filter Recipes</button>
     </div>
   </aside>
   <main class="recipe--container">
@@ -80,21 +80,21 @@
         <p id="modal--message-date">Last cooked on: </p>
         <h4 id="modal--message-shopping" class="modal--message">Items Added to Pantry</h4>
         <h4 id="modal--message-cooked" class="modal--message">Items Removed From Pantry</h4>
-        <button id="button-shopping" class="button-filter" type="button" name="button">Add Items to Pantry</button>
-        <button id="button-cooked" class="button-filter" type="button" name="button">Cook This Recipe</button>
+        <button id="button-shopping" class="button-primary" type="button" name="button">Add Items to Pantry</button>
+        <button id="button-cooked" class="button-primary" type="button" name="button">Cook This Recipe</button>
       </div>
     </article>
     <template id="template--card">
       <article class="recipe--card" id="0">
         <h4 class="recipe--title" maxlength="40">Recipe Name</h4>
-        <div class="recipe--photo-container">
+        <button class="recipe--photo-container" type="button" name="button">
           <img class="recipe--photo" src="source" alt="alt-text" title="recipe-title">
           <div class="recipe--hover-text">
             <p>Click for Instructions</p>
           </div>
-        </div>
+        </button>
         <p class="recipe--tags"></p>
-        <img class="recipe--apple-icon unfilled" src="./images/apple-logo-outline.png" alt="Unfilled Apple Icon">
+        <button class="button-apple" type="button" name="button"><img class="recipe--apple-icon unfilled" src="./images/apple-logo-outline.png" alt="Unfilled Apple Icon"></button>
       </article>
     </template>
   </main>

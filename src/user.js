@@ -53,7 +53,6 @@ class User {
 
     } else {
       this.cookedRecipes.push(recipe)
-      
     }
   }
 
