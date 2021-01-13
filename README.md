@@ -10,28 +10,42 @@
 * [Authors](#authors)
 
 ## Introduction
-The primary goal of [Whats-Cookin](https://github.com/alia-peterson/whats-cooking) is to help users plan their meals. They can search through a log of recipes, save their favorite recipes, and keep track of their pantry. The specifications can be found [here](https://frontend.turing.io/projects/whats-cookin.html) and [here](https://frontend.turing.io/projects/module-2/refactor-tractor-wc.html)
+The primary goal of [Whats-Cookin](https://github.com/alia-peterson/whats-cooking) is to help users plan their meals. They can search through a log of recipes, save their favorite recipes, and keep track of their pantry. The specifications can be found [here](https://frontend.turing.io/projects/whats-cookin.html) and [here](https://frontend.turing.io/projects/module-2/refactor-tractor-wc.html).
 
 ## Motivation
-The motivation behind this project's creation was to get experience working in an existing code base. It also allowed the opportunity to ractice using `Fetch` API and updating code to incorporate more modern functionality. 
+The motivation behind this project was to get experience working in an existing code base. It also allowed the opportunity to practice using `Fetch` API and updating code to incorporate more modern functionality. 
 
 ---
 
 ## Features
-* [Search Ideas](#Search-Ideas)
+* [View Recipes](#View-Recipes)
+* [Search Recipes](#Search-Recipes)
+* [Filter Recipes](#Filter-Recipes)
 
 
-
-
-#### Search Ideas
-You'll find all of the recipes you need here, but that can be a lot to handle, so we got a search bar, baby! Just type in a recipe name or ingredient, and we'll find everything that suits your needs.  
+#### View Recipes
+When the page is first opened, the user sees all of the available recipes on the page in little cards. 
 <p align = "center">
 <img src="https://lwgsummerland.files.wordpress.com/2013/06/sexyvegeman.jpg">
 </p>
     <details>
       <summary>Under the Hood</summary>
-      Some Stuff
+      The recipes are created by using `fetch` to request recipe data and then displayed on cards that are created in the DOM. 
     </details>
+
+
+
+#### Search Recipes
+You'll find all of the recipes you need here, but that can be a lot to handle, so we got a search bar, baby! Just type in a recipe name or ingredient, and we'll find everything that suits your needs.  
+<p align = "center">
+<img src="">
+</p>
+    <details>
+      <summary>Under the Hood</summary>
+      Everytime a user types into the search bar, the recipes are filtered by their name for recipes that do not meet the search criteria. Then those unmatching recipes are filtered for recipes whose ingredients do not include the search criteria. Then the recipes whose names and ingredients do not meet the search criteria are hidden from the DOM
+    </details>
+    
+#### Filter Recipes 
 
 
 
@@ -40,7 +54,7 @@ You'll find all of the recipes you need here, but that can be a lot to handle, s
 ---
 
 ## Technologies
-JS, Fetch/Async, HTML, & CSS/SCSS, Normalize, Webpack
+JS, Fetch/Async, JSON, Mocha, Chai, HTML, CSS/SCSS, Normalize, Webpack
 
 ## Deployment
 This app requires a local server to be running independent of GH. Clone down [this repo](https://github.com/turingschool-examples/whats-cookin-api) and follow the instructions in the README. Once the server is running on your local machine, the site can be seen in all of it's glory here: 
