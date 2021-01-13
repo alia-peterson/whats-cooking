@@ -275,7 +275,7 @@ function exitRecipeInstructions() {
 }
 
 function displayCookedDate(recipeID) {
-  const cookDate = currentUser.findCookedDate(recipeID)
+  const cookDate = currentUser.findCookedDate(recipeID).toDateString()
 
   if (cookDate) {
     modalDateMessage.innerText = `Last cooked on: ${cookDate}`
