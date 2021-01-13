@@ -338,21 +338,22 @@ function cookOrShopRecipe(messageType, modification, event) {
   updateUserPantryDisplay(recipeID, modification)
     .then(() => {
 
-  setTimeout(function() {
-    messageType.style.opacity = 0
-  }, 1500)
+      setTimeout(function() {
+        messageType.style.opacity = 0
+      }, 1500)
 
-  if (modification === 'subtract') {
-    updateCookedDate(recipeID)
-    determineIfEnoughIngredients(currentRecipe)
-    shoppingListButton.focus()
+      if (modification === 'subtract') {
+        updateCookedDate(recipeID)
+        determineIfEnoughIngredients(currentRecipe)
+        shoppingListButton.focus()
 
-  } else {
-    domUpdates.clearShoppingList()
-    modalIngredientsMessage.style.display = 'none'
-    setModalButtonDisplay('block', 'none')
-    cookRecipeButton.focus()
-  }})
+      } else {
+        domUpdates.clearShoppingList()
+        modalIngredientsMessage.style.display = 'none'
+        setModalButtonDisplay('block', 'none')
+        cookRecipeButton.focus()
+      }
+    })
 }
 
 function setModalButtonDisplay(cookRecipeState, shopRecipeState) {

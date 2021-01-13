@@ -106,7 +106,7 @@ let domUpdates = {
   },
 
   formatPrice(quantity) {
-    const format = (num, decimals) => num.toLocaleString('en-US', {
+    const format = num => num.toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
