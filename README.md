@@ -103,6 +103,7 @@ When the user has done their shopping, they can click the "Add Items to Pantry" 
 - Check for duplicate ingredients in the API before being added to the classes
 - Improve mobile responsive design so that the Recipe Type filter sidebar is shown/hidden on click
 - Select individual items to add to the pantry
+- Functionality to select the displayed user through a dropdown form or some other means
 ---
 
 ## Technologies
