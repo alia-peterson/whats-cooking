@@ -99,10 +99,14 @@ When the user has done their shopping, they can click the "Add Items to Pantry" 
     When the user decides to cook a recipe, the Recipe is added to the User's cookedRecipes property. If the user has cooked the recipe before and it already exists in that property, then the Recipe is not added, but the date is updated. 
     </details>
 
+#### Accessibility 
+This app was built with all users in mind. We used Lighthouse and [WAVE](https://wave.webaim.org/) to work towards including as broad of an audience as we could. Of course, as we are committed to including all users, we are ready to make future edits to address any areas that we may have missed. 
+
 #### Continuous Improvement/Future Improvements
 - Check for duplicate ingredients in the API before being added to the classes
 - Improve mobile responsive design so that the Recipe Type filter sidebar is shown/hidden on click
 - Select individual items to add to the pantry
+- Functionality to select the displayed user through a dropdown form or some other means
 ---
 
 ## Technologies
