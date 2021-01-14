@@ -115,7 +115,7 @@ JS, Fetch/Async, JSON, Mocha, Chai, HTML, CSS/SCSS, Normalize, Webpack
 ## Deployment
 This app requires a local server to be running independent of GH. Clone down [this repo](https://github.com/turingschool-examples/whats-cookin-api) and follow the instructions in the README. Once the server is running on your local machine, the site can be seen in all of it's glory here: 
 
-alia-peterson.github.io/whats-cooking/dist/index.html
+[Deployment Link](https://alia-peterson.github.io/whats-cooking/dist/index.html)
 
 ## Authors
 <table>
