@@ -106,7 +106,7 @@ let domUpdates = {
   },
 
   formatPrice(quantity) {
-    const format = (num, decimals) => num.toLocaleString('en-US', {
+    const format = num => num.toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
@@ -166,7 +166,6 @@ let domUpdates = {
     return instructionsList
   },
 
-  // can probably rework these to be dynamic since they're so similar?
   clearPantryContents() {
     pantryList.querySelectorAll('tr').forEach(tr => tr.remove())
   },

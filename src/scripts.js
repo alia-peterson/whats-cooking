@@ -231,17 +231,20 @@ function hideUnselectedRecipes(foundRecipes) {
 // FAVORITE RECIPE FUNCTIONALITY
 function interactWithRecipeCard(event) {
   clearInstructionsCard()
+
   const cardId = parseInt(event.target.closest('.recipe--card').id)
   const recipeCard = document.getElementById(cardId)
-  const selectedItemClass = event.target.classList
-  const appleIcon = event.target.querySelector('img')
+  const selectedItemClass = event.target.closest('.button-apple')
+  let appleIcon = event.target.querySelector('img')
 
+  if (!appleIcon) {
+    appleIcon = event.target.closest('img')
+  }
 
-  if (selectedItemClass.contains('button-apple') &&
-      appleIcon.classList.contains('unfilled')) {
+  if (selectedItemClass && appleIcon.classList.contains('unfilled')) {
     addToFavorites(cardId, recipeCard, appleIcon)
 
-  } else if (selectedItemClass.contains('button-apple')) {
+  } else if (selectedItemClass) {
     removeFromFavorites(cardId, recipeCard, appleIcon)
 
   } else {
@@ -335,21 +338,22 @@ function cookOrShopRecipe(messageType, modification, event) {
   updateUserPantryDisplay(recipeID, modification)
     .then(() => {
 
-  setTimeout(function() {
-    messageType.style.opacity = 0
-  }, 1500)
+      setTimeout(function() {
+        messageType.style.opacity = 0
+      }, 1500)
 
-  if (modification === 'subtract') {
-    updateCookedDate(recipeID)
-    determineIfEnoughIngredients(currentRecipe)
-    shoppingListButton.focus()
+      if (modification === 'subtract') {
+        updateCookedDate(recipeID)
+        determineIfEnoughIngredients(currentRecipe)
+        shoppingListButton.focus()
 
-  } else {
-    domUpdates.clearShoppingList()
-    modalIngredientsMessage.style.display = 'none'
-    setModalButtonDisplay('block', 'none')
-    cookRecipeButton.focus()
-  }})
+      } else {
+        domUpdates.clearShoppingList()
+        modalIngredientsMessage.style.display = 'none'
+        setModalButtonDisplay('block', 'none')
+        cookRecipeButton.focus()
+      }
+    })
 }
 
 function setModalButtonDisplay(cookRecipeState, shopRecipeState) {
